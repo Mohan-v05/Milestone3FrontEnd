@@ -1,0 +1,5 @@
+.link:hover{
+border-radius: 3px;
+background-color: aqua;
+}
+@import "~bootstrap-icons/font/bootstrap-icons.css";

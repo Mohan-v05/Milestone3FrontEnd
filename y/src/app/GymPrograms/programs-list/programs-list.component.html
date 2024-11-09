@@ -1,0 +1,78 @@
+
+
+
+<div *ngFor="let Program of Programs">
+<div class="card" style="width: 18rem;" >
+  <img src="..." class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">{{Program.name}}</h5>
+    <h6 class="card-title">{{Program.category}}</h6>
+    <p class="card-text">{{Program.description}}</p>
+    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+      <i class="bi bi-plus-square-fill"></i>Edit
+      </button>
+  </div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+  <i class="bi bi-plus-square-fill"></i>Add New Program
+  </button>
+  
+  <!-- Modal  To Add New  Member-->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Add New Program</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <form [formGroup]="NewProgramForm">
+            <div class="form-group">
+              <label for="exampleFormControlInput1">Name</label>
+              <input type="text" class="form-control" id="exampleFormControlInput1" formControlName="Name">
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">Category Selection</label>
+              <select class="form-control" id="exampleFormControlSelect1" formControlName="Category">
+                <option>Aerobics</option>
+                <option>Strenth Trainning</option>
+                <option>Body Building</option>
+                <option>Yoga</option>
+                <option>calisthenics</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlInput1">Fees</label>
+              <input type="number" class="form-control" id="exampleFormControlInput1" formControlName="Name">
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlTextarea1">Description</label>
+              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">ADD</button>
+        </div>
+      </div>
+    </div>
+  </div>
