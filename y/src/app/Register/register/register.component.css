@@ -1,0 +1,38 @@
+/* Optional custom styles */
+.card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-title {
+    font-size: 1.5rem;
+  }
+  
+  .text-danger {
+    font-size: 0.875rem;
+  }
+  .strengthBar {
+    display: inline;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    vertical-align: 2px;
+  }
+  
+  .point:last-of-type {
+    margin: 0 !important;
+  }
+  
+  .point {
+    background: #DDD;
+    border-radius: 2px;
+    display: inline-block;
+    height: 5px;
+    margin-right: 1px;
+    width: 62px;
+  }
+  
+  p {
+    font-weight: bold;
+    font-size: 20px;
+  }
+  

@@ -11,7 +11,7 @@ export class GymManagementSystemService {
 
   getPrograms(){
     console.log("apiConnected")
-    return this.http.get<gprograms[]>('http://localhost:5159/api/GymPrograms');
+    return this.http.get<gprograms[]>(this.url);
   }
 
 }

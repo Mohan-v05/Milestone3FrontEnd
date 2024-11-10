@@ -12,6 +12,9 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule, NgFor } from '@angular/common';
 import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BlankLayoutComponent } from './Layout/blank-layout/blank-layout.component';
+import { AdminLayoutComponent } from './Layout/admin-layout/admin-layout.component';
+import { RegisterComponent } from './Register/register/register.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +22,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MemberListComponent,
     MemberAddComponent,
     ProgramsListComponent,
-    LoginComponent
+    LoginComponent,
+    BlankLayoutComponent,
+    AdminLayoutComponent,
+    RegisterComponent
     
   ],
   imports: [
