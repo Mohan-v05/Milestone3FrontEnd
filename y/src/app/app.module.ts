@@ -15,7 +15,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BlankLayoutComponent } from './Layout/blank-layout/blank-layout.component';
 import { AdminLayoutComponent } from './Layout/admin-layout/admin-layout.component';
 import { RegisterComponent } from './Register/register/register.component';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr'
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,7 +36,9 @@ import { RegisterComponent } from './Register/register/register.component';
     CommonModule,
     FormsModule, 
     NgFor,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -5,13 +5,19 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class GymManagementSystemService {
-  url="http://localhost:5159/api/GymPrograms"
+  url="http://localhost:5159/api"
 
   constructor(private http:HttpClient) { }
 
+ login(logincredential:logincredential){
+  console.log("apiConnected")
+  return this.http.post<LoginResponse>(this.url+"/User/login",logincredential)
+ }
+ 
+
   getPrograms(){
     console.log("apiConnected")
-    return this.http.get<gprograms[]>(this.url);
+    return this.http.get<gprograms[]>(this.url+"/GymPrograms");
   }
 
 }
@@ -23,4 +29,16 @@ export interface gprograms{
   description:string,
   category:string,
   fees:number
+  imageurl:string
+}
+
+// Login Interface
+export interface logincredential{
+  email:string,
+  password:string
+}
+
+//Login Response
+export interface LoginResponse {
+  token: string;
 }

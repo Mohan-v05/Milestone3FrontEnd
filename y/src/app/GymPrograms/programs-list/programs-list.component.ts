@@ -9,7 +9,46 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class ProgramsListComponent implements OnInit {
 //Array to List
-  Programs: gprograms[]=[];
+  Programs: gprograms[]=[{
+    name: "Pullups",
+    id: 0,
+    description: 'Pull ups good for your shoulders',
+    category: 'Calisthenics',
+    fees: 1000,
+    imageurl: "https://th.bing.com/th/id/OIP.3fI1p5ikgmNfCWjyMGPpAwAAAA?w=175&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+  },
+  {
+    name: "Pushups",
+    id: 1,
+    description: 'Great for upper body strength',
+    category: 'Calisthenics',
+    fees: 800,
+    imageurl: "https://th.bing.com/th/id/OIP.GdOpyGYEQGd971a4R8-9JwHaEp?w=259&h=184&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+  },
+  {
+    name: "Squats",
+    id: 2,
+    description: 'Effective for legs and core',
+    category: 'Calisthenics',
+    fees: 1200,
+    imageurl: "https://th.bing.com/th/id/OIP.GdOpyGYEQGd971a4R8-9JwHaEp?w=259&h=184&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+  },
+  {
+    name: "Lunges",
+    id: 3,
+    description: 'Good for leg strength and balance',
+    category: 'Calisthenics',
+    fees: 1100,
+    imageurl: "https://th.bing.com/th/id/OIP._0CLOqukFgG2JBRoyUsWewHaFj?w=198&h=207&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+  },
+  {
+    name: "Planks",
+    id: 4,
+    description: 'Great for core stability',
+    category: 'Calisthenics',
+    fees: 900,
+    imageurl: "https://th.bing.com/th/id/OIP.0sMhO-OSqMv6l62kbBImRgHaE8?w=219&h=231&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+  }];
   NewProgramForm:FormGroup;
 
   constructor(private programservice:GymManagementSystemService, private Fb:FormBuilder){
@@ -34,7 +73,7 @@ export class ProgramsListComponent implements OnInit {
   GetAllPrograms(){
     
     this.programservice.getPrograms().subscribe(data=>{
-      this.Programs=data
+     // this.Programs=data
       console.log(data);
 
     })

@@ -1,40 +1,27 @@
+<div class="container my-4">
+  <h2 class="text-center text-danger mb-4">Program Gallery</h2>
 
-
-
-<div *ngFor="let Program of Programs">
-<div class="card" style="width: 18rem;" >
-  <img src="..." class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title">{{Program.name}}</h5>
-    <h6 class="card-title">{{Program.category}}</h6>
-    <p class="card-text">{{Program.description}}</p>
-    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-      <i class="bi bi-plus-square-fill"></i>Edit
-      </button>
+  <div class="row">
+    <!-- Loop through the programs array and display each program -->
+    <div class="col-md-4 mb-4" *ngFor="let program of Programs">
+      <div class="card border-secondary">
+        <img [src]="program.imageurl" class="card-img-top" alt="{{program.name}}">
+        <div class="card-body bg-light">
+          <h5 class="card-title text-danger">{{ program.name }}</h5>
+          <p class="card-text">{{ program.description }}</p>
+          <p class="text-muted">{{ program.category }} | Fees: ${{ program.fees }}</p>
+          <a href="#" class="btn btn-danger btn-sm">ENROLL</a>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
-</div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-  <i class="bi bi-plus-square-fill"></i>Add New Program
+  <!-- Add New Program Button -->
+  <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    <i class="bi bi-plus-square-fill"></i> Add New Program
   </button>
-  
-  <!-- Modal  To Add New  Member-->
+
+  <!-- Modal To Add New Program -->
   <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -53,15 +40,15 @@
               <label for="exampleFormControlSelect1">Category Selection</label>
               <select class="form-control" id="exampleFormControlSelect1" formControlName="Category">
                 <option>Aerobics</option>
-                <option>Strenth Trainning</option>
+                <option>Strength Training</option>
                 <option>Body Building</option>
                 <option>Yoga</option>
-                <option>calisthenics</option>
+                <option>Calisthenics</option>
               </select>
             </div>
             <div class="form-group">
               <label for="exampleFormControlInput1">Fees</label>
-              <input type="number" class="form-control" id="exampleFormControlInput1" formControlName="Name">
+              <input type="number" class="form-control" id="exampleFormControlInput1" formControlName="Fees">
             </div>
             <div class="form-group">
               <label for="exampleFormControlTextarea1">Description</label>
@@ -76,3 +63,4 @@
       </div>
     </div>
   </div>
+</div>

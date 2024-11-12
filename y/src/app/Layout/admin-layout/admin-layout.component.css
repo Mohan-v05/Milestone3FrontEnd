@@ -1,0 +1,192 @@
+/* Global Styles */
+@import 'animate.css';
+
+/* Body Styling */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Clean and modern font */
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+.bg-dark {
+  background-color: #212529 !important; /* Dark for header and sidebar */
+}
+
+.text-white {
+  color: #fff !important;
+}
+
+.navbar, .sidebar {
+  background-color: #212529; /* Black Sidebar */
+}
+
+.nav-link.active {
+  background-color: #c82333 !important; /* Red active state */
+}
+
+.sidebar {
+  height: 100vh;
+  position: fixed;
+  padding-top: 20px;
+}
+
+main {
+  margin-left: 250px;
+  background-color: #e9ecef;
+  padding: 20px;
+}
+
+/* Add a vertical divider between the sidebar and main content */
+.sidebar.border-end {
+  border-right: 2px solid #343a40; /* Gray border for the divider */
+}
+
+/* Header Styling */
+header {
+  background-color: #212529;
+  padding: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header .logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 50px;
+  max-height: 50px;
+}
+
+header .logo {
+  max-width: 60px;
+  max-height: 60px;
+}
+
+/* Company Name Styling */
+.company-name {
+  color: #ffffff;  /* White color for company name */
+  font-size: 2rem;
+  font-weight: 600;  /* Bold, professional font weight */
+  font-family: 'Arial', sans-serif; /* Professional sans-serif font */
+  letter-spacing: 1px; /* Slight letter spacing for a clean look */
+  text-transform: uppercase; /* Make it uppercase for a bold presence */
+  transition: all 0.3s ease; /* Smooth transition for hover effects */
+}
+
+/* Hover Effect for Company Name */
+.company-name:hover {
+  color: #c82333; /* Change to red when hovered */
+  cursor: pointer;
+}
+
+/* Sidebar Link Styling */
+.nav-link {
+  color: #fff;
+  padding: 15px 20px; /* Added padding for better spacing */
+  margin-bottom: 10px; /* Space between items */
+  border-radius: 5px; /* Rounded corners for the sidebar items */
+  transition: background-color 0.3s ease; /* Smooth hover effect */
+}
+
+.nav-link:hover {
+  background-color: #343a40; /* Dark gray on hover */
+}
+
+.nav-link.active {
+  background-color: #c82333 !important; /* Red for active link */
+}
+
+/* Sidebar Spacing */
+.nav-item {
+  margin-bottom: 15px; /* Adds space between sidebar items */
+}
+
+/* Subtle Animations for Smooth Hover Effects */
+.nav-link:hover {
+  transform: translateX(5px); /* Slight right shift on hover */
+}
+
+/* Header Styling */
+header {
+    background-color: #212529;
+    padding: 15px 30px;  /* Increase the vertical and horizontal padding for more space */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  header .logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 60px;
+    max-height: 60px;
+  }
+  
+  header .logo {
+    max-width: 50px;
+    max-height: 50px;
+  }
+  
+  /* Company Name Styling */
+  .company-name {
+    color: #ffffff;  /* White color for company name */
+    font-size: 2rem;
+    font-weight: 600;  /* Bold, professional font weight */
+    font-family: 'Arial', sans-serif; /* Professional sans-serif font */
+    letter-spacing: 1px; /* Slight letter spacing for a clean look */
+    text-transform: uppercase; /* Make it uppercase for a bold presence */
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+    margin: 0;  /* Remove default margin */
+    padding: 0 20px;  /* Add horizontal padding to add space on both sides */
+  }
+  
+  /* Logged-in User Styling */
+  header .d-flex > div:last-child {
+    font-size: 1rem;
+    padding-left: 20px;  /* Add some padding to separate from the company name */
+  }
+  
+  /* Add some space between the logo, company name, and user info */
+  header .d-flex {
+    width: 100%;  /* Ensure flex container spans full width */
+    justify-content: space-between;  /* Space between logo, company name, and user */
+  }
+  
+  /* Hover Effect for Company Name */
+  .company-name:hover {
+    color: #c82333; /* Change to red when hovered */
+    cursor: pointer;
+  }
+  /* Collapse Sidebar for small screens */
+@media (max-width: 767px) {
+    #sidebar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      z-index: 1050;
+      transition: transform 0.3s ease;
+    }
+    
+    .sidebar.show {
+      transform: translateX(0);
+    }
+  
+    .sidebar {
+      transform: translateX(-250px);
+    }
+  
+    /* Main content will shift when sidebar is visible */
+    main {
+      margin-left: 0;
+      transition: margin-left 0.3s ease;
+    }
+  
+    /* Show main content with a left margin when sidebar is open */
+    .sidebar.show + main {
+      margin-left: 250px;
+    }
+  }
+  

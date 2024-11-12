@@ -1,4 +1,5 @@
 
+
  
   <section class="vh-100" style="background-color: #131010;">
     <div class="container py-5 h-100">
@@ -48,8 +49,8 @@
                   </div>
 
                   <!-- Additional links -->
-                  <a class="small text-muted" href="#!">Forgot password?</a>
-                  <p class="mb-5 pb-lg-2" style="color: #181a33;">Don't have an account? <a href="#!" style="color: #393f81;">Register here</a></p>
+                  <a class="small text-muted"  (click)="openModal()">Forgot password?</a>
+                  <p class="mb-5 pb-lg-2" style="color: #181a33;">Don't have an account? <a href="/register" style="color: #393f81;">Register here</a></p>
                   <a href="#!" class="small text-muted">Terms of use.</a>
                   <a href="#!" class="small text-muted">Privacy policy</a>
                 </form>
@@ -62,4 +63,31 @@
       </div>
     </div>
   </section>
-  
+
+
+  <!-- forget password Modal Structure -->
+<div class="modal fade" id="forgetPasswordModal" tabindex="-1" aria-labelledby="forgetPasswordModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="forgetPasswordModalLabel">Reset Your Password</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="submitForm()">
+          <div class="mb-3">
+            <label for="email" class="form-label">Enter your email address</label>
+            <input type="email" id="email" class="form-control" [(ngModel)]="email" name="email" required>
+          </div>
+          <div *ngIf="emailError" class="text-danger">
+            Please enter a valid email address.
+          </div>
+          <button type="submit" class="btn btn-primary" [disabled]="!email || emailError">Submit</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

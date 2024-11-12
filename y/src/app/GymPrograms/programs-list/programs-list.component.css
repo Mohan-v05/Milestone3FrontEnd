@@ -1,0 +1,40 @@
+/* Card shadow effect */
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Initial shadow */
+  }
+  
+  .card:hover {
+    transform: translateY(-5px); /* Slight lift on hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+  }
+  
+  /* Set consistent image sizes */
+  .card-img-top {
+    height: 180px; /* Fixed height for images */
+    object-fit: cover; /* Ensure the image covers the area without distortion */
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    transition: transform 0.3s ease;
+  }
+  
+  .card:hover .card-img-top {
+    transform: scale(1.05); /* Slight zoom effect on hover */
+  }
+  
+  /* Optional: Add a slight border radius to make cards look softer */
+  .card {
+    border-radius: 10px;
+  }
+  
+  /* Button hover effect */
+  .card .btn:hover {
+    background-color: #ff3333; /* Lighter red for button hover */
+    transition: background-color 0.2s ease;
+  }
+  
+  /* Additional spacing between cards */
+  .mb-4 {
+    margin-bottom: 30px;
+  }
+  

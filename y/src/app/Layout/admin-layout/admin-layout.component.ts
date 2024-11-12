@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrl: './admin-layout.component.css'
 })
 export class AdminLayoutComponent {
-
+ 
+  loggedInUser:string="mohan"
+  isSidebarOpen: boolean = true; 
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen; // Toggle the sidebar open/close state
+  }
 }
