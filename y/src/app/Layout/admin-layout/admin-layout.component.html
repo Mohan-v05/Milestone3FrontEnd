@@ -38,7 +38,7 @@
     
   
       <!-- Sidebar -->
-      <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar border-end collapse" [ngClass]="{'show': isSidebarOpen}">
+      <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar border-end collapse">
         <div class="position-sticky">
           <ul class="nav flex-column">
             <li class="nav-item">
@@ -72,6 +72,18 @@
         </div>
       </nav>
   
+<!-- chat.component.html -->
+<div style="margin-left: 200px; border-width: 2px;">
+  <textarea [(ngModel)]="userPrompt" placeholder="Type your message here..."></textarea>
+  <button (click)="sendMessageToChatGpt(userPrompt)">Send</button>
+</div>
+
+<div *ngIf="response">
+  <h3>Response:</h3>
+  <p>{{ response }}</p>
+</div>
+
+
       <!-- Main Content Area -->
       <main class="col-md-9 ms-sm-auto col-lg-10 px-4">
         <router-outlet></router-outlet>

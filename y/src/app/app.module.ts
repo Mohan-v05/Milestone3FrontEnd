@@ -16,7 +16,8 @@ import { BlankLayoutComponent } from './Layout/blank-layout/blank-layout.compone
 import { AdminLayoutComponent } from './Layout/admin-layout/admin-layout.component';
 import { RegisterComponent } from './Register/register/register.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ToastrModule } from 'ngx-toastr'
+import { ToastrModule } from 'ngx-toastr';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,6 +28,7 @@ import { ToastrModule } from 'ngx-toastr'
     BlankLayoutComponent,
     AdminLayoutComponent,
     RegisterComponent
+   
     
   ],
   imports: [
