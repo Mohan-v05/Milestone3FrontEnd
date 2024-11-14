@@ -15,15 +15,15 @@ export class ProgramsListComponent implements OnInit {
     description: 'Pull ups good for your shoulders',
     category: 'Calisthenics',
     fees: 1000,
-    imageurl: "https://th.bing.com/th/id/OIP.3fI1p5ikgmNfCWjyMGPpAwAAAA?w=175&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+    imageurl: "image (3).png"
   },
-  {
+  { 
     name: "Pushups",
     id: 1,
     description: 'Great for upper body strength',
     category: 'Calisthenics',
     fees: 800,
-    imageurl: "https://th.bing.com/th/id/OIP.GdOpyGYEQGd971a4R8-9JwHaEp?w=259&h=184&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+    imageurl: "Milestone3Backend/GYM_MILESTONETHREE/GYM_MILESTONETHREE/wwwroot/images/yoga.jpg"
   },
   {
     name: "Squats",

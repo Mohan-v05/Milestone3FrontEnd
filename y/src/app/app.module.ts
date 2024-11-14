@@ -17,6 +17,7 @@ import { AdminLayoutComponent } from './Layout/admin-layout/admin-layout.compone
 import { RegisterComponent } from './Register/register/register.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr'
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,6 +40,7 @@ import { ToastrModule } from 'ngx-toastr'
     ReactiveFormsModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot()
+   
   ],
   providers: [],
   bootstrap: [AppComponent]
