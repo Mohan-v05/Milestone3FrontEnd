@@ -17,8 +17,7 @@
                 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
                   <div class="d-flex align-items-center mb-3 pb-1">
-                    <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
-                    <span class="h1 fw-bold mb-0">WElCOME TO MK GYM</span>
+                    <img src="logo.jpg" alt="" width="50px" ><i style="color: #e02f17;"> unicom  <span class="h5 fw-bold mb-0 text-dark">Fitness</span> </i>
                   </div>
 
                   <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
@@ -48,6 +47,7 @@
                     <button type="submit" class="btn btn-dark btn-lg btn-block" [disabled]="loginForm.invalid">Login</button>
                   </div>
 
+                  
                   <!-- Additional links -->
                   <a class="small text-muted"  (click)="openModal()">Forgot password?</a>
                   <p class="mb-5 pb-lg-2" style="color: #181a33;">Don't have an account? <a href="/register" style="color: #393f81;">Register here</a></p>

@@ -9,48 +9,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class ProgramsListComponent implements OnInit {
 //Array to List
-  Programs: gprograms[]=[{
-    name: "Pullups",
-    id: 0,
-    description: 'Pull ups good for your shoulders',
-    category: 'Calisthenics',
-    fees: 1000,
-    imageurl: "image (3).png"
-  },
-  { 
-    name: "Pushups",
-    id: 1,
-    description: 'Great for upper body strength',
-    category: 'Calisthenics',
-    fees: 800,
-    imageurl: "Milestone3Backend/GYM_MILESTONETHREE/GYM_MILESTONETHREE/wwwroot/images/yoga.jpg"
-  },
-  {
-    name: "Squats",
-    id: 2,
-    description: 'Effective for legs and core',
-    category: 'Calisthenics',
-    fees: 1200,
-    imageurl: "https://th.bing.com/th/id/OIP.GdOpyGYEQGd971a4R8-9JwHaEp?w=259&h=184&c=7&r=0&o=5&dpr=1.3&pid=1.7"
-  },
-  {
-    name: "Lunges",
-    id: 3,
-    description: 'Good for leg strength and balance',
-    category: 'Calisthenics',
-    fees: 1100,
-    imageurl: "https://th.bing.com/th/id/OIP._0CLOqukFgG2JBRoyUsWewHaFj?w=198&h=207&c=7&r=0&o=5&dpr=1.3&pid=1.7"
-  },
-  {
-    name: "Planks",
-    id: 4,
-    description: 'Great for core stability',
-    category: 'Calisthenics',
-    fees: 900,
-    imageurl: "https://th.bing.com/th/id/OIP.0sMhO-OSqMv6l62kbBImRgHaE8?w=219&h=231&c=7&r=0&o=5&dpr=1.3&pid=1.7"
-  }];
+  Programs: gprograms[]=[];
   NewProgramForm:FormGroup;
-
+  selectedImage: File | null = null;
   constructor(private programservice:GymManagementSystemService, private Fb:FormBuilder){
     this.NewProgramForm=this.Fb.group({
        Name:['',Validators.required],
@@ -59,6 +20,13 @@ export class ProgramsListComponent implements OnInit {
        Fees :['',Validators.required]
     })
   }
+  // Handle image file input
+  onFileChange(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedImage = file;
+    }
+  }
   
   AddNewProgram(){
     console.log(this.NewProgramForm.value)
@@ -66,17 +34,44 @@ export class ProgramsListComponent implements OnInit {
 
   ngOnInit(): void {
     this.GetAllPrograms();
-    console.log(this.Programs)
+    //console.log(this.Programs)
   }
    
 
   GetAllPrograms(){
     
     this.programservice.getPrograms().subscribe(data=>{
-     // this.Programs=data
+      this.Programs=data
       console.log(data);
 
     })
+  }
+  onSubmit(): void {
+    if (this.NewProgramForm.valid && this.selectedImage) {
+      const formData = new FormData();
+      formData.append('Name', this.NewProgramForm.value.Name);
+      formData.append('Description', this.NewProgramForm.value.Description);
+      formData.append('Category', this.NewProgramForm.value.Category);
+      formData.append('Fees', this.NewProgramForm.value.Fees);
+      formData.append('image', this.selectedImage, this.selectedImage.name);
+
+     
+      this.programservice.createProgramWithImage(formData).subscribe(
+        (response) => {
+          console.log('Program created successfully!', response);
+        },
+        (error) => {
+          console.error('Error creating program:', error);
+        }
+      );
+    } else {
+      console.log('Form is invalid or no image selected');
+    }
+  }
+
+  Remove():void
+  {
+         
   }
  
 }
