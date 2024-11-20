@@ -10,7 +10,7 @@
     
           <!-- Company Name in the Center -->
           <div class="mx-auto text-center">
-            <h3 class="company-name">Company Name</h3>
+            <h3 class="company-name">UnicomFitness</h3>
           </div>
           
           <!-- Logged-in User in the Right -->
@@ -42,19 +42,19 @@
         <div class="position-sticky">
           <ul class="nav flex-column">
             <li class="nav-item">
-              <a class="nav-link text-white" routerLink="home" routerLinkActive="active">
+              <a class="nav-link text-white" routerLink="/admin/Dashboard" routerLinkActive="active">
                 <i class="bi bi-house-door"></i> Home
                 
 
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-white" routerLink="workout" routerLinkActive="active">
+              <a class="nav-link text-white" routerLink="/admin/WorkoutPrograms-list" routerLinkActive="active">
                 <i class="fa-solid fa-dumbbell"></i> Workout Programs
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-white" routerLink="users" routerLinkActive="active">
+              <a class="nav-link text-white" routerLink="/admin/Member-list" routerLinkActive="active">
                 <i class="bi bi-person"></i> User Management
               </a>
             </li>
@@ -64,9 +64,12 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-white" routerLink="settings" routerLinkActive="active">
-                <i class="bi bi-box-arrow-left"></i> Logout
-              </a>
+              <button class="btn text-white" (click)="logOut()">
+             
+                  <i class="bi bi-box-arrow-left"></i> Logout
+              
+              </button>
+              
             </li>
           </ul>
         </div>

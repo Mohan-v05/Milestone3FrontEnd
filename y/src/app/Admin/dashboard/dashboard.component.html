@@ -1,0 +1,94 @@
+<div class="container mt-5">
+    <div class="row">
+      <!-- Total Gym Revenue Block -->
+      <div class="col-md-2">
+        <div class="card bg-white text-dark shadow-sm mb-4">
+          <div class="card-body d-flex align-items-center">
+            <i class="fas fa-money-bill-wave fa-2x"></i> <!-- Smaller icon -->
+            <div class="ml-3">
+              <h4>Total Gym Revenue</h4>
+              <p>\${{ totalGymRevenue | number }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Total Members Count Block -->
+      <div class="col-md-2">
+        <div class="card bg-white text-dark shadow-sm mb-4">
+          <div class="card-body d-flex align-items-center">
+            <i class="fas fa-users fa-2x"></i> <!-- Smaller icon -->
+            <div class="ml-3">
+              <h4>Total Members</h4>
+              <p>{{ totalMembersCount }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Active Members Block -->
+      <div class="col-md-2">
+        <div class="card bg-white text-dark shadow-sm mb-4">
+          <div class="card-body d-flex align-items-center">
+            <i class="fas fa-user-check fa-2x"></i> <!-- Smaller icon -->
+            <div class="ml-3">
+              <h4>Active Members</h4>
+              <p>{{ activeMembersCount }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Monthly Income Block -->
+      <div class="col-md-2">
+        <div class="card bg-white text-dark shadow-sm mb-4">
+          <div class="card-body d-flex align-items-center">
+            <i class="fas fa-calendar-day fa-2x"></i> <!-- Smaller icon -->
+            <div class="ml-3">
+              <h4>Monthly Income</h4>
+              <p>\${{ monthlyIncome | number }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Annual Income Block -->
+      <div class="col-md-2">
+        <div class="card bg-white text-dark shadow-sm mb-4">
+          <div class="card-body d-flex align-items-center">
+            <i class="fas fa-calendar-year fa-2x"></i> <!-- Smaller icon -->
+            <div class="ml-3">
+              <h4>Annual Income</h4>
+              <p>\${{ annualIncome | number }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Daily Income Block -->
+      <div class="col-md-2">
+        <div class="card bg-white text-dark shadow-sm mb-4">
+          <div class="card-body d-flex align-items-center">
+            <i class="fas fa-calendar-day fa-2x"></i> <!-- Smaller icon -->
+            <div class="ml-3">
+              <h4>Daily Income</h4>
+              <p>\${{ dailyIncome | number }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="row">
+      <!-- View Member Info by ID Block -->
+      <div class="col-md-3">
+        <div class="card bg-light shadow-sm mb-4">
+          <div class="card-body">
+            <h4>View Member Info</h4>
+            <input type="text" placeholder="Enter Member ID" class="form-control" [(ngModel)]="memberId" (keyup)="viewMemberInfo()">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

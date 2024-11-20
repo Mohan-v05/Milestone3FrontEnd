@@ -1,12 +1,4 @@
-/* Global Styles */
-@import 'animate.css';
 
-/* Body Styling */
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Clean and modern font */
-  background-color: #f4f4f4;
-  color: #333;
-}
 
 .bg-dark {
   background-color: #212529 !important; /* Dark for header and sidebar */

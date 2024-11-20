@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GymManagementSystemService, gprograms } from '../../gym-management-system.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-programs-list',
@@ -12,7 +13,7 @@ export class ProgramsListComponent implements OnInit {
   Programs: gprograms[]=[];
   NewProgramForm:FormGroup;
   selectedImage: File | null = null;
-  constructor(private programservice:GymManagementSystemService, private Fb:FormBuilder){
+  constructor(private programservice:GymManagementSystemService, private Fb:FormBuilder,private Toastr:ToastrService){
     this.NewProgramForm=this.Fb.group({
        Name:['',Validators.required],
        Description:[''],
@@ -58,20 +59,35 @@ export class ProgramsListComponent implements OnInit {
      
       this.programservice.createProgramWithImage(formData).subscribe(
         (response) => {
+          this.Toastr.success('Program added successfully');
           console.log('Program created successfully!', response);
+          this.NewProgramForm.reset();
+          this.selectedImage = null;
+          this.Programs.push(response)
+          
         },
         (error) => {
+          this.Toastr.error(error.error.message)
           console.error('Error creating program:', error);
         }
       );
     } else {
       console.log('Form is invalid or no image selected');
+      this.Toastr.error('Please fill in all fields and select an image');
     }
   }
 
-  Remove():void
+  Remove(id:number):void
   {
-         
+         this.programservice.DeleteProgram(id).subscribe(
+          (reponse)=>{
+            this.Toastr.success("Program Deleted Successfully")
+          },
+          (error)=>{
+            this.Toastr.error(error.error)
+          }
+         )
+         this.Programs = this.Programs.filter(program => program.id !== id);
   }
  
 }

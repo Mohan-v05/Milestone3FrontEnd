@@ -1,0 +1,73 @@
+.card {
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    background-color: #fff; /* White background for cards */
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    background-color: #f5f5f5; /* Change to gray when hovered */
+  }
+  
+  .card-body h4 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #333;
+  }
+  
+  .card-body p {
+    font-size: 1.5rem;
+    margin-top: 10px;
+  }
+  
+  .card.bg-white {
+    background-color: #fff;
+  }
+  
+  .card-body input {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  h4 {
+    font-weight: 600;
+  }
+  
+  .container {
+    margin-top: 50px;
+  }
+  
+  .card-body {
+    padding: 20px;
+  }
+  
+  /* Styling for icons */
+  .card-body i {
+    font-size: 1.5rem; /* Smaller icon size */
+    color: #333;
+    transition: color 0.3s ease;
+  }
+  
+  .card-body i:hover {
+    color: #007bff; /* Change icon color on hover */
+  }
+  
+  .card-body .ml-3 {
+    margin-left: 15px;
+  }
+  
+  .card-body input {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+  
+  .card.bg-light {
+    background-color: #f9f9f9;
+  }
+  
+  .card-body input {
+    padding: 10px;
+  }

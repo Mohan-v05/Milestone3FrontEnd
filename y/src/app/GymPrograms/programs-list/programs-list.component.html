@@ -1,22 +1,29 @@
 <div class="container my-4">
-  <h2 class="text-center text-danger mb-4">Program Gallery</h2>
+  <h2 class="text-center mb-4 program-gallery-title">Program Gallery</h2>
 
-  <div class="row">
-    <!-- Loop through the programs array and display each program -->
-    <div class="col-md-4 mb-4" *ngFor="let program of Programs">
-      <div class="card border-secondary">
-        <img [src]="program.imagePath" class="card-img-top" alt="{{program.name}}">
-        <div class="card-body bg-light">
-          <h5 class="card-title text-danger">{{ program.name }}</h5>
-          <p class="card-text">{{ program.description }}</p>
-          <p class="text-muted">{{ program.category }} | Fees: ${{ program.fees }}</p>
-          <p class="">{{program.noofEnrollment}}</p>
-           <button class="btn btn-danger btn-sm" onclick="Remove()">Remove</button>
 
-        </div>
+
+<div class="row">
+  <div *ngIf="Programs.length > 0; else noPrograms"></div>
+  <!-- Loop through the programs array and display each program -->
+  <div class="col-md-4 mb-4" *ngFor="let program of Programs">
+    <div class="card border-secondary">
+      <img [src]="program.imagePath" class="card-img-top" alt="{{program.name}}">
+      <div class="card-body bg-light">
+        <h5 class="card-title text-danger">{{ program.name }}</h5>
+        <p class="card-text"><i class="fas fa-info-circle"></i> {{ program.description }}</p>
+        <p class="text-muted">{{ program.category }} | Fees : {{ program.fees | currency }}</p>
+        <p class="text-success">{{ program.noofEnrollment }} Enrolled</p>
+        <button class="btn btn-danger btn-sm" (click)="Remove(program.id)">Remove</button>
       </div>
     </div>
   </div>
+</div>
+
+
+  <ng-template #noPrograms>
+    <p><i class="fas fa-exclamation-triangle"></i> No programs available</p>
+  </ng-template>
 
   <!-- Add New Program Button -->
   <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">

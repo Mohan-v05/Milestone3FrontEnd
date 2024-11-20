@@ -3,48 +3,51 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { GymManagementSystemService } from '../gym-management-system.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import {jwtDecode} from 'jwt-decode'; // Import jwt-decode
 
 declare var bootstrap: any;
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit  {
+export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   email: string = '';
   emailError: boolean = false;
- 
-  constructor(private route:Router,
-    private fb: FormBuilder,private service:GymManagementSystemService,private toastr:ToastrService) {
+
+  constructor(
+    private route: Router,
+    private fb: FormBuilder,
+    private service: GymManagementSystemService,
+    private toastr: ToastrService
+  ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
+
   openModal() {
-    // This can be used to trigger the modal programmatically, if needed
     const modalElement = document.getElementById('forgetPasswordModal');
     const modal = new bootstrap.Modal(modalElement);
     modal.show();
   }
+
   submitForm() {
-    // Basic email validation (you can add more checks as needed)
     if (this.isValidEmail(this.email)) {
       this.emailError = false;
       console.log('Form Submitted', this.email);
-      // Here you can call a service to handle the password reset logic.
     } else {
       this.emailError = true;
     }
   }
-  // Basic Email Validation
+
   isValidEmail(email: string): boolean {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
   }
-
 
   ngOnInit(): void {}
 
@@ -53,17 +56,42 @@ export class LoginComponent implements OnInit  {
       const formData = this.loginForm.value;
       console.log('Form Submitted', formData);
       
-      this.service.login(formData).subscribe(data=>{
-        localStorage.setItem("token",data.token)
-        this.route.navigate(["admin/WorkoutPrograms-list"])
-      },
-      err=>{
-        this.toastr.error(err.error);
-      });
-      
+      this.service.login(formData).subscribe(
+        data => {
+          localStorage.setItem("token", data.token);
+          this.routeBasedOnRole();
+        },
+        err => {
+          this.toastr.error(err.error);
+        }
+      );
     } else {
       console.log('Form is invalid');
     }
   }
 
+  // Routing Based on Role after Login
+  routeBasedOnRole() {
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const decodedToken: any = jwtDecode(token); // Decode the token
+        const userRole = decodedToken.Role || decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']; // Get role from decoded token
+        
+        // Navigate based on the role
+        if (userRole === 'Admin') {
+          this.route.navigate(['/admin/WorkoutPrograms-list']);
+        } else if (userRole === 'Member') {
+          this.route.navigate(['/member-dashboard']);
+        } else {
+          this.route.navigate(['/unauthorized']);
+        }
+      } catch (error) {
+        console.error('Error decoding token:', error);
+        this.route.navigate(['/login']);
+      }
+    } else {
+      this.route.navigate(['/login']); // Redirect to login if no token found
+    }
+  }
 }

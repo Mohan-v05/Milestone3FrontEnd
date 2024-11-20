@@ -8,7 +8,7 @@ import { MemberAddComponent } from './Member/member-add/member-add.component';
 
 import { ProgramsListComponent } from './GymPrograms/programs-list/programs-list.component';
 import { Router } from '@angular/router';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule, NgFor } from '@angular/common';
 import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -17,6 +17,10 @@ import { AdminLayoutComponent } from './Layout/admin-layout/admin-layout.compone
 import { RegisterComponent } from './Register/register/register.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr'
+import { AuthInterceptor } from './auth.interceptor';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { DashboardComponent } from './Admin/dashboard/dashboard.component';
+import { UserSearchPipe } from './pipe/user-search.pipe';
 
 @NgModule({
   declarations: [
@@ -27,7 +31,9 @@ import { ToastrModule } from 'ngx-toastr'
     LoginComponent,
     BlankLayoutComponent,
     AdminLayoutComponent,
-    RegisterComponent
+    RegisterComponent,
+    DashboardComponent,
+    UserSearchPipe
     
   ],
   imports: [
@@ -39,10 +45,12 @@ import { ToastrModule } from 'ngx-toastr'
     NgFor,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot()
-   
+    ToastrModule.forRoot(),
+
   ],
-  providers: [],
+  providers: [ {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    JwtHelperService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
