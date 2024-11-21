@@ -142,6 +142,8 @@
 *ngIf="selectedMember" 
 class="container member-info-container shadow-lg rounded p-4"
 [@fadeInOut]>
+<div class="row ">
+<div class="col-md-6">
 <h3 class="text-danger mb-4">Member Details</h3>
 <p><strong class="text-light">Name : </strong> <span class="text-danger">{{ selectedMember?.name }}</span></p>
 <p><strong class="text-light">Email: </strong> <span class="text-danger">{{ selectedMember?.email }}</span></p>
@@ -156,5 +158,37 @@ class="container member-info-container shadow-lg rounded p-4"
 <p><strong class="text-light">City: </strong> <span class="text-danger">{{ selectedMember?.address?.city }}</span></p>
 </div>
 
+<div class="col-md-6">
+
+  <Button  class="btn btn-outline-danger" 
+  (click)="EnrollMemberstoPrograms()">
+  {{ isenroll ? 'Close ' : 'ClickHeretoenroll' }}
+  </Button>
+
+  <div *ngIf="isenroll">
+    <h4>Select Programs</h4>
+
+    <form [formGroup]="EnrollmentForm" (ngSubmit)="onSubmit()">
+      <!-- UserId input field -->
+      <div>
+        <label for="userId">User ID</label>
+        <input id="userId" formControlName="UserId" type="number">
+      </div>
+    
+      <!-- Programs selection with checkboxes -->
+      <div *ngFor="let program of ProgramResponse">
+        <input type="checkbox" [formControlName]="program.id" [value]="program.id">
+        <label>{{ program.name }}</label>
+      </div>
+    
+      <button type="submit" [disabled]="EnrollmentForm.invalid">Submit</button>
+    </form>
+  </div>
+
+</div>
+
+
+</div>
+</div>
 </div>
   

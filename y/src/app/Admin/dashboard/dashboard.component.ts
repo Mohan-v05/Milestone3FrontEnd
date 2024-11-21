@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { GymManagementSystemService, Payments, User } from '../../gym-management-system.service';
+import { GymManagementSystemService, Payments, User, enrollmentreq, gprograms } from '../../gym-management-system.service';
 import { Toast } from 'ngx-toastr';
 import { trigger, style, animate, transition } from '@angular/animations';
 import { jwtDecode } from 'jwt-decode';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,16 +21,24 @@ import { jwtDecode } from 'jwt-decode';
     ])
   ]
 })
+
 export class DashboardComponent implements OnInit {
+onSubmit() {
+throw new Error('Method not implemented.');
+}
   toggleGraph() {
     this.showGraph = !this.showGraph; // Toggle the state
     if (this.showGraph) {
       this.processPaymentData(); // Process data when opening the graph
     }
   }
+ 
+ 
+  EnrollmentForm: FormGroup;
+
   paymentResponse: Payments[] = [];
   UsersResponse: User[] = [];
-
+  ProgramResponse: gprograms[]=[];
 
   // Chart-related properties
   showGraph: boolean = false
@@ -48,6 +57,9 @@ export class DashboardComponent implements OnInit {
 
   //MemberProfile realted 
   selectedMember: any = null;
+
+  //enroll div 
+  isenroll=false;
 
 
   // Business-related properties
@@ -76,6 +88,7 @@ export class DashboardComponent implements OnInit {
 
       })
   };
+
   calculateIncomes(payments: Payments[]): void {
     // Reset income values to avoid duplicate accumulation
     this.totalGymRevenue = 0;
@@ -141,8 +154,14 @@ export class DashboardComponent implements OnInit {
       (u) => new Date(u.expiryDate).getTime() < Date.now()).length;  
   }
   
+//programs 
+GetAllPrograms(){
+  this.service.getPrograms().subscribe(data=>{
+    this.ProgramResponse=data
+    console.log(data)
+  })
+}
 
-  
 
   processPaymentData(): void {
     // Explicitly define the structure of monthlyIncome
@@ -186,12 +205,19 @@ export class DashboardComponent implements OnInit {
 
 
 
-  constructor(private service: GymManagementSystemService) { }
+  constructor(private service: GymManagementSystemService, private Fb:FormBuilder) {
+    this.EnrollmentForm=this.Fb.group({
+      UserId:['',Validators.required],
+      Programs:[''],
+     
+   })
+   }
 
   ngOnInit(): void {
    
     this.GetAllPayments(),
-    this.GetAllMembers()
+    this.GetAllMembers(),
+    this.GetAllPrograms()
   }
 
   viewMemberInfo(): void {
@@ -200,6 +226,13 @@ export class DashboardComponent implements OnInit {
    
   }
 
-
+  Enrollmentreq : enrollmentreq={
+    userId: 0,
+    programIds: []
+  }
+  //Enroll Members 
+  EnrollMemberstoPrograms(){
+    this.isenroll=!this.isenroll
+  }
 
 }

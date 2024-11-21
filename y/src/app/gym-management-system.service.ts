@@ -49,6 +49,12 @@ export class GymManagementSystemService {
   }
 }
 
+//Export Enrollment Model
+export interface enrollmentreq{ 
+    userId: number,
+    programIds:number[]
+}
+
 // Export Interfaces
 export interface gprograms{
   id:number, 
