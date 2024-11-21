@@ -1,39 +1,14 @@
 <div class="container mt-5">
+
+
     <div class="row">
       <!-- Total Gym Revenue Block -->
       <div class="col-md-2">
         <div class="card bg-white text-dark shadow-sm mb-4">
           <div class="card-body d-flex align-items-center">
-            <i class="fas fa-money-bill-wave fa-2x"></i> <!-- Smaller icon -->
-            <div class="ml-3">
-              <h4>Total Gym Revenue</h4>
-              <p>\${{ totalGymRevenue | number }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-  
-      <!-- Total Members Count Block -->
-      <div class="col-md-2">
-        <div class="card bg-white text-dark shadow-sm mb-4">
-          <div class="card-body d-flex align-items-center">
-            <i class="fas fa-users fa-2x"></i> <!-- Smaller icon -->
-            <div class="ml-3">
-              <h4>Total Members</h4>
-              <p>{{ totalMembersCount }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-  
-      <!-- Active Members Block -->
-      <div class="col-md-2">
-        <div class="card bg-white text-dark shadow-sm mb-4">
-          <div class="card-body d-flex align-items-center">
-            <i class="fas fa-user-check fa-2x"></i> <!-- Smaller icon -->
-            <div class="ml-3">
-              <h4>Active Members</h4>
-              <p>{{ activeMembersCount }}</p>
+            <div class="input-group-prepend">
+              <h5>Gym Revenue</h5>
+              <span class="input-group-text">{{ totalGymRevenue | currency:'LKR ' }}</span>
             </div>
           </div>
         </div>
@@ -42,12 +17,18 @@
       <!-- Monthly Income Block -->
       <div class="col-md-2">
         <div class="card bg-white text-dark shadow-sm mb-4">
-          <div class="card-body d-flex align-items-center">
-            <i class="fas fa-calendar-day fa-2x"></i> <!-- Smaller icon -->
-            <div class="ml-3">
-              <h4>Monthly Income</h4>
-              <p>\${{ monthlyIncome | number }}</p>
-            </div>
+          <div class="card-body align-items-center">
+            <div class="input-group-prepend">
+              <h5>Monthly Income</h5>
+              <span class="input-group-text">{{ monthlyIncome | currency:'LKR ' }}</span>
+              </div>
+              <div class="mt-1">
+              <button 
+              class="btn btn-primary" 
+              (click)="toggleGraph()">
+              {{ showGraph ? 'Close Graph' : 'View Graph' }}
+            </button>
+            </div> 
           </div>
         </div>
       </div>
@@ -56,10 +37,12 @@
       <div class="col-md-2">
         <div class="card bg-white text-dark shadow-sm mb-4">
           <div class="card-body d-flex align-items-center">
-            <i class="fas fa-calendar-year fa-2x"></i> <!-- Smaller icon -->
+            <span class="input-group-text"> 
+              <i class="fa-sharp fa-solid fa-money-bill-trend-up"></i> 
+             </span>
             <div class="ml-3">
-              <h4>Annual Income</h4>
-              <p>\${{ annualIncome | number }}</p>
+              <h5>Annual Income</h5>
+              <span class="input-group-text"> {{ annualIncome | currency:'LKR ' }} </span>
             </div>
           </div>
         </div>
@@ -69,10 +52,11 @@
       <div class="col-md-2">
         <div class="card bg-white text-dark shadow-sm mb-4">
           <div class="card-body d-flex align-items-center">
-            <i class="fas fa-calendar-day fa-2x"></i> <!-- Smaller icon -->
+            <span class="input-group-text"> 
+              <i class="fas fa-calendar-day fa-2x"></i> </span>
             <div class="ml-3">
-              <h4>Daily Income</h4>
-              <p>\${{ dailyIncome | number }}</p>
+              <h5>Today Income</h5>
+              <span class="input-group-text"> {{ dailyIncome | currency:'LKR ' }}</span>
             </div>
           </div>
         </div>
@@ -80,6 +64,33 @@
     </div>
   
     <div class="row">
+        <!-- Total Members Count Block -->
+        <div class="col-md-2">
+          <div class="card bg-white text-dark shadow-sm mb-4">
+            <div class="card-body d-flex align-items-center">
+              <i class="fas fa-users fa-2x"></i> <!-- Smaller icon -->
+              <div class="ml-3">
+                <h4>Total Members</h4>
+                <p>{{ totalMembersCount }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <!-- Active Members Block -->
+        <div class="col-md-2">
+          <div class="card bg-white text-dark shadow-sm mb-4">
+            <div class="card-body d-flex align-items-center">
+              <i class="fa-solid fa-users"></i>
+              <!-- Smaller icon -->
+              <div class="ml-3">
+                <h4>Active Members</h4>
+                <p>{{ activeMembersCount }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
       <!-- View Member Info by ID Block -->
       <div class="col-md-3">
         <div class="card bg-light shadow-sm mb-4">
@@ -89,6 +100,61 @@
           </div>
         </div>
       </div>
+
+      <div class="col-md-2">
+        <div class="card bg-white text-dark shadow-sm mb-4">
+          <div class="card-body d-flex align-items-center">
+            <i class="fa-solid fa-users"></i>
+            <!-- Smaller icon -->
+            <div class="ml-3">
+              <h4>Not Paid Members</h4>
+              <p>{{ membersWithDue }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
     </div>
   </div>
+
+  <div *ngIf="showGraph">
+    <ngx-charts-bar-vertical
+    [view]="view"
+    [scheme]="colorScheme"
+    [results]="single"
+    [gradient]="gradient"
+    [xAxis]="showXAxis"
+    [yAxis]="showYAxis"
+    [legend]="showLegend"
+    [showXAxisLabel]="showXAxisLabel"
+    [showYAxisLabel]="showYAxisLabel"
+    [xAxisLabel]="xAxisLabel"
+    [yAxisLabel]="yAxisLabel">
+  </ngx-charts-bar-vertical>
+  </div>
+  <!-- Button to Show Member Info -->
+
+
+<!-- Member Info Container -->
+<div class="Showoff">
+<div 
+*ngIf="selectedMember" 
+class="container member-info-container shadow-lg rounded p-4"
+[@fadeInOut]>
+<h3 class="text-danger mb-4">Member Details</h3>
+<p><strong class="text-light">Name : </strong> <span class="text-danger">{{ selectedMember?.name }}</span></p>
+<p><strong class="text-light">Email: </strong> <span class="text-danger">{{ selectedMember?.email }}</span></p>
+<p><strong class="text-light">Gender: </strong> <span class="text-danger">{{ selectedMember?.gender }}</span></p>
+<p><strong class="text-light">NIC Number: </strong> <span class="text-danger">{{ selectedMember?.nicnumber }}</span></p>
+<p><strong class="text-light">Fees: </strong> <span class="text-danger">{{ selectedMember?.fees | currency }}</span></p>
+<p><strong class="text-light">Memebership End Date: </strong> <span class="text-danger">{{ selectedMember?.expiryDate | date }}</span></p>
+<hr class="border border-danger">
+<h5 class="text-light">Address</h5>
+<p><strong class="text-light">First Line: </strong> <span class="text-danger">{{ selectedMember?.address?.firstLine }}</span></p>
+<p><strong class="text-light">Second Line: </strong> <span class="text-danger">{{ selectedMember?.address?.secondLine }}</span></p>
+<p><strong class="text-light">City: </strong> <span class="text-danger">{{ selectedMember?.address?.city }}</span></p>
+</div>
+
+</div>
   

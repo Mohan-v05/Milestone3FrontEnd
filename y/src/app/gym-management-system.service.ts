@@ -8,6 +8,7 @@ export class GymManagementSystemService {
   url="http://localhost:5159/api"
   Programurl= "http://localhost:5159/api/GymPrograms"
   userUrl="http://localhost:5159/api/User"
+  paymentUrl='http://localhost:5159/api/Payment'
   constructor(private http:HttpClient) { }
 
  login(logincredential:logincredential){
@@ -37,6 +38,14 @@ export class GymManagementSystemService {
   }
   Deleteuser(id:number){
     return this.http.delete(this.userUrl+id);
+  }
+
+
+
+  //Get all payments
+  GetAllPayments(){
+    console.log("Get all Paymnets api COnnected")
+    return this.http.get<Payments[]>(this.paymentUrl)
   }
 }
 
@@ -74,6 +83,19 @@ export interface address{
   firstLine:string;
   secondLine:string;
 }
+
+
+  export interface Payments {
+    id: string;           
+    userId: number;       
+    user: any | null;     
+    dateTime: string;     
+    amount: number;       
+    paymentType: number; 
+    description: string | null; 
+    receiverId: number;   
+  }
+
 
 
 // Login Interface

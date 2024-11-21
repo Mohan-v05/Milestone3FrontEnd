@@ -76,11 +76,11 @@ export class LoginComponent implements OnInit {
     if (token) {
       try {
         const decodedToken: any = jwtDecode(token); // Decode the token
-        const userRole = decodedToken.Role || decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']; // Get role from decoded token
+        const userRole = decodedToken.Role 
         
         // Navigate based on the role
         if (userRole === 'Admin') {
-          this.route.navigate(['/admin/WorkoutPrograms-list']);
+          this.route.navigate(['/admin/Dashboard']);
         } else if (userRole === 'Member') {
           this.route.navigate(['/member-dashboard']);
         } else {

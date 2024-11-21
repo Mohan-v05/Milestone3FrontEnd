@@ -1,16 +1,10 @@
 
 
-.bg-dark {
-  background-color: #212529 !important; /* Dark for header and sidebar */
-}
 
-.text-white {
-  color: #fff !important;
-}
 
-.navbar, .sidebar {
-  background-color: #212529; /* Black Sidebar */
-}
+
+
+
 
 .nav-link.active {
   background-color: #c82333 !important; /* Red active state */
@@ -82,11 +76,11 @@ header .logo {
 }
 
 .nav-link:hover {
-  background-color: #343a40; /* Dark gray on hover */
+  background-color: #343a40; 
 }
 
 .nav-link.active {
-  background-color: #c82333 !important; /* Red for active link */
+  background-color: #c82333 !important;
 }
 
 /* Sidebar Spacing */
@@ -98,6 +92,21 @@ header .logo {
 .nav-link:hover {
   transform: translateX(5px); /* Slight right shift on hover */
 }
+
+.btn-logout {
+  width: 100%;
+  text-align: left;
+  padding: 10px 20px;
+  border: none;
+  background: none;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.btn-logout:hover {
+  background-color: #343a40;
+}
+
 
 /* Header Styling */
 header {
@@ -154,6 +163,7 @@ header {
   /* Collapse Sidebar for small screens */
 @media (max-width: 767px) {
     #sidebar {
+      display: non;
       position: absolute;
       top: 0;
       left: 0;

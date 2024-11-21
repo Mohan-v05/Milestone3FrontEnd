@@ -11,6 +11,11 @@ import { DashboardComponent } from './Admin/dashboard/dashboard.component';
 import { MemberAddComponent } from './Member/member-add/member-add.component';
 
 
+
+
+
+
+
 const routes: Routes = [
   { path:'',
     component:BlankLayoutComponent,
@@ -45,9 +50,8 @@ const routes: Routes = [
         component:DashboardComponent
       }
     ]
-  }
+  },
  
-
   
    
 ];

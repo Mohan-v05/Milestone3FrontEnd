@@ -21,6 +21,8 @@ import { AuthInterceptor } from './auth.interceptor';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { DashboardComponent } from './Admin/dashboard/dashboard.component';
 import { UserSearchPipe } from './pipe/user-search.pipe';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { MemberLayoutComponent } from './Layout/member-layout/member-layout.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import { UserSearchPipe } from './pipe/user-search.pipe';
     AdminLayoutComponent,
     RegisterComponent,
     DashboardComponent,
-    UserSearchPipe
+    UserSearchPipe,
+    MemberLayoutComponent,
+  
     
   ],
   imports: [
@@ -46,7 +50,7 @@ import { UserSearchPipe } from './pipe/user-search.pipe';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
-
+    NgxChartsModule
   ],
   providers: [ {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     JwtHelperService
