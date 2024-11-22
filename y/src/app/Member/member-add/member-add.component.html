@@ -1,109 +1,140 @@
 <div class="container register-container">
-    <h2 class="text-center">Member Registration</h2>
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-      
-      <!-- Row for Full Name and Email -->
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label for="name"><i class="fa fa-user"></i>Full Name</label>
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text"><i class="fa fa-user"></i></span>
-            </div>
-            <input id="name" type="text" formControlName="name" class="form-control" />
-          </div>
-          <div class="alert alert-danger" *ngIf="isFieldInvalid('name')">
-            <small *ngIf="registerForm.get('name')?.errors?.['required']">Name is required.</small>
-          </div>
-        </div>
+  <h2 class="text-center">{{title  | titlecase }}</h2>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
   
-        <div class="form-group col-md-6">
-          <label for="email">Email</label>
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text"><i class="fa fa-envelope"></i></span>
-            </div>
-            <input id="email" type="email" formControlName="email" class="form-control" />
-          </div>
-          <div class="alert alert-danger" *ngIf="isFieldInvalid('email')">
-            <small *ngIf="registerForm.get('email')?.errors?.['required']">Email is required.</small>
-            <small *ngIf="registerForm.get('email')?.errors?.['email']">Invalid email format.</small>
-          </div>
+    <!-- Row for Full Name and Email -->
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="name">
+          <i class="fa fa-user"></i> Full Name
+        </label>
+        <div class="input-group">
+          <input id="name" type="text" formControlName="name" class="form-control" />
+        </div>
+        <div class="alert alert-danger" *ngIf="isFieldInvalid('name')">
+          <small *ngIf="registerForm.get('name')?.errors?.['required']">Name is required.</small>
         </div>
       </div>
-      
-      <!-- Row for Gender and User Role -->
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label for="gender">Gender</label>
-          <select id="gender" formControlName="gender" class="form-control">
-            <option value="" disabled>Select Gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
-          </select>
+
+      <div class="form-group col-md-6">
+        <label for="email">
+          <i class="fa fa-envelope"></i> Email
+        </label>
+        <div class="input-group">
+          <input id="email" type="email" formControlName="email" class="form-control" />
         </div>
-  
-        <div class="form-group col-md-6">
-          <label for="role">User Role</label>
-          <select id="role" formControlName="role" class="form-control">
-            <option value="1">User</option>
-            <option value="2">Admin</option>
-          </select>
+        <div class="alert alert-danger" *ngIf="isFieldInvalid('email')">
+          <small *ngIf="registerForm.get('email')?.errors?.['required']">Email is required.</small>
+          <small *ngIf="registerForm.get('email')?.errors?.['email']">Invalid email format.</small>
         </div>
       </div>
-      
-      <!-- Row for NIC Number -->
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label for="nicnumber">NIC Number <i class="fa fa-id-card"></i></label>
-         <div>
-            <input id="nicnumber" type="text" formControlName="nicnumber" class="form-control" />
-          </div>
-          <div class="alert alert-danger" *ngIf="isFieldInvalid('nicnumber')">
-            <small *ngIf="registerForm.get('nicnumber')?.errors?.['required']">NIC number is required.</small>
-          </div>
+    </div>
+    
+    <!-- Row for Gender and User Role -->
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="gender">
+          <i class="fa fa-genderless"></i> Gender
+        </label>
+        <select id="gender" formControlName="gender" class="form-control">
+          <option value="" disabled>Select Gender</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="role">
+          <i class="fa fa-user-tag"></i> User Role
+        </label>
+        <select id="role" formControlName="role" class="form-control">
+          <option value=1>User</option>
+          <option value=2>Admin</option>
+        </select>
+      </div>
+    </div>
+    
+    <!-- Row for NIC Number -->
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="nicnumber">
+          <i class="fa fa-id-card"></i> NIC Number
+        </label>
+        <div class="input-group">
+       
+          <input id="nicnumber" type="text" formControlName="nicnumber" class="form-control" />
         </div>
+        <div class="alert alert-danger" *ngIf="isFieldInvalid('nicnumber')">
+          <small *ngIf="registerForm.get('nicnumber')?.errors?.['required']">NIC number is required.</small>
+        </div>
+      </div>
     </div>
   
-      <!-- Row for Address -->
-      <div class="form-row">
+    <!-- Row for Address -->
+    <div formGroupName="address">
+      <div class="row"> 
         <div class="form-group col-md-4">
-          <label for="firstLine">Address Line 1</label>
-          <input id="firstLine" type="text" formControlName="address.firstLine" class="form-control" />
-        </div>
-        <div class="form-group col-md-4">
-          <label for="secondLine">Address Line 2</label>
-          <input id="secondLine" type="text" formControlName="address.secondLine" class="form-control" />
-        </div>
-        <div class="form-group col-md-4">
-          <label for="city">City</label>
-          <input id="city" type="text" formControlName="address.city" class="form-control" />
-        </div>
-      </div>
-  
-      <!-- Row for Password -->
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label for="password">Password</label>
+          <label for="city">
+            <i class="fa fa-city"></i> City
+          </label>
           <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text"><i class="fa fa-lock"></i></span>
-            </div>
-            <input id="password" type="password" formControlName="password" class="form-control" />
+            <input id="city" type="text" formControlName="city" class="form-control" />
           </div>
-          <div class="alert alert-danger" *ngIf="isFieldInvalid('password')">
-            <small *ngIf="registerForm.get('password')?.errors?.['required']">Password is required.</small>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="firstLine">
+            <i class="fa fa-map-marker-alt"></i> First Line
+          </label>
+          <div class="input-group">
+            <input id="firstLine" type="text" formControlName="firstLine" class="form-control" />
+          </div>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="secondLine">
+            <i class="fa fa-map-marker-alt"></i> Second Line
+          </label>
+          <div class="input-group">
+            <input id="secondLine" type="text" formControlName="secondLine" class="form-control" />
           </div>
         </div>
       </div>
+    </div>
   
-      <!-- Submit Button -->
-      <div class="form-row">
-        <div class="form-group col-12 text-center">
-          <button type="submit" [disabled]="registerForm.invalid" class="btn btn-primary btn-lg">Register</button>
+    <!-- Row for Password -->
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="password">
+          <i class="fa fa-lock"></i> Password
+        </label>
+        <div class="input-group">
+          <input id="password" type="password" formControlName="password" class="form-control" />
+        </div>
+        <div class="alert alert-danger" *ngIf="isFieldInvalid('password')">
+          <small *ngIf="registerForm.get('password')?.errors?.['required']">Password is required.</small>
         </div>
       </div>
-    </form>
-  </div>
+
+      <div class="form-group col-md-6">
+        <label for="password">
+          <i class="fa fa-lock"></i>Confirm Password
+        </label>
+        <div class="input-group">
+          <input id="password" type="password" formControlName="conpassword" class="form-control" />
+        </div>
+        <div class="alert alert-danger" *ngIf="isFieldInvalid('conpassword')">
+          <small *ngIf="registerForm.get('password')?.errors?.['required']">Password is required.</small>
+        </div>
+      </div>
+    </div>
   
+    <p>Is initial fee paid? Handle a payment here while initial fee on registration.</p>
+  
+    <!-- Submit Button -->
+    <div class="form-row">
+      <div class="form-group col-12 text-center">
+        <button type="submit" [disabled]="registerForm.invalid" class="btn btn-primary btn-lg">Register</button>
+      </div>
+    </div>
+  </form>
+</div>

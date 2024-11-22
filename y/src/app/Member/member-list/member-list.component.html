@@ -15,7 +15,7 @@
       </button>
     </div>
 
-    <button [routerLink]="['/addnewuser']" class="rounded btn btn-outline-secondary">
+    <button [routerLink]="['/admin/Member-add']" class="rounded btn btn-outline-secondary">
       Add new user <i class="bi bi-ui-checks"></i>
     </button>
   </div>
@@ -36,30 +36,30 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let user of users | userSearch: searchTerm">
+      <tr *ngFor="let user of users | userSearch: searchTerm;let i = index">
         <td>{{ user.id }}</td>
         <td>{{ user.name }}</td>
         <td>{{ user.email }}</td>
-        <td>{{ user.role }}</td>
+        <td>{{ getRoleName(user.role) }}</td>
         <td>{{ user.nicnumber }}</td>
         <td>{{ user.address.city  }}</td>
         <td>{{ user.fees | currency }}</td>
         <td>{{ user.isActivated ? 'Active' : 'Inactive' }}</td>
         <td>{{ user.expiryDate | date: 'short' }}</td>
         <td class="p-2">
-          <button class="rounded btn btn-outline-primary mx-1" [routerLink]="['/edit-user/' + user.id]">
+          <button class="rounded btn btn-outline-primary mx-1" [routerLink]="['/admin/member/' + user.id]">
             <i class="bi bi-pencil"></i>Edit
           </button>
-          <button class="rounded btn btn-outline-danger mx-1" (click)="Deleteuser(user.id)">
+          <button class="rounded btn btn-outline-danger mx-1" (click)="Deleteuser(user.id , i)">
             Delete <i class="bi bi-trash"></i>
           </button>
-          <button class="rounded btn btn-outline-danger mx-1" (click)="Deleteuser(user.id)">
+          <!-- <button class="rounded btn btn-outline-danger mx-1" (click)="Deleteuser(user.id)">
             enroll<i class="bi bi-trash"></i>
-          </button>
+          </button> -->
         </td>
       </tr>
     </tbody>
   </table>
 
-  <button type="button" class="btn btn-primary" (click)="openModalWithComponent()">Create modal with component</button>
+ 
 </div>

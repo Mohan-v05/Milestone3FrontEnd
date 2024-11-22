@@ -37,10 +37,19 @@ export class GymManagementSystemService {
     return this.http.get<User[]>(this.userUrl+"/Getall")
   }
   Deleteuser(id:number){
-    return this.http.delete(this.userUrl+id);
+    return this.http.delete("http://localhost:5159/api/User/"+id);
   }
-
-
+  getMemberById(id: number) {
+    return this.http.get<User>(`http://localhost:5159/api/User/GetUserbyId/${id}`);
+  }
+  
+  updateMember(id: number, data: any) {
+    return this.http.put(`/api/User/${id}`, data);
+  }
+  
+  addMember(data: any) {
+    return this.http.post('http://localhost:5159/api/User/addNewUser', data);
+  }
 
   //Get all payments
   GetAllPayments(){
@@ -72,7 +81,7 @@ export interface User {
   id: number; 
   name: string; 
   email: string; 
-  role: number; 
+  role: Role; 
   nicnumber: string; 
   address: address; 
   gender: string; 
@@ -113,4 +122,23 @@ export interface logincredential{
 //Login Response
 export interface LoginResponse {
   token: string;
+}
+ export enum Role
+{
+    Admin=1,
+    Member=2
+}
+
+export enum PaymentType
+{
+    Initialpayment = 1,
+    AnnualSubcribtionrenewal = 2,
+    MonthlySubscribtionrenewal = 3,
+    Other= 4,
+}   
+
+export enum Membershiptype
+{
+    annual=1,
+    monthly=2 
 }

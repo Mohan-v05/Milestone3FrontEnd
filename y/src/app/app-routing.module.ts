@@ -41,6 +41,8 @@ const routes: Routes = [
         path:"Member-add",
         component:MemberAddComponent     
        },
+       { path: 'member/:id', component: MemberAddComponent }, // Edit member route
+       { path: 'Member-add', component: MemberAddComponent } , // Add member route
       {
         path:'WorkoutPrograms-list',
         component:ProgramsListComponent

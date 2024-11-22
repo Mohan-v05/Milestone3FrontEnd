@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { GymManagementSystemService, User } from '../../gym-management-system.service';
+import { GymManagementSystemService, Role, User } from '../../gym-management-system.service';
 import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
 import { MemberAddComponent } from '../member-add/member-add.component';
 
@@ -41,11 +41,15 @@ export class MemberListComponent implements OnInit {
       console.log(this.users);
     });
   }
+  getRoleName(role: Role): string {
+    return Role[role];
+  }
 
-  Deleteuser(userId: number): void {
+  Deleteuser(userId: number , i : number): void {
     console.log(userId)
     this.service.Deleteuser(userId).subscribe((data) => {
       console.log(data);
+      this.users.splice(i , 1);
      // this.Loaduser();  // Reload users after deletion
     });
   }
