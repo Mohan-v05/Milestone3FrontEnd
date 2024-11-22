@@ -23,6 +23,7 @@ import { DashboardComponent } from './Admin/dashboard/dashboard.component';
 import { UserSearchPipe } from './pipe/user-search.pipe';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MemberLayoutComponent } from './Layout/member-layout/member-layout.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { MemberLayoutComponent } from './Layout/member-layout/member-layout.comp
     ReactiveFormsModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
-    NgxChartsModule
+    NgxChartsModule,
+    
   ],
   providers: [ {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     JwtHelperService

@@ -21,7 +21,8 @@ export class LoginComponent implements OnInit {
     private route: Router,
     private fb: FormBuilder,
     private service: GymManagementSystemService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
