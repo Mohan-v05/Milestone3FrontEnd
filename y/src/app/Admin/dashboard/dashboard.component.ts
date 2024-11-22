@@ -5,6 +5,7 @@ import { trigger, style, animate, transition } from '@angular/animations';
 import { jwtDecode } from 'jwt-decode';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -38,6 +39,7 @@ throw new Error('Method not implemented.');
 
   paymentResponse: Payments[] = [];
   UsersResponse: User[] = [];
+  Members:User[]=[];
   ProgramResponse: gprograms[]=[];
 
   // Chart-related properties
@@ -135,9 +137,11 @@ throw new Error('Method not implemented.');
       (data) => {
         console.log(data);
         this.UsersResponse = data
-        this.totalMembersCount=this.UsersResponse.length
-        this.GetActiveMember(this.UsersResponse)
-        this. GetNotPaidMembers(this.UsersResponse)
+        this.Members=data.filter(u=>u.role==2)
+        this.totalMembersCount= this.Members.length
+       
+        this.GetActiveMember( this.Members)
+        this. GetNotPaidMembers( this.Members)
       },
       (err) => {
         console.log(err.error);
@@ -146,12 +150,13 @@ throw new Error('Method not implemented.');
   }
 
   GetActiveMember(Array:User[]){
+    console.log(Array)
     this.activeMembersCount=Array.filter(u=>u.isActivated==true).length
   }
 
   GetNotPaidMembers(users: User[]): void {
     this.membersWithDue = users.filter(
-      (u) => new Date(u.expiryDate).getTime() < Date.now()).length;  
+      (u) => new Date(u.expiryDate).getTime() < Date.now()).length ;
   }
   
 //programs 
@@ -207,7 +212,7 @@ GetAllPrograms(){
 
   constructor(private service: GymManagementSystemService, private Fb:FormBuilder) {
     this.EnrollmentForm=this.Fb.group({
-      UserId:['',Validators.required],
+      UserId:[,Validators.required,],
       Programs:[''],
      
    })
@@ -223,6 +228,9 @@ GetAllPrograms(){
   viewMemberInfo(): void {
     const member = this.UsersResponse.find(u => u.id === Number(this.memberId));
     this.selectedMember=member;
+    this.EnrollmentForm.patchValue({
+      UserId:this.selectedMember.id
+    })
    
   }
 
@@ -233,6 +241,8 @@ GetAllPrograms(){
   //Enroll Members 
   EnrollMemberstoPrograms(){
     this.isenroll=!this.isenroll
+    console.log(this.EnrollmentForm.value)
+    
   }
 
 }
