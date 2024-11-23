@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { GymManagementSystemService, Payments, User, enrollmentreq, gprograms } from '../../gym-management-system.service';
-import { Toast } from 'ngx-toastr';
+import { Toast, ToastrService } from 'ngx-toastr';
 import { trigger, style, animate, transition } from '@angular/animations';
 import { jwtDecode } from 'jwt-decode';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
@@ -24,9 +24,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 
 export class DashboardComponent implements OnInit {
-onSubmit() {
-throw new Error('Method not implemented.');
-}
+
+
   toggleGraph() {
     this.showGraph = !this.showGraph; // Toggle the state
     if (this.showGraph) {
@@ -36,6 +35,8 @@ throw new Error('Method not implemented.');
  
  
   EnrollmentForm: FormGroup;
+  PaymentForm:FormGroup;
+  isPaymentFormVisible:boolean =false;
 
   paymentResponse: Payments[] = [];
   UsersResponse: User[] = [];
@@ -81,13 +82,17 @@ throw new Error('Method not implemented.');
 
   GetAllPayments() {
     this.service.GetAllPayments().subscribe((data) => {
-      console.log(data);
-      this.paymentResponse = data
-      this.calculateIncomes(this.paymentResponse)
+      if (data) {
+        console.log(data);
+        this.paymentResponse = data
+        this.calculateIncomes(this.paymentResponse)
+      }
+      else{
+        console.log("No any Payments")
+      }
     },
       (Err) => {
-        console.log(Err.console.error());
-
+        console.log(Err.console.error())
       })
   };
 
@@ -210,12 +215,22 @@ GetAllPrograms(){
 
 
 
-  constructor(private service: GymManagementSystemService, private Fb:FormBuilder) {
+  constructor(private service: GymManagementSystemService, private Fb:FormBuilder,private toastr:ToastrService) {
     this.EnrollmentForm=this.Fb.group({
       UserId:[,Validators.required,],
-      Programs:[''],
-     
+      Programs:this.Fb.array([])
    })
+
+   this.PaymentForm=this.Fb.group({
+      memberid: [null, [Validators.required]],           
+      amount: [null, [Validators.required, Validators.min(0)]],
+      paymentType: [1, [Validators.required]],       
+      anyDiscount: [0, [Validators.min(0)]],            
+      remarks: [''],                                    
+      recievedBy: [null, [Validators.required]],        
+      quantity: [1, [Validators.required, Validators.min(1)]], 
+    });
+   
    }
 
   ngOnInit(): void {
@@ -223,6 +238,7 @@ GetAllPrograms(){
     this.GetAllPayments(),
     this.GetAllMembers(),
     this.GetAllPrograms()
+   
   }
 
   viewMemberInfo(): void {
@@ -231,18 +247,57 @@ GetAllPrograms(){
     this.EnrollmentForm.patchValue({
       UserId:this.selectedMember.id
     })
-   
+  }
+  OpenPaymentForm(){
+this.isPaymentFormVisible=!this.isPaymentFormVisible
   }
 
-  Enrollmentreq : enrollmentreq={
-    userId: 0,
-    programIds: []
+  onPayment(){
+    console.log('Payment submitted:', this.PaymentForm.value);
   }
-  //Enroll Members 
-  EnrollMemberstoPrograms(){
-    this.isenroll=!this.isenroll
-    console.log(this.EnrollmentForm.value)
-    
+
+  Enrollmentreq: { userId: number; programIds: number[] } = {
+    userId: 0,
+    programIds: [],
+  };
+ 
+  get Programs():FormArray{
+    return this.EnrollmentForm.get('Programs')as FormArray
+  }
+
+  onCheckboxChange(event: any, programId: number) {
+    const programsArray: FormArray = this.Programs;
+    if (event.target.checked) {
+      programsArray.push(this.Fb.control(programId));
+    } else {
+      
+      const index = programsArray.controls.findIndex(
+        (control) => control.value === programId
+      );
+      if (index !== -1) {
+        programsArray.removeAt(index);
+      }
+    }
+  }
+  
+  EnrollMemberstoPrograms() {
+    this.isenroll = !this.isenroll; 
+  }
+  postdata(){
+    this.Enrollmentreq.userId = this.EnrollmentForm.value.UserId;
+    this.Enrollmentreq.programIds = this.Programs.value;
+    this.service.AddEnrollments(this.Enrollmentreq).subscribe(
+      (data) => {
+        this.toastr.success('Enrollment successful', 'Success');
+        console.log(data);
+      },
+      (err) => {
+        this.toastr.error(err.error, 'Error');
+      }
+    );
+    console.log('Enrollment Request:', this.Enrollmentreq);
   }
 
 }
+
+

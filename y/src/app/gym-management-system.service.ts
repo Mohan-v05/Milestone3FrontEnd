@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { JwtPayload } from 'jwt-decode';
 import { Observable } from 'rxjs'
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,8 @@ export class GymManagementSystemService {
   Programurl= "http://localhost:5159/api/GymPrograms"
   userUrl="http://localhost:5159/api/User"
   paymentUrl='http://localhost:5159/api/Payment'
+  EnrollmentsUrl='http://localhost:5159/api/Enrollement'
+
   constructor(private http:HttpClient) { }
 
  login(logincredential:logincredential){
@@ -48,14 +51,21 @@ export class GymManagementSystemService {
   }
   
   addMember(data: any) {
-    return this.http.post('http://localhost:5159/api/User/addNewUser', data);
+    return this.http.post<User>('http://localhost:5159/api/User/addNewUser', data);
   }
 
   //Get all payments
   GetAllPayments(){
-    console.log("Get all Paymnets api COnnected")
-    return this.http.get<Payments[]>(this.paymentUrl)
+   var data=this.http.get<Payments[]>(this.paymentUrl)
+    return data
   }
+ 
+  AddEnrollments(Enrollmentreq:enrollmentreq){
+    var data= this.http.post(this.EnrollmentsUrl,Enrollmentreq)
+    return data
+  }
+
+
 }
 
 //Export Enrollment Model
@@ -86,10 +96,15 @@ export interface User {
   address: address; 
   gender: string; 
   passwordHashed: string; 
-  enrollment: string | null;
+  enrollment: any[];
   fees: number;
   isActivated: boolean; 
   expiryDate: string; 
+}
+export enum PaymentType {
+  InitialPayment = 1,
+  Monthly = 2,
+  Annual = 3
 }
 
 export interface address{
@@ -141,4 +156,11 @@ export enum Membershiptype
 {
     annual=1,
     monthly=2 
+}
+
+
+// Interface for the decoded token structure
+interface DecodedToken extends JwtPayload {
+  Name?: string; 
+  Role:string;
 }

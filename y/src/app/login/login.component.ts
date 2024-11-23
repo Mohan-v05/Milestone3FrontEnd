@@ -63,7 +63,20 @@ export class LoginComponent implements OnInit {
           this.routeBasedOnRole();
         },
         err => {
-          this.toastr.error(err.error);
+          // Handle errors based on backend response
+          if (err.error && err.error.message) {
+            const backendMessage = err.error.message.toLowerCase();
+            if (backendMessage.includes("user not found")) {
+              this.toastr.error("User not found. Please register or check your email.");
+            } else if (backendMessage.includes("incorrect password")) {
+              this.toastr.error("Incorrect password. Please try again.");
+            } else {
+              this.toastr.error("An unexpected error occurred. Please try again later.");
+            }
+          } else {
+            // Generic error handling
+            this.toastr.error("Unable to process your request. Check your network connection.");
+          }
         }
       );
     } else {

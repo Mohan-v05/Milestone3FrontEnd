@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';  // Import necessary services
 
 import { GymManagementSystemService } from '../../gym-management-system.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-member-add',
@@ -18,7 +19,8 @@ export class MemberAddComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,  // To get route parameters
     private memberService: GymManagementSystemService,  // Service to interact with API
-    private router: Router
+    private router: Router,
+    private taostr:ToastrService
   ) {
     this.registerForm = this.fb.group({
       name: ['', [Validators.required]],
@@ -114,6 +116,7 @@ export class MemberAddComponent implements OnInit {
           this.memberService.addMember(formData).subscribe(
             (response) => {
               console.log('Member added:', response);
+              this.taostr.success(response.name+"Added succesful")
              // this.router.navigate(['/member']);  // Navigate to members list or dashboard
             },
             (error) => {

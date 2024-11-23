@@ -1,5 +1,54 @@
 <div class="container mt-5">
-
+  <div class="modal fade show" tabindex="-1" *ngIf="isPaymentFormVisible" style="display: block;" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h5 class="modal-title">Payment Form</h5>
+          <button type="button" class="btn-close" (click)="OpenPaymentForm()"></button>
+        </div>
+        <!-- Modal Body -->
+        <div class="modal-body">
+          <form (ngSubmit)="onPayment()" #paymentForm="ngForm">
+            <div class="mb-3">
+              <label for="memberid" class="form-label">Member ID</label>
+              <input type="number" class="form-control" id="memberid" name="memberid" ngModel required>
+            </div>
+            <div class="mb-3">
+              <label for="amount" class="form-label">Amount</label>
+              <input type="number" class="form-control" id="amount" name="amount" ngModel required>
+            </div>
+            <div class="mb-3">
+              <label for="paymentType" class="form-label">Payment Type</label>
+              <select class="form-select" id="paymentType" name="paymentType" ngModel required>
+                <option [value]="1">Credit</option>
+                <option [value]="2">Debit</option>
+                <option [value]="3">Cash</option>
+                <option [value]="4">Online</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="anyDiscount" class="form-label">Discount</label>
+              <input type="number" class="form-control" id="anyDiscount" name="anyDiscount" ngModel>
+            </div>
+            <div class="mb-3">
+              <label for="remarks" class="form-label">Remarks</label>
+              <textarea class="form-control" id="remarks" name="remarks" ngModel rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="recievedBy" class="form-label">Received By (Staff ID)</label>
+              <input type="number" class="form-control" id="recievedBy" name="recievedBy" ngModel required>
+            </div>
+            <div class="mb-3">
+              <label for="quantity" class="form-label">Quantity</label>
+              <input type="number" class="form-control" id="quantity" name="quantity" ngModel required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Submit Payment</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
     <div class="row">
       <!-- Total Gym Revenue Block -->
@@ -143,7 +192,8 @@
 class="container member-info-container shadow-lg rounded p-4"
 [@fadeInOut]>
 <div class="row ">
-<div class="col-md-6">
+
+<div class="col-md-4">
 <h3 class="text-danger mb-4">Member Details</h3>
 <p><strong class="text-light">Name : </strong> <span class="text-danger">{{ selectedMember?.name }}</span></p>
 <p><strong class="text-light">Email: </strong> <span class="text-danger">{{ selectedMember?.email }}</span></p>
@@ -158,37 +208,62 @@ class="container member-info-container shadow-lg rounded p-4"
 <p><strong class="text-light">City: </strong> <span class="text-danger">{{ selectedMember?.address?.city }}</span></p>
 </div>
 
-<div class="col-md-6">
+<div class="col-md-4">
 
-  <Button  class="btn btn-outline-danger" 
-  (click)="EnrollMemberstoPrograms()">
-  {{ isenroll ? 'Close ' : 'ClickHeretoenroll' }}
+  <Button class="btn btn-outline-danger" (click)="EnrollMemberstoPrograms()">
+    {{ isenroll ? 'Close ' : 'Click Here to Enroll' }}
   </Button>
-
-  <div *ngIf="isenroll">
+  
+  <div
+    class="container shadow p-3 mb-5 bg-body-tertiary rounded border border-info text-black"
+    *ngIf="isenroll"
+  >
     <h4>Select Programs</h4>
-
-    <form [formGroup]="EnrollmentForm" (ngSubmit)="onSubmit()">
-      <!-- UserId input field -->
+  
+    <form [formGroup]="EnrollmentForm" (ngSubmit)="  postdata()">
+    
       <div>
         <label for="userId">User ID</label>
-        <input id="userId" formControlName="UserId" type="number">
+        <input id="userId" formControlName="UserId" type="number" />
       </div>
-    
-      <!-- Programs selection with checkboxes -->
-      <div *ngFor="let program of ProgramResponse">
-        <input type="checkbox" [formControlName]="program.id" [value]="program.id">
-        <label>{{ program.name }}</label>
+  
+     
+      <div formArrayName="Programs">
+        <div *ngFor="let program of ProgramResponse; let i = index">
+          <label>
+            <input
+              type="checkbox"
+              [value]="program.id"
+              (change)="onCheckboxChange($event, program.id)"
+            />
+            {{ program.name }}
+          </label>
+        </div>
       </div>
-    
-      <button type="submit" [disabled]="EnrollmentForm.invalid">Submit</button>
+  
+      <button type="submit" [disabled]="EnrollmentForm.invalid">
+        Submit
+      </button>
     </form>
+  </div>
+  <div>
+    <h5>
+      View enrolled programs
+    </h5>
   </div>
 
 </div>
+ 
+<div class="col-md-4">
+  <button class="btn btn-outline-danger" (click)="OpenPaymentForm()">Make a payment</button>
 
+  <!-- Modal -->
+ 
 
+    </div>
+  
 </div>
+
 </div>
 </div>
   

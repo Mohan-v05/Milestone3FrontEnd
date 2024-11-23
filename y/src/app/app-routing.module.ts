@@ -9,6 +9,8 @@ import { RegisterComponent } from './Register/register/register.component';
 import { authGuard } from './auth.guard';
 import { DashboardComponent } from './Admin/dashboard/dashboard.component';
 import { MemberAddComponent } from './Member/member-add/member-add.component';
+import { AddPaymentComponent } from './add-payment/add-payment.component';
+import { PaymentReportsComponent } from './payment-reports/payment-reports.component';
 
 
 
@@ -41,16 +43,17 @@ const routes: Routes = [
         path:"Member-add",
         component:MemberAddComponent     
        },
-       { path: 'member/:id', component: MemberAddComponent }, // Edit member route
-       { path: 'Member-add', component: MemberAddComponent } , // Add member route
-      {
-        path:'WorkoutPrograms-list',
-        component:ProgramsListComponent
-      },
+       { path: 'member/:id', component: MemberAddComponent }, 
+       { path: 'Member-add', component: MemberAddComponent } , 
+
+      { path:'WorkoutPrograms-list',   component:ProgramsListComponent},
       {
         path:'Dashboard',
         component:DashboardComponent
-      }
+      },
+
+      { path:'Add-Payment', component:AddPaymentComponent},
+      {path:'list-Payments',component:PaymentReportsComponent}
     ]
   },
  

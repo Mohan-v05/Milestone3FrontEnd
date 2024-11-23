@@ -24,6 +24,10 @@ import { UserSearchPipe } from './pipe/user-search.pipe';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MemberLayoutComponent } from './Layout/member-layout/member-layout.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { AddPaymentComponent } from './add-payment/add-payment.component';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import { PaymentReportsComponent } from './payment-reports/payment-reports.component';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -38,8 +42,9 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     DashboardComponent,
     UserSearchPipe,
     MemberLayoutComponent,
-  
-    
+    AddPaymentComponent,
+    PaymentReportsComponent,
+   
   ],
   imports: [
     BrowserModule,
@@ -52,7 +57,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     NgxChartsModule,
-    
+    MatPaginatorModule,
+    MatTableModule
   ],
   providers: [ {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     JwtHelperService

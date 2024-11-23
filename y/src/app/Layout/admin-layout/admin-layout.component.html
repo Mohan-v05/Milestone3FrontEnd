@@ -13,9 +13,9 @@
             <h3 class="company-name">UnicomFitness</h3>
           </div>
           
-          <!-- Logged-in User in the Right -->
+        
           <div>
-            <span>Welcome, {{ loggedInUser }}</span>
+            <span>Welcome, {{ loggedInUser }} <i class="fa-regular fa-user"></i></span>
           </div>
         </div>
       </header>
@@ -58,6 +58,15 @@
                 <i class="bi bi-person"></i> User Management
               </a>
             </li>
+
+            <li class="nav-item">
+              <a class="nav-link text-white" routerLink="/admin/list-Payments" routerLinkActive="active">
+                <i class="fa-solid fa-money-bill-transfer"></i> Payment 
+              </a>
+            </li>
+
+          
+
             <li class="nav-item">
               <a class="nav-link text-white" routerLink="settings" routerLinkActive="active">
                 <i class="bi bi-gear"></i> Settings
