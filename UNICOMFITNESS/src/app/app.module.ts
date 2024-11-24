@@ -56,7 +56,6 @@ import { A11yModule } from '@angular/cdk/a11y';
     NgFor,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    
     ToastrModule.forRoot(),
     NgxChartsModule,
     MatPaginatorModule,

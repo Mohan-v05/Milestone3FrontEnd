@@ -21,9 +21,9 @@
             <div class="mb-3">
               <label for="paymentType" class="form-label">Payment Type</label>
               <select class="form-select" id="paymentType" formControlName="paymentType">
-                <option [value]="1">Initial</option>
-                <option [value]="2">Annual</option>
-                <option [value]="3">Monthly Subscription renewal</option>
+                <option [value]="1">Advance Fee For Activation</option>
+                <option [value]="2">Annual Subscription Renewal</option>
+                <option [value]="3">Monthly Subscription Renewal</option>
               </select>
             </div>
             <div class="mb-3">
@@ -48,6 +48,7 @@
       </div>
     </div>
   </div>
+
 
   <div class="row">
     <!-- Total Gym Revenue Block -->
@@ -222,12 +223,15 @@
             </form>
           </div>
           <div>
-            <h5>View enrolled programs</h5>
+            <h5>
+            Enrolled Program
+            
+            </h5>
           </div>
         </div>
 
         <div class="col-md-4">
-          <button class="btn btn-outline-danger" (click)="OpenPaymentForm()">Make a payment</button>
+          <button class="btn btn-outline-danger" (click)="openModalWithComponent()">Make a payment</button>
         </div>
       </div>
     </div>

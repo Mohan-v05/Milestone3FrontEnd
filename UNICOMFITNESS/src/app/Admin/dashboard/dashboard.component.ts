@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { GymManagementSystemService, Payments, User, enrollmentreq, gprograms } from '../../gym-management-system.service';
 import { Toast, ToastrService } from 'ngx-toastr';
 import { trigger, style, animate, transition } from '@angular/animations';
-import { jwtDecode } from 'jwt-decode';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
+import { AddPaymentComponent } from '../../add-payment/add-payment.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,6 +23,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
   ]
 })
 export class DashboardComponent implements OnInit {
+  bsModalRef!: BsModalRef;
 
   toggleGraph() {
     this.showGraph = !this.showGraph; // Toggle the state
@@ -196,7 +198,11 @@ export class DashboardComponent implements OnInit {
     ));
   }
 
-  constructor(private service: GymManagementSystemService, private Fb: FormBuilder, private toastr: ToastrService) {
+  constructor(private service: GymManagementSystemService,
+     private Fb: FormBuilder,
+     private toastr: ToastrService,
+     private modalService:BsModalService
+    ) {
     this.EnrollmentForm = this.Fb.group({
       UserId: [, Validators.required],
       Programs: this.Fb.array([])
@@ -228,6 +234,15 @@ export class DashboardComponent implements OnInit {
 
   OpenPaymentForm() {
     this.isPaymentFormVisible = !this.isPaymentFormVisible;
+  }
+  openModalWithComponent() {
+    const initialState: ModalOptions = {
+      initialState: {
+      }
+    };
+    this.bsModalRef = this.modalService.show(AddPaymentComponent);
+    this.bsModalRef.content.closeBtnName = 'Close';
+    
   }
 
   onPayment() {
@@ -268,6 +283,7 @@ export class DashboardComponent implements OnInit {
   }
 
   EnrollMemberstoPrograms() {
+    
     this.isenroll = !this.isenroll;
   }
 
