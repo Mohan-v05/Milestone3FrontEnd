@@ -47,10 +47,7 @@ const routes: Routes = [
        { path: 'Member-add', component: MemberAddComponent } , 
 
       { path:'WorkoutPrograms-list',   component:ProgramsListComponent},
-      {
-        path:'Dashboard',
-        component:DashboardComponent
-      },
+      { path:'Dashboard', component:DashboardComponent},
 
       { path:'Add-Payment', component:AddPaymentComponent},
       {path:'list-Payments',component:PaymentReportsComponent}

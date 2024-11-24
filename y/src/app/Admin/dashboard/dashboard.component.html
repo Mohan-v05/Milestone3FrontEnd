@@ -9,39 +9,38 @@
         </div>
         <!-- Modal Body -->
         <div class="modal-body">
-          <form (ngSubmit)="onPayment()" #paymentForm="ngForm">
+          <form [formGroup]="PaymentForm" (ngSubmit)="onPayment()">
             <div class="mb-3">
               <label for="memberid" class="form-label">Member ID</label>
-              <input type="number" class="form-control" id="memberid" name="memberid" ngModel required>
+              <input type="number" class="form-control" id="memberid" formControlName="memberid">
             </div>
             <div class="mb-3">
               <label for="amount" class="form-label">Amount</label>
-              <input type="number" class="form-control" id="amount" name="amount" ngModel required>
+              <input type="number" class="form-control" id="amount" formControlName="amount">
             </div>
             <div class="mb-3">
               <label for="paymentType" class="form-label">Payment Type</label>
-              <select class="form-select" id="paymentType" name="paymentType" ngModel required>
-                <option [value]="1">Credit</option>
-                <option [value]="2">Debit</option>
-                <option [value]="3">Cash</option>
-                <option [value]="4">Online</option>
+              <select class="form-select" id="paymentType" formControlName="paymentType">
+                <option [value]="1">Initial</option>
+                <option [value]="2">Annual</option>
+                <option [value]="3">Monthly Subscription renewal</option>
               </select>
             </div>
             <div class="mb-3">
               <label for="anyDiscount" class="form-label">Discount</label>
-              <input type="number" class="form-control" id="anyDiscount" name="anyDiscount" ngModel>
+              <input type="number" class="form-control" id="anyDiscount" formControlName="anyDiscount">
             </div>
             <div class="mb-3">
               <label for="remarks" class="form-label">Remarks</label>
-              <textarea class="form-control" id="remarks" name="remarks" ngModel rows="3"></textarea>
+              <textarea class="form-control" id="remarks" formControlName="remarks" rows="3"></textarea>
             </div>
             <div class="mb-3">
               <label for="recievedBy" class="form-label">Received By (Staff ID)</label>
-              <input type="number" class="form-control" id="recievedBy" name="recievedBy" ngModel required>
+              <input type="number" class="form-control" id="recievedBy" formControlName="recievedBy">
             </div>
             <div class="mb-3">
               <label for="quantity" class="form-label">Quantity</label>
-              <input type="number" class="form-control" id="quantity" name="quantity" ngModel required>
+              <input type="number" class="form-control" id="quantity" formControlName="quantity">
             </div>
             <button type="submit" class="btn btn-primary w-100">Submit Payment</button>
           </form>
@@ -50,220 +49,187 @@
     </div>
   </div>
 
-    <div class="row">
-      <!-- Total Gym Revenue Block -->
-      <div class="col-md-2">
-        <div class="card bg-white text-dark shadow-sm mb-4">
-          <div class="card-body d-flex align-items-center">
-            <div class="input-group-prepend">
-              <h5>Gym Revenue</h5>
-              <span class="input-group-text">{{ totalGymRevenue | currency:'LKR ' }}</span>
-            </div>
+  <div class="row">
+    <!-- Total Gym Revenue Block -->
+    <div class="col-md-2">
+      <div class="card bg-white text-dark shadow-sm mb-4">
+        <div class="card-body d-flex align-items-center">
+          <div class="input-group-prepend">
+            <h5>Gym Revenue</h5>
+            <span class="input-group-text">{{ totalGymRevenue | currency:'LKR ' }}</span>
           </div>
         </div>
       </div>
-  
-      <!-- Monthly Income Block -->
-      <div class="col-md-2">
-        <div class="card bg-white text-dark shadow-sm mb-4">
-          <div class="card-body align-items-center">
-            <div class="input-group-prepend">
-              <h5>Monthly Income</h5>
-              <span class="input-group-text">{{ monthlyIncome | currency:'LKR ' }}</span>
-              </div>
-              <div class="mt-1">
-              <button 
-              class="btn btn-primary" 
-              (click)="toggleGraph()">
+    </div>
+
+    <!-- Monthly Income Block -->
+    <div class="col-md-2">
+      <div class="card bg-white text-dark shadow-sm mb-4">
+        <div class="card-body align-items-center">
+          <div class="input-group-prepend">
+            <h5>Monthly Income</h5>
+            <span class="input-group-text">{{ monthlyIncome | currency:'LKR ' }}</span>
+          </div>
+          <div class="mt-1">
+            <button class="btn btn-primary" (click)="toggleGraph()">
               {{ showGraph ? 'Close Graph' : 'View Graph' }}
             </button>
-            </div> 
-          </div>
-        </div>
-      </div>
-  
-      <!-- Annual Income Block -->
-      <div class="col-md-2">
-        <div class="card bg-white text-dark shadow-sm mb-4">
-          <div class="card-body d-flex align-items-center">
-            <span class="input-group-text"> 
-              <i class="fa-sharp fa-solid fa-money-bill-trend-up"></i> 
-             </span>
-            <div class="ml-3">
-              <h5>Annual Income</h5>
-              <span class="input-group-text"> {{ annualIncome | currency:'LKR ' }} </span>
-            </div>
-          </div>
-        </div>
-      </div>
-  
-      <!-- Daily Income Block -->
-      <div class="col-md-2">
-        <div class="card bg-white text-dark shadow-sm mb-4">
-          <div class="card-body d-flex align-items-center">
-            <span class="input-group-text"> 
-              <i class="fas fa-calendar-day fa-2x"></i> </span>
-            <div class="ml-3">
-              <h5>Today Income</h5>
-              <span class="input-group-text"> {{ dailyIncome | currency:'LKR ' }}</span>
-            </div>
           </div>
         </div>
       </div>
     </div>
-  
-    <div class="row">
-        <!-- Total Members Count Block -->
-        <div class="col-md-2">
-          <div class="card bg-white text-dark shadow-sm mb-4">
-            <div class="card-body d-flex align-items-center">
-              <i class="fas fa-users fa-2x"></i> <!-- Smaller icon -->
-              <div class="ml-3">
-                <h4>Total Members</h4>
-                <p>{{ totalMembersCount }}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-    
-        <!-- Active Members Block -->
-        <div class="col-md-2">
-          <div class="card bg-white text-dark shadow-sm mb-4">
-            <div class="card-body d-flex align-items-center">
-              <i class="fa-solid fa-users"></i>
-              <!-- Smaller icon -->
-              <div class="ml-3">
-                <h4>Active Members</h4>
-                <p>{{ activeMembersCount }}</p>
-              </div>
-            </div>
-          </div>
-        </div>
 
-      <!-- View Member Info by ID Block -->
-      <div class="col-md-3">
-        <div class="card bg-light shadow-sm mb-4">
-          <div class="card-body">
-            <h4>View Member Info</h4>
-            <input type="text" placeholder="Enter Member ID" class="form-control" [(ngModel)]="memberId" (keyup)="viewMemberInfo()">
+    <!-- Annual Income Block -->
+    <div class="col-md-2">
+      <div class="card bg-white text-dark shadow-sm mb-4">
+        <div class="card-body d-flex align-items-center">
+          <span class="input-group-text">
+            <i class="fa-sharp fa-solid fa-money-bill-trend-up"></i>
+          </span>
+          <div class="ml-3">
+            <h5>Annual Income</h5>
+            <span class="input-group-text">{{ annualIncome | currency:'LKR ' }}</span>
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="col-md-2">
-        <div class="card bg-white text-dark shadow-sm mb-4">
-          <div class="card-body d-flex align-items-center">
-            <i class="fa-solid fa-users"></i>
-            <!-- Smaller icon -->
-            <div class="ml-3">
-              <h4>Not Paid Members</h4>
-              <p>{{ membersWithDue }}</p>
-            </div>
+    <!-- Daily Income Block -->
+    <div class="col-md-2">
+      <div class="card bg-white text-dark shadow-sm mb-4">
+        <div class="card-body d-flex align-items-center">
+          <span class="input-group-text">
+            <i class="fas fa-calendar-day fa-2x"></i>
+          </span>
+          <div class="ml-3">
+            <h5>Today Income</h5>
+            <span class="input-group-text">{{ dailyIncome | currency:'LKR ' }}</span>
           </div>
         </div>
       </div>
-
-
     </div>
   </div>
 
+  <div class="row">
+    <!-- Total Members Count Block -->
+    <div class="col-md-2">
+      <div class="card bg-white text-dark shadow-sm mb-4">
+        <div class="card-body d-flex align-items-center">
+          <i class="fas fa-users fa-2x"></i>
+          <div class="ml-3">
+            <h4>Total Members</h4>
+            <p>{{ totalMembersCount }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Members Block -->
+    <div class="col-md-2">
+      <div class="card bg-white text-dark shadow-sm mb-4">
+        <div class="card-body d-flex align-items-center">
+          <i class="fa-solid fa-users"></i>
+          <div class="ml-3">
+            <h4>Active Members</h4>
+            <p>{{ activeMembersCount }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- View Member Info by ID Block -->
+    <div class="col-md-3">
+      <div class="card bg-light shadow-sm mb-4">
+        <div class="card-body">
+          <h4>View Member Info</h4>
+          <input type="text" placeholder="Enter Member ID" class="form-control" [(ngModel)]="memberId" (keyup)="viewMemberInfo()">
+        </div>
+      </div>
+    </div>
+
+    <!-- Not Paid Members Block -->
+    <div class="col-md-2">
+      <div class="card bg-white text-dark shadow-sm mb-4">
+        <div class="card-body d-flex align-items-center">
+          <i class="fa-solid fa-users"></i>
+          <div class="ml-3">
+            <h4>Not Paid Members</h4>
+            <p>{{ membersWithDue }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Graph Block -->
   <div *ngIf="showGraph">
     <ngx-charts-bar-vertical
-    [view]="view"
-    [scheme]="colorScheme"
-    [results]="single"
-    [gradient]="gradient"
-    [xAxis]="showXAxis"
-    [yAxis]="showYAxis"
-    [legend]="showLegend"
-    [showXAxisLabel]="showXAxisLabel"
-    [showYAxisLabel]="showYAxisLabel"
-    [xAxisLabel]="xAxisLabel"
-    [yAxisLabel]="yAxisLabel">
-  </ngx-charts-bar-vertical>
+      [view]="view"
+      [scheme]="colorScheme"
+      [results]="single"
+      [gradient]="gradient"
+      [xAxis]="showXAxis"
+      [yAxis]="showYAxis"
+      [legend]="showLegend"
+      [showXAxisLabel]="showXAxisLabel"
+      [showYAxisLabel]="showYAxisLabel"
+      [xAxisLabel]="xAxisLabel"
+      [yAxisLabel]="yAxisLabel">
+    </ngx-charts-bar-vertical>
   </div>
-  <!-- Button to Show Member Info -->
 
+  <!-- Member Info Container -->
+  <div class="Showoff">
+    <div *ngIf="selectedMember" class="container member-info-container shadow-lg rounded p-4" [@fadeInOut]>
+      <div class="row">
+        <div class="col-md-4">
+          <h3 class="text-danger mb-4">Member Details</h3>
+          <p><strong class="text-light">Name : </strong><span class="text-danger">{{ selectedMember?.name }}</span></p>
+          <p><strong class="text-light">Email: </strong><span class="text-danger">{{ selectedMember?.email }}</span></p>
+          <p><strong class="text-light">Gender: </strong><span class="text-danger">{{ selectedMember?.gender }}</span></p>
+          <p><strong class="text-light">NIC Number: </strong><span class="text-danger">{{ selectedMember?.nicnumber }}</span></p>
+          <p><strong class="text-light">Fees: </strong><span class="text-danger">{{ selectedMember?.fees | currency }}</span></p>
+          <p><strong class="text-light">Membership End Date: </strong><span class="text-danger">{{ selectedMember?.expiryDate | date }}</span></p>
+          <hr class="border border-danger">
+          <h5 class="text-light">Address</h5>
+          <p><strong class="text-light">First Line: </strong><span class="text-danger">{{ selectedMember?.address?.firstLine }}</span></p>
+          <p><strong class="text-light">Second Line: </strong><span class="text-danger">{{ selectedMember?.address?.secondLine }}</span></p>
+          <p><strong class="text-light">City: </strong><span class="text-danger">{{ selectedMember?.address?.city }}</span></p>
+        </div>
 
-<!-- Member Info Container -->
-<div class="Showoff">
-<div 
-*ngIf="selectedMember" 
-class="container member-info-container shadow-lg rounded p-4"
-[@fadeInOut]>
-<div class="row ">
+        <div class="col-md-4">
+          <button class="btn btn-outline-danger" (click)="EnrollMemberstoPrograms()">
+            {{ isenroll ? 'Close ' : 'Click Here to Enroll' }}
+          </button>
+          <div class="container shadow p-3 mb-5 bg-body-tertiary rounded border border-info text-black" *ngIf="isenroll">
+            <h4>Select Programs</h4>
+            <form [formGroup]="EnrollmentForm" (ngSubmit)="postdata()">
+              <div>
+                <label for="userId">User ID</label>
+                <input id="userId" formControlName="UserId" type="number" />
+              </div>
 
-<div class="col-md-4">
-<h3 class="text-danger mb-4">Member Details</h3>
-<p><strong class="text-light">Name : </strong> <span class="text-danger">{{ selectedMember?.name }}</span></p>
-<p><strong class="text-light">Email: </strong> <span class="text-danger">{{ selectedMember?.email }}</span></p>
-<p><strong class="text-light">Gender: </strong> <span class="text-danger">{{ selectedMember?.gender }}</span></p>
-<p><strong class="text-light">NIC Number: </strong> <span class="text-danger">{{ selectedMember?.nicnumber }}</span></p>
-<p><strong class="text-light">Fees: </strong> <span class="text-danger">{{ selectedMember?.fees | currency }}</span></p>
-<p><strong class="text-light">Memebership End Date: </strong> <span class="text-danger">{{ selectedMember?.expiryDate | date }}</span></p>
-<hr class="border border-danger">
-<h5 class="text-light">Address</h5>
-<p><strong class="text-light">First Line: </strong> <span class="text-danger">{{ selectedMember?.address?.firstLine }}</span></p>
-<p><strong class="text-light">Second Line: </strong> <span class="text-danger">{{ selectedMember?.address?.secondLine }}</span></p>
-<p><strong class="text-light">City: </strong> <span class="text-danger">{{ selectedMember?.address?.city }}</span></p>
-</div>
+              <div formArrayName="Programs">
+                <div *ngFor="let program of ProgramResponse; let i = index">
+                  <label>
+                    <input type="checkbox" [value]="program.id" (change)="onCheckboxChange($event, program.id)" />
+                    {{ program.name }}
+                  </label>
+                </div>
+              </div>
 
-<div class="col-md-4">
+              <button type="submit" [disabled]="EnrollmentForm.invalid">Submit</button>
+            </form>
+          </div>
+          <div>
+            <h5>View enrolled programs</h5>
+          </div>
+        </div>
 
-  <Button class="btn btn-outline-danger" (click)="EnrollMemberstoPrograms()">
-    {{ isenroll ? 'Close ' : 'Click Here to Enroll' }}
-  </Button>
-  
-  <div
-    class="container shadow p-3 mb-5 bg-body-tertiary rounded border border-info text-black"
-    *ngIf="isenroll"
-  >
-    <h4>Select Programs</h4>
-  
-    <form [formGroup]="EnrollmentForm" (ngSubmit)="  postdata()">
-    
-      <div>
-        <label for="userId">User ID</label>
-        <input id="userId" formControlName="UserId" type="number" />
-      </div>
-  
-     
-      <div formArrayName="Programs">
-        <div *ngFor="let program of ProgramResponse; let i = index">
-          <label>
-            <input
-              type="checkbox"
-              [value]="program.id"
-              (change)="onCheckboxChange($event, program.id)"
-            />
-            {{ program.name }}
-          </label>
+        <div class="col-md-4">
+          <button class="btn btn-outline-danger" (click)="OpenPaymentForm()">Make a payment</button>
         </div>
       </div>
-  
-      <button type="submit" [disabled]="EnrollmentForm.invalid">
-        Submit
-      </button>
-    </form>
-  </div>
-  <div>
-    <h5>
-      View enrolled programs
-    </h5>
-  </div>
-
-</div>
- 
-<div class="col-md-4">
-  <button class="btn btn-outline-danger" (click)="OpenPaymentForm()">Make a payment</button>
-
-  <!-- Modal -->
- 
-
     </div>
-  
+  </div>
 </div>
-
-</div>
-</div>
-  

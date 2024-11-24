@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {  ElementRef, OnInit, Renderer2 } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 declare var AOS: any;
 @Component({
@@ -10,19 +11,19 @@ declare var AOS: any;
 
 export class BlankLayoutComponent implements OnInit {
  
-  notlogin: boolean=false;
+  notlogin: boolean=true;
   isModalVisible: boolean = false;
   bmiResult: any;
-  constructor() { }
+ 
 
-  ngOnInit(): void {
-    // Initialize AOS library (for animations)
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit(): void {  
     AOS.init({
-      duration: 1000, // Duration of animations
-      easing: 'ease-in-out', // Easing function
-      once: true, // Run animation only once
+      duration: 1000, 
+      easing: 'ease-in-out', 
+      once: true, 
     });
-   this.notlogin=true
   }
  
   loginfunction(){
@@ -39,7 +40,6 @@ export class BlankLayoutComponent implements OnInit {
     this.isModalVisible = true;
   }
 
-  // Close modal
   closeModal(): void {
     this.isModalVisible = false;
   }

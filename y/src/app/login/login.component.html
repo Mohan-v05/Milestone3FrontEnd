@@ -1,6 +1,8 @@
 
-<router-outlet></router-outlet>
- 
+
+
+<div *ngIf="isLogin">
+
   <section class="vh-100" style="background-color: #131010;">
     <div class="container py-5 h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
@@ -50,7 +52,7 @@
                   
                   <!-- Additional links -->
                   <a class="small text-muted"  (click)="openModal()">Forgot password?</a>
-                  <p class="mb-5 pb-lg-2" style="color: #181a33;">Don't have an account? <a href="/register" style="color: #393f81;">Register here</a></p>
+                  <p class="mb-5 pb-lg-2" style="color: #181a33;">Don't have an account? <a  (click)="openModalWithComponent()"style="color: #393f81;">Register here</a></p>
                   <a href="#!" class="small text-muted">Terms of use.</a>
                   <a href="#!" class="small text-muted">Privacy policy</a>
                 </form>
@@ -90,4 +92,6 @@
       </div>
     </div>
   </div>
+</div>
+
 </div>

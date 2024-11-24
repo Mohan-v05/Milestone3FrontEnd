@@ -4,6 +4,8 @@ import { GymManagementSystemService } from '../gym-management-system.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import {jwtDecode} from 'jwt-decode'; // Import jwt-decode
+import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
+import { RegisterComponent } from '../Register/register/register.component';
 
 declare var bootstrap: any;
 
@@ -16,13 +18,14 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   email: string = '';
   emailError: boolean = false;
-
+  bsModalRef?: BsModalRef;
+  isLogin:boolean=true;
   constructor(
     private route: Router,
     private fb: FormBuilder,
     private service: GymManagementSystemService,
     private toastr: ToastrService,
-    
+    private modalService:BsModalService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -108,4 +111,17 @@ export class LoginComponent implements OnInit {
       this.route.navigate(['/login']); // Redirect to login if no token found
     }
   }
+
+  openModalWithComponent() {
+    const initialState: ModalOptions = {
+      initialState: {
+        list: ['Open a modal with component', 'Pass your data', 'Do something else', '...'],
+        title: 'Modal with component'
+      }
+    };
+    this.bsModalRef = this.modalService.show(RegisterComponent, initialState);
+    this.bsModalRef.content.closeBtnName = 'Close';
+    this.isLogin=false;
+  }
+
 }

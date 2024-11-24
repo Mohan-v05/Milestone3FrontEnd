@@ -35,6 +35,11 @@ export class GymManagementSystemService {
 
 
   //user api
+ 
+  DeactivateAllActiveMembers(){
+    return this.http.get<User[]>(this.userUrl)
+  }
+
   getUsers(){
     console.log("api connected")
     return this.http.get<User[]>(this.userUrl+"/Getall")
@@ -55,17 +60,32 @@ export class GymManagementSystemService {
   }
 
   //Get all payments
+  AddPayment(data:Payments){
+    return this.http.post<PaymentResponse>(this.paymentUrl,data)
+  }
+
   GetAllPayments(){
    var data=this.http.get<Payments[]>(this.paymentUrl)
     return data
   }
  
+
+  ///Enrollment
   AddEnrollments(Enrollmentreq:enrollmentreq){
     var data= this.http.post(this.EnrollmentsUrl,Enrollmentreq)
     return data
   }
 
 
+}
+
+export interface  PaymentResponse{
+  id:string,
+  quantity: number, 
+  payeeName: string,
+  payerName: string,
+  paymentDate: Date,
+  description:string
 }
 
 //Export Enrollment Model

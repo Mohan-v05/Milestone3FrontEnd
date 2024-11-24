@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { GymManagementSystemService, Role, User } from '../../gym-management-system.service';
 import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
@@ -14,25 +14,17 @@ export class MemberListComponent implements OnInit {
   title = 'USER LIST';
   searchTerm: string = '';  // Binding this to the search input
   users: User[] = [];
+  modalRef?: BsModalRef;
+  message?: string;
 
-  constructor(
+  constructor(private modalService: BsModalService,
     private service: GymManagementSystemService,
     private router: Router,
-   // private modalService: BsModalService
+   
   ) {}
-
+  filter : any;
   ngOnInit(): void {
     this.Loaduser();
-  }
-
-  openModalWithComponent() {
-    const initialState: ModalOptions = {};
-    //this.bsModalRef = this.modalService.show(MemberAddComponent, initialState);
-
-    // Ensure content is defined before accessing closeBtnName
-   // if (this.bsModalRef?.content) {
-     // this.bsModalRef.content.closeBtnName = 'Close';
-    //}
   }
 
   Loaduser(): void {
@@ -44,7 +36,21 @@ export class MemberListComponent implements OnInit {
   getRoleName(role: Role): string {
     return Role[role];
   }
+  DeactiveUnpaid(template: TemplateRef<void>) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  }
+  
+  confirm(){
 
+    this.modalRef?.hide();
+}
+decline(){
+  this.modalRef?.hide();
+  
+}
+GetActiveMember() {
+  this.users = this.users.filter(u => u.isActivated == true);
+}
   Deleteuser(userId: number , i : number): void {
     console.log(userId)
     this.service.Deleteuser(userId).subscribe((data) => {

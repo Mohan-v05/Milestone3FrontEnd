@@ -61,8 +61,8 @@ export class ProgramsListComponent implements OnInit {
         (response) => {
           this.Toastr.success('Program added successfully');
           console.log('Program created successfully!', response);
-          this.NewProgramForm.reset();
           this.selectedImage = null;
+          this.NewProgramForm.reset();        
           this.Programs.push(response)
           
         },

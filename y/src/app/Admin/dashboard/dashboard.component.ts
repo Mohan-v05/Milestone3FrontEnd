@@ -5,7 +5,6 @@ import { trigger, style, animate, transition } from '@angular/animations';
 import { jwtDecode } from 'jwt-decode';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -22,9 +21,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
     ])
   ]
 })
-
 export class DashboardComponent implements OnInit {
-
 
   toggleGraph() {
     this.showGraph = !this.showGraph; // Toggle the state
@@ -32,21 +29,20 @@ export class DashboardComponent implements OnInit {
       this.processPaymentData(); // Process data when opening the graph
     }
   }
- 
- 
+
   EnrollmentForm: FormGroup;
-  PaymentForm:FormGroup;
-  isPaymentFormVisible:boolean =false;
+  PaymentForm: FormGroup;
+  isPaymentFormVisible: boolean = false;
 
   paymentResponse: Payments[] = [];
   UsersResponse: User[] = [];
-  Members:User[]=[];
-  ProgramResponse: gprograms[]=[];
+  Members: User[] = [];
+  ProgramResponse: gprograms[] = [];
 
   // Chart-related properties
-  showGraph: boolean = false
+  showGraph: boolean = false;
   view: [number, number] = [800, 450];
-  single: any[] = []
+  single: any[] = [];
   showXAxis = true;
   showYAxis = true;
   gradient = false;
@@ -57,43 +53,36 @@ export class DashboardComponent implements OnInit {
   yAxisLabel = 'Income';
   colorScheme: string = 'vivid';
 
-
-  //MemberProfile realted 
+  // MemberProfile related 
   selectedMember: any = null;
 
-  //enroll div 
-  isenroll=false;
-
+  // Enroll div 
+  isenroll = false;
 
   // Business-related properties
   totalGymRevenue: number = 0;
   monthlyIncome: number = 0;
   annualIncome: number = 0;
   dailyIncome: number = 0;
-
-  totalMembersCount: number = 0
+  totalMembersCount: number = 0;
   activeMembersCount: number = 0;
-  
-  membersWithDue:number=0
-
+  membersWithDue: number = 0;
   memberId: string = '';
 
-  
-
+  // Fetch payments
   GetAllPayments() {
     this.service.GetAllPayments().subscribe((data) => {
       if (data) {
         console.log(data);
-        this.paymentResponse = data
-        this.calculateIncomes(this.paymentResponse)
-      }
-      else{
-        console.log("No any Payments")
+        this.paymentResponse = data;
+        this.calculateIncomes(this.paymentResponse);
+      } else {
+        console.log("No any Payments");
       }
     },
       (Err) => {
-        console.log(Err.console.error())
-      })
+        console.log(Err.console.error());
+      });
   };
 
   calculateIncomes(payments: Payments[]): void {
@@ -102,32 +91,29 @@ export class DashboardComponent implements OnInit {
     this.dailyIncome = 0;
     this.monthlyIncome = 0;
     this.annualIncome = 0;
-  
+
     const today = new Date();
     const todayString = today.toISOString().split('T')[0]; // Get only the date part (YYYY-MM-DD)
-  
+
     payments.forEach((payment) => {
       // Add to total revenue
       this.totalGymRevenue += payment.amount;
-  
+
       const paymentDate = new Date(payment.dateTime);
       const paymentYear = paymentDate.getFullYear();
       const paymentMonth = paymentDate.getMonth();
       const paymentDayString = paymentDate.toISOString().split('T')[0];
-  
+
       // Add to annual income if payment is from the current year
       if (paymentYear === today.getFullYear()) {
         this.annualIncome += payment.amount;
       }
-  
+
       // Add to monthly income if payment is from the current month
-      if (
-        paymentYear === today.getFullYear() &&
-        paymentMonth === today.getMonth()
-      ) {
+      if (paymentYear === today.getFullYear() && paymentMonth === today.getMonth()) {
         this.monthlyIncome += payment.amount;
       }
-  
+
       // Add to daily income if payment is from today
       if (paymentDayString === todayString) {
         this.dailyIncome += payment.amount;
@@ -135,43 +121,41 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-
-
+  // Fetch members
   GetAllMembers() {
     this.service.getUsers().subscribe(
       (data) => {
         console.log(data);
-        this.UsersResponse = data
-        this.Members=data.filter(u=>u.role==2)
-        this.totalMembersCount= this.Members.length
-       
-        this.GetActiveMember( this.Members)
-        this. GetNotPaidMembers( this.Members)
+        this.UsersResponse = data;
+        this.Members = data.filter(u => u.role == 2);
+        this.totalMembersCount = this.Members.length;
+
+        this.GetActiveMember(this.Members);
+        this.GetNotPaidMembers(this.Members);
       },
       (err) => {
         console.log(err.error);
       }
-    )
+    );
   }
 
-  GetActiveMember(Array:User[]){
-    console.log(Array)
-    this.activeMembersCount=Array.filter(u=>u.isActivated==true).length
+  GetActiveMember(Array: User[]) {
+    console.log(Array);
+    this.activeMembersCount = Array.filter(u => u.isActivated == true).length;
   }
 
   GetNotPaidMembers(users: User[]): void {
     this.membersWithDue = users.filter(
-      (u) => new Date(u.expiryDate).getTime() < Date.now()).length ;
+      (u) => new Date(u.expiryDate).getTime() < Date.now()).length;
   }
-  
-//programs 
-GetAllPrograms(){
-  this.service.getPrograms().subscribe(data=>{
-    this.ProgramResponse=data
-    console.log(data)
-  })
-}
 
+  // Fetch programs
+  GetAllPrograms() {
+    this.service.getPrograms().subscribe(data => {
+      this.ProgramResponse = data;
+      console.log(data);
+    });
+  }
 
   processPaymentData(): void {
     // Explicitly define the structure of monthlyIncome
@@ -192,9 +176,8 @@ GetAllPrograms(){
 
     this.paymentResponse.forEach(payment => {
       const date = new Date(payment.dateTime);
-      
-      console.log(date)
 
+      console.log(date);
 
       if (!isNaN(date.getTime())) {
         const month = date.toLocaleString('default', { month: 'long' });
@@ -204,7 +187,7 @@ GetAllPrograms(){
         }
       }
     });
-    console.log(monthlyIncome)
+    console.log(monthlyIncome);
     this.single = Object.keys(monthlyIncome).map(month => (
       {
         name: month,
@@ -213,46 +196,51 @@ GetAllPrograms(){
     ));
   }
 
-
-
-  constructor(private service: GymManagementSystemService, private Fb:FormBuilder,private toastr:ToastrService) {
-    this.EnrollmentForm=this.Fb.group({
-      UserId:[,Validators.required,],
-      Programs:this.Fb.array([])
-   })
-
-   this.PaymentForm=this.Fb.group({
-      memberid: [null, [Validators.required]],           
-      amount: [null, [Validators.required, Validators.min(0)]],
-      paymentType: [1, [Validators.required]],       
-      anyDiscount: [0, [Validators.min(0)]],            
-      remarks: [''],                                    
-      recievedBy: [null, [Validators.required]],        
-      quantity: [1, [Validators.required, Validators.min(1)]], 
+  constructor(private service: GymManagementSystemService, private Fb: FormBuilder, private toastr: ToastrService) {
+    this.EnrollmentForm = this.Fb.group({
+      UserId: [, Validators.required],
+      Programs: this.Fb.array([])
     });
-   
-   }
+    this.PaymentForm = this.Fb.group({
+      memberid: [null, [Validators.required]],
+      amount: [null, [Validators.required, Validators.min(0)]],
+      paymentType: [1, [Validators.required]],
+      anyDiscount: [0, [Validators.min(0)]],
+      remarks: [''],
+      recievedBy: [null, [Validators.required]],
+      quantity: [1, [Validators.required, Validators.min(1)]],
+    });
+  }
 
   ngOnInit(): void {
-   
-    this.GetAllPayments(),
-    this.GetAllMembers(),
-    this.GetAllPrograms()
-   
+    this.GetAllPayments();
+    this.GetAllMembers();
+    this.GetAllPrograms();
   }
 
   viewMemberInfo(): void {
     const member = this.UsersResponse.find(u => u.id === Number(this.memberId));
-    this.selectedMember=member;
+    this.selectedMember = member;
     this.EnrollmentForm.patchValue({
-      UserId:this.selectedMember.id
-    })
-  }
-  OpenPaymentForm(){
-this.isPaymentFormVisible=!this.isPaymentFormVisible
+      UserId: this.selectedMember.id
+    });
   }
 
-  onPayment(){
+  OpenPaymentForm() {
+    this.isPaymentFormVisible = !this.isPaymentFormVisible;
+  }
+
+  onPayment() {
+    this.PaymentForm.value.paymentType = parseInt(this.PaymentForm.value.paymentType);
+    this.service.AddPayment(this.PaymentForm.value).subscribe((data) => {
+      console.log(data);
+      this.toastr.success(data.description);
+    },
+      (err) => {
+        this.toastr.error('Payment Failed');
+        console.log(err.error);
+      }
+    );
     console.log('Payment submitted:', this.PaymentForm.value);
   }
 
@@ -260,9 +248,9 @@ this.isPaymentFormVisible=!this.isPaymentFormVisible
     userId: 0,
     programIds: [],
   };
- 
-  get Programs():FormArray{
-    return this.EnrollmentForm.get('Programs')as FormArray
+
+  get Programs(): FormArray {
+    return this.EnrollmentForm.get('Programs') as FormArray;
   }
 
   onCheckboxChange(event: any, programId: number) {
@@ -270,7 +258,6 @@ this.isPaymentFormVisible=!this.isPaymentFormVisible
     if (event.target.checked) {
       programsArray.push(this.Fb.control(programId));
     } else {
-      
       const index = programsArray.controls.findIndex(
         (control) => control.value === programId
       );
@@ -279,11 +266,12 @@ this.isPaymentFormVisible=!this.isPaymentFormVisible
       }
     }
   }
-  
+
   EnrollMemberstoPrograms() {
-    this.isenroll = !this.isenroll; 
+    this.isenroll = !this.isenroll;
   }
-  postdata(){
+
+  postdata() {
     this.Enrollmentreq.userId = this.EnrollmentForm.value.UserId;
     this.Enrollmentreq.programIds = this.Programs.value;
     this.service.AddEnrollments(this.Enrollmentreq).subscribe(
@@ -297,7 +285,4 @@ this.isPaymentFormVisible=!this.isPaymentFormVisible
     );
     console.log('Enrollment Request:', this.Enrollmentreq);
   }
-
 }
-
-

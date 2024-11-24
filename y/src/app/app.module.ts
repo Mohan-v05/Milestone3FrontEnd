@@ -16,18 +16,20 @@ import { BlankLayoutComponent } from './Layout/blank-layout/blank-layout.compone
 import { AdminLayoutComponent } from './Layout/admin-layout/admin-layout.component';
 import { RegisterComponent } from './Register/register/register.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ToastrModule } from 'ngx-toastr'
+import { ToastrModule } from 'ngx-toastr';
 import { AuthInterceptor } from './auth.interceptor';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { DashboardComponent } from './Admin/dashboard/dashboard.component';
 import { UserSearchPipe } from './pipe/user-search.pipe';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MemberLayoutComponent } from './Layout/member-layout/member-layout.component';
-import { ModalModule } from 'ngx-bootstrap/modal';
+import { BsModalService, ModalModule } from 'ngx-bootstrap/modal';
 import { AddPaymentComponent } from './add-payment/add-payment.component';
-import {MatPaginatorModule} from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { PaymentReportsComponent } from './payment-reports/payment-reports.component';
 import { MatTableModule } from '@angular/material/table';
+
+import { A11yModule } from '@angular/cdk/a11y';
 
 @NgModule({
   declarations: [
@@ -44,25 +46,25 @@ import { MatTableModule } from '@angular/material/table';
     MemberLayoutComponent,
     AddPaymentComponent,
     PaymentReportsComponent,
-   
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     CommonModule,
-    FormsModule, 
+    FormsModule,
     NgFor,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    
     ToastrModule.forRoot(),
     NgxChartsModule,
     MatPaginatorModule,
-    MatTableModule
+    MatTableModule,
+    
   ],
-  providers: [ {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
-    JwtHelperService
-  ],
+  providers: [ {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}, JwtHelperService,BsModalService],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,4 +1,5 @@
 /* Card shadow effect */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Playfair+Display:wght@700&display=swap');
 .card {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Initial shadow */
@@ -78,14 +79,15 @@
   border-radius: 20px; /* Rounded corners for buttons */
 }
 /* Importing Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Playfair+Display:wght@700&display=swap');
+
 
 /* Unique style for the Program Gallery title */
 .program-gallery-title {
   font-family: 'Poppins', sans-serif; /* Modern, clean sans-serif font */
   font-size: 3rem; /* Larger size for the title */
-  color: #333; /* Dark color for the text */
-  background: linear-gradient(90deg, #000000, #f3eeed); /* Subtle gradient effect */
+  color: #2b2727; /* Dark color for the text */
+  background-color: #ff3333;
+  background: linear-gradient(90deg, #000000, #cc5d46); /* Subtle gradient effect */
   -webkit-background-clip: text; /* Apply gradient to text */
   color: transparent; /* Make the default color transparent to show gradient */
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
