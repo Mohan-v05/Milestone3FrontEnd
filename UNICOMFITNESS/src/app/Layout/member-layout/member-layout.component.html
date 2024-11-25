@@ -1,1 +1,328 @@
+<div class="member-layout bg-dark">
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
+        <div class="container-fluid">
+          <a class="navbar-brand text-uppercase font-weight-bold" href="#">Unicom Fitness</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <a class="nav-link text-light" href="/member#profile">Profile</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-light" href="/member#settings">Settings</a>
+              </li>
+              
+              
+              <li class="nav-item">
+                <a class="nav-link text-light" href="/member#payment">Payment</a>
+              </li>
+             
+              <li class="nav-item" >
+                
+                <a class="nav-link text-light position-relative" data-bs-toggle="modal" data-bs-target="#notificationsModal">
+                    <span *ngIf="hasNewNotifications" class="badge position-absolute top-0 start-100 translate-middle p-2 bg-success rounded-circle"></span>
+                    Notifications
+                </a>
+                
+                 
+               
+              </li>
 
+              <li class="nav-item">
+                <button class="btn btn-outline-light ms-lg-3" (click)="Logout()">Log Out</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+  
+    <main>
+        <section id="dashboard-profile" class="container mt-5">
+            <h2 class="text-center my-4 text-primary font-weight-bold">Profile</h2>
+            <div *ngIf="LoggedInUser" class="row bg-white shadow-lg rounded p-4 mb-4">
+          <!-- Edit Profile Modal -->
+<div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-light text-dark">
+          <h5 class="modal-title" id="profileModalLabel">Edit Profile</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Edit Profile Form -->
+          <form (ngSubmit)="updateMyprofile()">
+            <div class="row">
+              <!-- Full Name -->
+              <div class="col-md-6 mb-3">
+                <label for="name" class="form-label">Full Name</label>
+                <input type="text" class="form-control" id="name" [(ngModel)]="LoggedInUser.name" name="name" required>
+              </div>
+              <!-- Email -->
+              <div class="col-md-6 mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" [(ngModel)]="LoggedInUser.email" name="email" required>
+              </div>
+            </div>
+            <div class="row">
+              <!-- Address -->
+              <div class="col-md-12 mb-3">
+                <label for="address" class="form-label">Address</label>
+                <textarea class="form-control" id="address" [(ngModel)]="LoggedInUser.address.firstLine" name="address" rows="3" required></textarea>
+              </div>
+            </div>
+            <div class="row">
+              <!-- City -->
+              <div class="col-md-6 mb-3">
+                <label for="city" class="form-label">City</label>
+                <input type="text" class="form-control" id="city" [(ngModel)]="LoggedInUser.address.city" name="city" required>
+              </div>
+              <!-- NIC Number -->
+              <div class="col-md-6 mb-3">
+                <label for="nic" class="form-label">NIC Number</label>
+                <input type="text" class="form-control" id="nic" [(ngModel)]="LoggedInUser.nicnumber" name="nic" required>
+              </div>
+            </div>
+            <!-- Save Changes Button -->
+            <button type="submit" class="btn btn-primary w-100 py-3 rounded-pill">Save Changes</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+
+
+              <!-- First Row: Member Info -->
+              <div class="col-md-12 mb-4">
+                <div class="card shadow-lg p-4">
+                  <div class="row">
+                    <!-- User Info (First Column) -->
+                    <div class="col-md-4 mb-4">
+                      <div class="mb-3">
+                        <h5 class="font-weight-bold text-dark">{{ LoggedInUser.name }}</h5>
+                        <p class="text-muted">{{ LoggedInUser.email }}</p>
+                        <strong class="text-muted">NIC Number:</strong> <span>{{ LoggedInUser.nicnumber }}</span>
+                      </div>
+                    </div>
+          
+                    <!-- Address Info (Second Column) -->
+                    <div class="col-md-4 mb-4">
+                      <div class="mb-3">
+                        <strong class="text-muted">Address:</strong>
+                        <p>{{ LoggedInUser.address.firstLine }}, {{ LoggedInUser.address.city }}</p>
+                      </div>
+                    </div>
+ 
+  
+  
+          
+          
+                    <!-- Status Info (Third Column) -->
+                    <div class="col-md-4 mb-4">
+                    
+                        <h5 class="text-secondary">My Status</h5>
+                        <p [ngClass]="{ 'text-success': LoggedInUser.isActivated, 'text-danger': !LoggedInUser.isActivated }">
+                          {{ LoggedInUser.isActivated ? 'Active' : 'Inactive' }}
+                        
+                        </p>
+                    
+                    </div>
+                  </div>
+                </div>
+              </div>
+          
+              <!-- Second Row: Enrolled Programs -->
+              <div class="col-md-12 mb-4">
+                <div class="card shadow-lg p-4">
+                  <h4 class="text-secondary mb-3">Enrolled Programs</h4>
+                  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                    <div *ngFor="let enrollment of LoggedInUser.enrollment" class="col">
+                      <div class="card h-100 shadow-sm border-0">
+                        <img src="{{ enrollment.gymProgram.imagePath }}" class="card-img-top rounded-top" alt="{{ enrollment.gymProgram.name }}">
+                        <div class="card-body">
+                          <h5 class="card-title text-dark">{{ enrollment.gymProgram.name }}</h5>
+                          <p class="card-text text-muted">{{ enrollment.gymProgram.fees |currency:'LKR' }}</p>
+                          <p class="card-text text-muted">{{ enrollment.gymProgram.description  }}</p>
+
+                        </div>
+                        <div class="card-footer text-muted d-flex justify-content-between align-items-center">
+                          <small>{{ enrollment.enrolledDate | date: 'shortDate' }} - {{ currentDate | date: 'shortDate' }}</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          
+              <!-- Third Row: Active Status, Next Payment, Progress Report -->
+              <div class="row">
+                <div class="col-md-9 mb-9">
+                  <div class="card shadow-lg rounded p-4 bg-light">
+                    <h4 class="text-secondary">My Next Payment</h4>
+                    <p><strong>Expiry Date:</strong> {{ LoggedInUser.expiryDate | date }}<strong>   Days Remaining:</strong> {{ Daysmore }}</p>
+                    
+                  </div>
+                </div>
+          
+                <div class="col-md-3 mb-3">
+                  <div class="card shadow-lg rounded p-4 bg-light">
+                    <h4 class="text-secondary mb-3">Membership Progress</h4>
+                    <div class="progress" style="height: 25px;">
+                      <p class="text-dark">{{ calculateProgress() }}%</p>
+                      <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" [style.width.%]="calculateProgress()"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          
+            </div>
+          </section>
+          
+      
+  
+          <section id="settings" class="container mt-5">
+            <h2 class="text-center mb-5 text-primary">Account Settings</h2>
+            <div class="row">
+                <!-- Delete Account Button -->
+                <div class="col-md-4 mb-4">
+                    <button class="btn btn-danger w-100 px-4 py-3 rounded-pill shadow-lg transition-all hover-shadow" (click)="deleteAccount()">
+                        <i class="bi bi-trash-fill"></i> Delete My Account
+                    </button>
+                </div>
+        
+                <div class="col-md-4 mb-4">
+                    <button
+                      class="btn btn-warning w-100 px-4 py-3 rounded-pill shadow-lg transition-all hover-shadow"
+                      data-bs-toggle="modal"
+                      data-bs-target="#changePasswordModal"
+                    >
+                      <i class="bi bi-lock-fill"></i> Change Password
+                    </button>
+                  </div>
+                  <!-- Change Password Modal -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="changePasswordModalLabel">Change Password</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form #changePasswordForm="ngForm" (ngSubmit)="changePassword(changePasswordForm)">
+            <div class="mb-3">
+              <label for="nic" class="form-label">NIC</label>
+              <input
+                type="text"
+                class="form-control"
+                id="nic"
+                [(ngModel)]="changePasswordData.nic"
+                name="nic"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="id" class="form-label">User ID</label>
+              <input
+                type="number"
+                class="form-control"
+                id="id"
+                [(ngModel)]="changePasswordData.id"
+                name="id"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="oldPassword" class="form-label">Old Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="oldPassword"
+                [(ngModel)]="changePasswordData.oldPassword"
+                name="oldPassword"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="newPassword" class="form-label">New Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="newPassword"
+                [(ngModel)]="changePasswordData.newPassword"
+                name="newPassword"
+                required
+              />
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Change Password</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+        
+                <!-- Edit Profile Button -->
+                <div class="col-md-4 mb-4">
+                    <button class="btn btn-primary w-100 px-4 py-3 rounded-pill shadow-lg transition-all hover-shadow" data-bs-toggle="modal" data-bs-target="#profileModal">
+                        <i class="bi bi-pencil-fill"></i> Edit Profile
+                    </button>
+                </div>
+            </div>
+            
+        </section>
+        
+  
+      <!-- Notifications Modal -->
+      <div class="modal fade" id="notificationsModal" tabindex="-1" aria-labelledby="notificationsModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="notificationsModalLabel">Notifications</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal()"></button>
+            </div>
+            <div class="modal-body">
+              <div *ngFor="let notification of notification" class="list-group">
+                <div class="list-group-item shadow-sm hover-effect" *ngIf="notification.status==true">
+                  <h5>{{ notification.title }}</h5>
+                  <p>{{ notification.message }}</p>
+                   
+                  <button *ngIf="!notification.isRead"  (click)="markasRead(notification.id)"> mark as read </button>
+                  <button (click)="deleteNotification(notification.id)" > delete</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <section id="payment" class="container mt-5">
+        <h2 class="text-center mb-4 text-primary">Payment History</h2>
+       
+        <div *ngIf="LoggedInUser && LoggedInUser.payments && LoggedInUser.payments.length > 0; else noPayments">
+          <ul class="list-group">
+            <li *ngFor="let payment of LoggedInUser?.payments" class="list-group-item mb-3 shadow-sm hover-effect">
+              <div class="d-flex justify-content-between">
+                <span><strong>Amount:</strong> {{ payment.amount | currency: 'LKR ' }}</span>
+                <small>{{ payment.dateTime | date: 'mediumDate' }}</small>
+              </div>
+              <p><strong>Description:</strong> {{ payment.description }}</p>
+            </li>
+          </ul>
+        </div>
+        <ng-template #noPayments>
+          <p class="text-muted text-center">No payment history available.</p>
+        </ng-template>
+      </section>
+    </main>
+  
+    <footer class="text-center py-3 text-light bg-dark">
+      <p>&copy; 2024 UNICOM FITNESS. All rights reserved.</p>
+    </footer>
+  </div>
+  

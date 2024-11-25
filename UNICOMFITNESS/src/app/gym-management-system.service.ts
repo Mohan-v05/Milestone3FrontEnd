@@ -16,7 +16,10 @@ export class GymManagementSystemService {
 
  login(logincredential:logincredential){
   console.log("apiConnected")
-  return this.http.post<LoginResponse>(this.url+"/User/login",logincredential)
+  let data = this.http.post<LoginResponse>(this.url+"/User/login",logincredential)
+  console.log(data)
+  return data
+
  }
  
 //Programs api
@@ -35,7 +38,10 @@ export class GymManagementSystemService {
 
 
   //user api
- 
+  getUserProfile(id:number): Observable<UserResponse> {
+    return this.http.get<UserResponse>('http://localhost:5159/api/User/GetUserbyId/'+id);
+
+  }
   DeactivateAllActiveMembers(){
     return this.http.get<User[]>(this.userUrl)
   }
@@ -59,6 +65,10 @@ export class GymManagementSystemService {
     return this.http.post<User>('http://localhost:5159/api/User/addNewUser', data);
   }
 
+  changePassword(data: { nic: string; id: string; oldPassword: string; newPassword: string }): Observable<any> {
+    return this.http.patch("http://localhost:5159/api/User/change-password", data);
+  }
+
   //Get all payments
   AddPayment(data:Payments){
     return this.http.post<PaymentResponse>(this.paymentUrl,data)
@@ -76,7 +86,13 @@ export class GymManagementSystemService {
     return data
   }
 
-
+  //notificatrion
+ MarkasRead(id:string){
+    return this.http.patch('http://localhost:5159/api/Notification',id)
+ }
+  deleteNotification(id:string){
+    return this.http.delete(`http://localhost:5159/api/Notification/${id}`)
+  }
 }
 
 export interface  PaymentResponse{
@@ -116,7 +132,10 @@ export interface User {
   address: address; 
   gender: string; 
   passwordHashed: string; 
-  enrollment: any[];
+  enrollment: Enrollment[
+
+  ];
+  payments: Payments[];
   fees: number;
   isActivated: boolean; 
   expiryDate: string; 
@@ -125,6 +144,92 @@ export enum PaymentType {
   InitialPayment = 1,
   Monthly = 2,
   Annual = 3
+}
+
+
+/////////////////////////////////////////////
+export interface Address {
+  id: number;
+  firstLine: string;
+  secondLine: string;
+  city: string;
+  user: null | any; // Adjust if `user` is expected to have a type.
+  userId: number;
+}
+
+export interface GymProgram {
+  id: number;
+  name: string;
+  description: string;
+  category: string;
+  fees: number;
+  imagePath: string;
+  enrollments: any[]; // Adjust if `enrollments` has a specific type.
+}
+
+export interface Enrollment {
+  id: string;
+  user: null | any; // Adjust if `user` is expected to have a type.
+  userId: number;
+  gymProgram: GymProgram;
+  gymProgramId: number;
+  enrolledDate: string; // ISO date string
+}
+
+export interface Payment {
+  id: string;
+  payer: null | any; // Adjust if `payer` is expected to have a type.
+  payerId: number;
+  payee: null | any; // Adjust if `payee` is expected to have a type.
+  payeeId: number;
+  dateTime: string; // ISO date string
+  quantity: number;
+  amount: number;
+  paymentType: number;
+  description: string;
+}
+
+ 
+// src/app/models/notification.model.ts
+export interface notification {
+  id: string;
+  title: string;
+  message: string;
+  user: any; // Adjust the type as needed
+  userId: number;
+  status: boolean;
+  isRead: boolean;
+}
+export interface UserResponse {
+  id: number;
+  name: string;
+  email: string;
+  role: number;
+  nicnumber: string;
+  address: Address;
+  gender: string;
+  passwordHashed: string;
+  enrollment: Enrollment[];
+  payments: Payment[];
+  notification: notification[];
+  fees: number;
+  isActivated: boolean;
+  expiryDate: string; 
+}
+
+
+
+///////////////
+
+
+
+
+
+
+
+export interface Enrollment {
+  GymProgram : gprograms;
+  EnrolledDate:Date;
 }
 
 export interface address{
@@ -178,9 +283,11 @@ export enum Membershiptype
     monthly=2 
 }
 
-
 // Interface for the decoded token structure
 interface DecodedToken extends JwtPayload {
   Name?: string; 
   Role:string;
+  id: number;
+  email: string;
+  role: Role;
 }

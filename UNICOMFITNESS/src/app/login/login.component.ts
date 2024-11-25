@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { GymManagementSystemService } from '../gym-management-system.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import {jwtDecode} from 'jwt-decode'; // Import jwt-decode
+import {jwtDecode, JwtPayload} from 'jwt-decode'; // Import jwt-decode
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { RegisterComponent } from '../Register/register/register.component';
 
@@ -61,8 +61,8 @@ export class LoginComponent implements OnInit {
       console.log('Form Submitted', formData);
       
       this.service.login(formData).subscribe(
-        data => {
-          localStorage.setItem("token", data.token);
+        async data => {
+         await localStorage.setItem("token", data.token);
           this.routeBasedOnRole();
         },
         err => {
@@ -92,14 +92,15 @@ export class LoginComponent implements OnInit {
     const token = localStorage.getItem('token');
     if (token) {
       try {
-        const decodedToken: any = jwtDecode(token); // Decode the token
-        const userRole = decodedToken.Role 
+        const decodedToken = jwtDecode<DecodedToken>(token);  
+        console.log(decodedToken);  
+    
         
         // Navigate based on the role
-        if (userRole === 'Admin') {
+        if (decodedToken.Role === 'Admin') {
           this.route.navigate(['/admin/Dashboard']);
-        } else if (userRole === 'Member') {
-          this.route.navigate(['/member-dashboard']);
+        } else if (decodedToken.Role === 'Member') {
+          this.route.navigate(['/member']);
         } else {
           this.route.navigate(['/unauthorized']);
         }
@@ -123,5 +124,9 @@ export class LoginComponent implements OnInit {
     this.bsModalRef.content.closeBtnName = 'Close';
     this.isLogin=false;
   }
+}
 
+interface DecodedToken extends JwtPayload {
+  Name?: string; 
+  Role:string;
 }

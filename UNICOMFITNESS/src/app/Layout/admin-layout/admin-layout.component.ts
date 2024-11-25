@@ -22,19 +22,19 @@ export class AdminLayoutComponent implements OnInit {
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen; // Toggle the sidebar open/close state
   }
-
   LoggedinUser() {
     const token = localStorage.getItem('token') || '';
     if (token) {
       try {
-        const decodedToken = jwtDecode<DecodedToken>(token);  // Decode the token and cast to your custom interface
-        console.log(decodedToken);  // Log the decoded token to inspect it
+        const decodedToken = jwtDecode<DecodedToken>(token);  
+        console.log(decodedToken);  
         this.loggedInUser = decodedToken.Name || 'Guest';  // Access 'Name' instead of 'name'
       } catch (error) {
         console.error('Error decoding token:', error);  // Handle errors in case of invalid token
       }
     }
   }
+  
 
   logOut(): void {
     // Remove the JWT token from localStorage
