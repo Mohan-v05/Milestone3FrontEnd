@@ -29,7 +29,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { PaymentReportsComponent } from './payment-reports/payment-reports.component';
 import { MatTableModule } from '@angular/material/table';
 
-import { A11yModule } from '@angular/cdk/a11y';
+
 
 @NgModule({
   declarations: [

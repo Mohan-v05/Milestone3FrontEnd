@@ -12,7 +12,7 @@ import { MemberAddComponent } from './Member/member-add/member-add.component';
 import { AddPaymentComponent } from './add-payment/add-payment.component';
 import { PaymentReportsComponent } from './payment-reports/payment-reports.component';
 import { MemberLayoutComponent } from './Layout/member-layout/member-layout.component';
-import { memberauthGuard } from './memberauth.guard';
+import { MemberAuthGuard } from './memberauth.guard';
 
 
 const routes: Routes = [
@@ -53,7 +53,7 @@ const routes: Routes = [
   {
     path:'member',
     component:MemberLayoutComponent,
-    canActivate:[memberauthGuard],
+    canActivate:[MemberAuthGuard],
   }
  
   
