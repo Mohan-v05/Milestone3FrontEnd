@@ -49,8 +49,8 @@
           <i class="fa fa-user-tag"></i> User Role
         </label>
         <select id="role" formControlName="role" class="form-control">
-          <option value=1>User</option>
-          <option value=2>Admin</option>
+          <option value=2> User </option>
+          <option value=1> Admin </option>
         </select>
       </div>
     </div>
@@ -120,10 +120,10 @@
           <i class="fa fa-lock"></i>Confirm Password
         </label>
         <div class="input-group">
-          <input id="password" type="password" formControlName="conpassword" class="form-control" />
+          <input id="conpassword" type="password" formControlName="conpassword" class="form-control" />
         </div>
         <div class="alert alert-danger" *ngIf="isFieldInvalid('conpassword')">
-          <small *ngIf="registerForm.get('password')?.errors?.['required']">Password is required.</small>
+          <small *ngIf="registerForm.get('conpassword')?.errors?.['required']">Password is required.</small>
         </div>
       </div>
     </div>

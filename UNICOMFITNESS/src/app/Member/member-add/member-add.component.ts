@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';  // Import necessary services
 
-import { GymManagementSystemService } from '../../gym-management-system.service';
+import { GymManagementSystemService, Role } from '../../gym-management-system.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -89,7 +89,7 @@ export class MemberAddComponent implements OnInit {
           name: this.registerForm.value.name,
           email: this.registerForm.value.email,
           gender: this.registerForm.value.gender,
-          role: parseInt(this.registerForm.value.role, 10),
+          role: parseInt((this.registerForm.value.role)),
           nicnumber: this.registerForm.value.nicnumber,
           address: {
             firstLine: this.registerForm.value.address.firstLine,
@@ -97,7 +97,7 @@ export class MemberAddComponent implements OnInit {
             city: this.registerForm.value.address.city
           },
           password: this.registerForm.value.password,
-          isActivated: true  // Add isActivated field
+          isActivated: false  
         };
 
         if (this.memberId) {
@@ -118,17 +118,26 @@ export class MemberAddComponent implements OnInit {
               console.log('Member added:', response);
               this.taostr.success(response.name+"Added succesful")
              // this.router.navigate(['/member']);  // Navigate to members list or dashboard
+             this.registerForm.reset();
             },
             (error) => {
-              console.log('Error adding member:', error);
+              console.error('Error response:', error.error);
+              if (error.status === 400) {
+                
+                this.taostr.error('Error adding member: ' + error.error); // Display error message from backend
+              } else {
+                this.taostr.error('An unexpected error occurred');
+              }
+              console.error('Error adding user:', error);
             }
           );
         }
       } else {
-        console.log('Passwords do not match');
+        this.taostr.error('Password and Confirm Password do not match');
       }
     } else {
       console.log('Form is invalid');
     }
   }
 }
+

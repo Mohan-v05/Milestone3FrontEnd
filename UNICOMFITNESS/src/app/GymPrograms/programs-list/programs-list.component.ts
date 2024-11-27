@@ -35,14 +35,14 @@ export class ProgramsListComponent implements OnInit {
 
   ngOnInit(): void {
     this.GetAllPrograms();
-    //console.log(this.Programs)
+   
   }
    
 
   GetAllPrograms(){
     
     this.programservice.getPrograms().subscribe(data=>{
-      this.Programs=data
+      this.Programs=data;
       console.log(data);
 
     })

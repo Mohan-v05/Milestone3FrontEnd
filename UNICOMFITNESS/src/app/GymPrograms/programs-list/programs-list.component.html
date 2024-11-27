@@ -13,7 +13,7 @@
         <h5 class="card-title text-danger">{{ program.name }}</h5>
         <p class="card-text"><i class="fas fa-info-circle"></i> {{ program.description }}</p>
         <p class="text-muted">{{ program.category }} | Fees : {{ program.fees | currency }}</p>
-        <p class="text-success">{{ program.noofEnrollment }} Enrolled</p>
+        <p class="text-success">{{  program.enrollments? program.enrollments.length :0 }} Enrolled</p>
         <button class="btn btn-danger btn-sm" (click)="Remove(program.id)">Remove</button>
       </div>
     </div>

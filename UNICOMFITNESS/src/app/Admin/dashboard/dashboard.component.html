@@ -223,10 +223,16 @@
             </form>
           </div>
           <div>
+            <div *ngIf=" selectedMember.enrollment?.length > 0"></div>
             <h5>
             Enrolled Program
-            
-            </h5>
+          </h5>
+            <div *ngFor="let item of selectedMember.enrollment; let i = index">
+             <h6>
+              {{ selectedMember.enrollment?.length > 0 ? selectedMember.enrollment[i].gymProgram.name : 'No Program Enrolled' }}
+              <button (click)="Removeenrollment(selectedMember.enrollment[i].id)">remove</button>
+             </h6> 
+            </div>        
           </div>
         </div>
 

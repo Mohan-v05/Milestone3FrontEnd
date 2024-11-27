@@ -3,13 +3,29 @@ import { gprograms, GymManagementSystemService, UserResponse, notification } fro
 import { Router } from '@angular/router';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
 import { NgForm } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 interface changePassword {
   nic: string;
   id: any;
   oldPassword: string;
   newPassword: string;
 }
-
+interface DecodedToken{
+  Email
+: string
+Id
+: 
+number
+Name
+: 
+string
+Role
+: 
+string
+aud
+: 
+string
+}
 @Component({
   selector: 'app-member-layout',
   templateUrl: './member-layout.component.html',
@@ -18,13 +34,11 @@ interface changePassword {
 export class MemberLayoutComponent implements OnInit {
 
 token=localStorage.getItem('token')||'';
-decodedToken: { id: number } = jwtDecode(this.token);
-id=this.decodedToken.id;
+decodedToken:DecodedToken = jwtDecode(this.token);
+id=this.decodedToken.Id;
 
 
-updateMyprofile() {
-throw new Error('Method not implemented.');
-}
+
 changePasswordData:changePassword = {
   nic: '',
   id: 0,
@@ -52,20 +66,22 @@ changePasswordData:changePassword = {
   get hasNewNotifications() {
     return this.LoggedInUser?.notification.some((n: notification) => !n.isRead);}
   
-  constructor(public service: GymManagementSystemService, private router: Router) {}
+  constructor(public service: GymManagementSystemService, private router: Router,private toastr:ToastrService) {}
 
 
   closeModal() {
     this.showNotifications = false;
   }
   ngOnInit(): void {
+    console.log(this.token);
+    console.log(this.decodedToken);
     this.getUserDetails();
+    console.log(this.id);
   }
 
   getUserDetails() {
     console.log(this.id);
-    const userId: number = 6; 
-    this.service.getUserProfile(userId).subscribe(
+    this.service.getUserProfile(this.id).subscribe(
       (data) => {
         this.LoggedInUser = data;
         this.calculateDaysMore();
@@ -78,6 +94,41 @@ changePasswordData:changePassword = {
       }
     );
   }
+  updateMyprofile(form: NgForm) {
+    if (form.valid && this.LoggedInUser) {
+      console.log('Updating profile for user:', this.LoggedInUser);
+  
+      // Prepare updated user data
+      const updatedData = {
+        id: this.LoggedInUser.id,
+        name: this.LoggedInUser.name,
+        email: this.LoggedInUser.email,
+        address: {
+          firstLine: this.LoggedInUser.address.firstLine,
+          secondLine: this.LoggedInUser.address.secondLine, // Include the second line of the address
+          city: this.LoggedInUser.address.city,
+        },
+        nicnumber: this.LoggedInUser.nicnumber,
+      };
+  
+      // Call the backend service to update the profile
+      this.service.updateMember(updatedData.id, updatedData).subscribe(
+        (response) => {
+          console.log('Profile updated successfully:', response);
+          alert('Your profile has been updated successfully!');
+          form.resetForm(this.LoggedInUser); // Reset the form to updated values
+        },
+        (error) => {
+          console.error('Error updating profile:', error);
+          this.toastr.error('Failed to update the profile. Please try again.');
+        }
+      );
+    } else {
+      this.toastr.success('Please fill out the form correctly.');
+    }
+  }
+  
+
   pushnotification(data: notification[]) {
     this.notification = data.filter(n=>n.status==true);
   }
@@ -139,11 +190,11 @@ changePasswordData:changePassword = {
   
   deleteAccount() {
     if (this.LoggedInUser && confirm('Are you sure you want to delete your account? This action is irreversible.')) {
-      this.service.Deleteuser(this.LoggedInUser.id).subscribe(
+      this.service.Deleteuser(this.LoggedInUser.id,true).subscribe(
         (response) => {
           console.log('Account deletion response:', response);
           alert('Your account has been successfully deleted. Redirecting to the login page...');
-          this.Logout(); // Logout and redirect to login
+          this.Logout(); 
         },
         (error) => {
           console.error('Error deleting account:', error);
@@ -158,13 +209,14 @@ changePasswordData:changePassword = {
 
   deleteNotification(string: string) {
     this.notification = this.notification.filter(n=>n.id!=string);
-  this.service.deleteNotification(string).subscribe(data=>{
+    this.service.deleteNotification(string).subscribe(data=>{
+    this.toastr.success('Notification deleted successfully');
     console.log(data)},
     error=>{console.log(error)})
     }
 
-    markasRead(arg0: string) {
-   this.service.MarkasRead(arg0).subscribe(data=>{
+    markasRead(string: string) {
+   this.service.MarkasRead(string).subscribe(data=>{
     console.log(data)},
     error=>{console.log(error)})
     }

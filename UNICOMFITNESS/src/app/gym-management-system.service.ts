@@ -50,15 +50,21 @@ export class GymManagementSystemService {
     console.log("api connected")
     return this.http.get<User[]>(this.userUrl+"/Getall")
   }
-  Deleteuser(id:number){
-    return this.http.delete("http://localhost:5159/api/User/"+id);
+
+  Deleteuser(id: number, permanent: boolean) {
+    return this.http.delete(
+      `http://localhost:5159/api/User/${id}?permanent=${permanent}`,
+      { headers: { 'Content-Type': 'application/json' } }
+    );
   }
+  
+  
   getMemberById(id: number) {
     return this.http.get<User>(`http://localhost:5159/api/User/GetUserbyId/${id}`);
   }
   
   updateMember(id: number, data: any) {
-    return this.http.put(`/api/User/${id}`, data);
+    return this.http.put(`http://localhost:5159/api/User/${id}`, data);
   }
   
   addMember(data: any) {
@@ -85,11 +91,15 @@ export class GymManagementSystemService {
     var data= this.http.post(this.EnrollmentsUrl,Enrollmentreq)
     return data
   }
+  deleteEnrollment(id: string) {
+    return this.http.delete("http://localhost:5159/api/Enrollement/"+id);
+  }
 
   //notificatrion
  MarkasRead(id:string){
     return this.http.patch('http://localhost:5159/api/Notification',id)
  }
+ 
   deleteNotification(id:string){
     return this.http.delete(`http://localhost:5159/api/Notification/${id}`)
   }
@@ -118,7 +128,7 @@ export interface gprograms{
   category:string,
   fees:number,
   imagePath:string,
-  enrollments:object,
+  enrollments:Enrollment[],
   noofEnrollment:number
 }
 
@@ -142,8 +152,8 @@ export interface User {
 }
 export enum PaymentType {
   InitialPayment = 1,
-  Monthly = 2,
-  Annual = 3
+  Monthly = 3,
+  Annual = 2
 }
 
 
