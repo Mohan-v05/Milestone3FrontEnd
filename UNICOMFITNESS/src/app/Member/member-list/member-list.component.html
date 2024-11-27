@@ -27,10 +27,21 @@
     </ng-template>
 
   <!-- filter options -->
-  <p>only members</p>
+ 
   <!-- <input type="text" value="Filter" placeholder="Filter" class="btn" [(ngModel)]="filter" name="filter"> -->
+  <div class="btn-group">
+    <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+      Filter
+    </button>
+    <ul class="dropdown-menu">
+      <li><button (click)="GetActiveMember()">onlyactive</button></li>
+      <li><button (click)="GetActiveMember()">only members </button> </li>
+    </ul>
+  </div>
+ 
+    
 
-  <button (click)="GetActiveMember()">onlyactive</button>
+  
  
 
 
@@ -69,23 +80,17 @@
           <button class="rounded btn btn-outline-primary mx-1" [routerLink]="['/admin/member/' + user.id]">
             <i class="bi bi-pencil"></i>Edit
           </button>
-          <button class="rounded btn btn-outline-danger mx-1" (click)="Deleteuser(user.id , i)">
+          <button class="rounded btn btn-outline-danger mx-1" (click)="SoftDeleteUser(user.id)">
+            Deactive <i class="bi bi-trash"></i>
+          </button>
+          <button class="rounded btn btn-outline-danger mx-1" (click)="HardDeleteUser(user.id , i)">
             Delete <i class="bi bi-trash"></i>
           </button>
-          <!-- <button class="rounded btn btn-outline-danger mx-1" (click)="Deleteuser(user.id)">
-            enroll<i class="bi bi-trash"></i>
-          </button> -->
+         
         </td>
       </tr>
     </tbody>
     
   </table>
-  <mat-paginator
-  [length]="users.length"
-  [pageSize]="10"
-  [pageSizeOptions]="[5, 10, 25, 100]"
-  aria-label="Select page"
-  class="custom-paginator">
-</mat-paginator>
  
 </div>

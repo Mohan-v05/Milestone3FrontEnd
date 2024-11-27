@@ -55,7 +55,7 @@
         </div>
         <div class="modal-body">
           <!-- Edit Profile Form -->
-          <form (ngSubmit)="updateMyprofile()">
+          <form #profileForm="ngForm" (ngSubmit)="updateMyprofile(profileForm)">
             <div class="row">
               <!-- Full Name -->
               <div class="col-md-6 mb-3">
@@ -71,8 +71,15 @@
             <div class="row">
               <!-- Address -->
               <div class="col-md-12 mb-3">
-                <label for="address" class="form-label">Address</label>
-                <textarea class="form-control" id="address" [(ngModel)]="LoggedInUser.address.firstLine" name="address" rows="3" required></textarea>
+                <label for="address" class="form-label">First line</label>
+                <textarea class="form-control" id="address" [(ngModel)]="LoggedInUser.address.firstLine" name="firstLine" rows="3" required></textarea>
+              </div>
+            </div>
+            <div class="row">
+              <!-- Address -->
+              <div class="col-md-12 mb-3">
+                <label for="address" class="form-label">SecondLine</label>
+                <textarea class="form-control" id="address" [(ngModel)]="LoggedInUser.address.secondLine" name="secondLine" rows="3" required></textarea>
               </div>
             </div>
             <div class="row">

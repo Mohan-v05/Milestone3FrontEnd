@@ -25,21 +25,32 @@ import { AddPaymentComponent } from '../../add-payment/add-payment.component';
 export class DashboardComponent implements OnInit {
   bsModalRef!: BsModalRef;
 
-  toggleGraph() {
-    this.showGraph = !this.showGraph; // Toggle the state
-    if (this.showGraph) {
-      this.processPaymentData(); // Process data when opening the graph
-    }
-  }
-
-  EnrollmentForm: FormGroup;
-  PaymentForm: FormGroup;
-  isPaymentFormVisible: boolean = false;
-
-  paymentResponse: Payments[] = [];
-  UsersResponse: User[] = [];
+  // MemberProfile related
+  selectedMember: any = null;
+  totalMembersCount: number = 0;
+  activeMembersCount: number = 0;
+  membersWithDue: number = 0;
   Members: User[] = [];
+  UsersResponse: User[] = [];
+  memberId: string = '';
+
+  // Program-related properties
   ProgramResponse: gprograms[] = [];
+  EnrollmentForm: FormGroup;
+  isenroll = false;
+  Enrollmentreq: { userId: number; programIds: number[] } = {
+    userId: 0,
+    programIds: [],
+  };
+
+  // Payment-related properties
+  PaymentForm: FormGroup;
+  paymentResponse: Payments[] = [];
+  isPaymentFormVisible: boolean = false;
+  totalGymRevenue: number = 0;
+  monthlyIncome: number = 0;
+  annualIncome: number = 0;
+  dailyIncome: number = 0;
 
   // Chart-related properties
   showGraph: boolean = false;
@@ -55,75 +66,35 @@ export class DashboardComponent implements OnInit {
   yAxisLabel = 'Income';
   colorScheme: string = 'vivid';
 
-  // MemberProfile related 
-  selectedMember: any = null;
-
-  // Enroll div 
-  isenroll = false;
-
-  // Business-related properties
-  totalGymRevenue: number = 0;
-  monthlyIncome: number = 0;
-  annualIncome: number = 0;
-  dailyIncome: number = 0;
-  totalMembersCount: number = 0;
-  activeMembersCount: number = 0;
-  membersWithDue: number = 0;
-  memberId: string = '';
-
-  // Fetch payments
-  GetAllPayments() {
-    this.service.GetAllPayments().subscribe((data) => {
-      if (data) {
-        console.log(data);
-        this.paymentResponse = data;
-        this.calculateIncomes(this.paymentResponse);
-      } else {
-        console.log("No any Payments");
-      }
-    },
-      (Err) => {
-        console.log(Err.console.error());
-      });
-  };
-
-  calculateIncomes(payments: Payments[]): void {
-    // Reset income values to avoid duplicate accumulation
-    this.totalGymRevenue = 0;
-    this.dailyIncome = 0;
-    this.monthlyIncome = 0;
-    this.annualIncome = 0;
-
-    const today = new Date();
-    const todayString = today.toISOString().split('T')[0]; // Get only the date part (YYYY-MM-DD)
-
-    payments.forEach((payment) => {
-      // Add to total revenue
-      this.totalGymRevenue += payment.amount;
-
-      const paymentDate = new Date(payment.dateTime);
-      const paymentYear = paymentDate.getFullYear();
-      const paymentMonth = paymentDate.getMonth();
-      const paymentDayString = paymentDate.toISOString().split('T')[0];
-
-      // Add to annual income if payment is from the current year
-      if (paymentYear === today.getFullYear()) {
-        this.annualIncome += payment.amount;
-      }
-
-      // Add to monthly income if payment is from the current month
-      if (paymentYear === today.getFullYear() && paymentMonth === today.getMonth()) {
-        this.monthlyIncome += payment.amount;
-      }
-
-      // Add to daily income if payment is from today
-      if (paymentDayString === todayString) {
-        this.dailyIncome += payment.amount;
-      }
+  constructor(
+    private service: GymManagementSystemService,
+    private Fb: FormBuilder,
+    private toastr: ToastrService,
+    private modalService: BsModalService
+  )
+   {
+    this.EnrollmentForm = this.Fb.group({
+      UserId: [, Validators.required],
+      Programs: this.Fb.array([])
+    });
+    this.PaymentForm = this.Fb.group({
+      memberid: [null, [Validators.required]],
+      amount: [null, [Validators.required, Validators.min(0)]],
+      paymentType: [1, [Validators.required]],
+      anyDiscount: [0, [Validators.min(0)]],
+      remarks: [''],
+      recievedBy: [null, [Validators.required]],
+      quantity: [1, [Validators.required, Validators.min(1)]],
     });
   }
 
-  // Fetch members
+  ngOnInit(): void {
+    this.GetAllPayments();
+    this.GetAllMembers();
+    this.GetAllPrograms();
+  }
+
+  // Member-related functions
   GetAllMembers() {
     this.service.getUsers().subscribe(
       (data) => {
@@ -151,118 +122,23 @@ export class DashboardComponent implements OnInit {
       (u) => new Date(u.expiryDate).getTime() < Date.now()).length;
   }
 
-  // Fetch programs
+  viewMemberInfo(): void {
+    const member = this.UsersResponse.find(u => u.id === Number(this.memberId));
+    this.selectedMember = member;
+    console.log(this.selectedMember);
+
+    this.EnrollmentForm.patchValue({
+      UserId: this.selectedMember.id
+    });
+  }
+
+  // Program-related functions
   GetAllPrograms() {
     this.service.getPrograms().subscribe(data => {
       this.ProgramResponse = data;
       console.log(data);
     });
   }
-
-  processPaymentData(): void {
-    // Explicitly define the structure of monthlyIncome
-    const monthlyIncome: Record<string, number> = {
-      January: 0,
-      February: 0,
-      March: 0,
-      April: 0,
-      May: 0,
-      June: 0,
-      July: 0,
-      August: 0,
-      September: 0,
-      October: 0,
-      November: 0,
-      December: 0,
-    };
-
-    this.paymentResponse.forEach(payment => {
-      const date = new Date(payment.dateTime);
-
-      console.log(date);
-
-      if (!isNaN(date.getTime())) {
-        const month = date.toLocaleString('default', { month: 'long' });
-        console.log(month);
-        if (monthlyIncome[month] !== undefined) {
-          monthlyIncome[month] += payment.amount;
-        }
-      }
-    });
-    console.log(monthlyIncome);
-    this.single = Object.keys(monthlyIncome).map(month => (
-      {
-        name: month,
-        value: monthlyIncome[month]
-      }
-    ));
-  }
-
-  constructor(private service: GymManagementSystemService,
-     private Fb: FormBuilder,
-     private toastr: ToastrService,
-     private modalService:BsModalService
-    ) {
-    this.EnrollmentForm = this.Fb.group({
-      UserId: [, Validators.required],
-      Programs: this.Fb.array([])
-    });
-    this.PaymentForm = this.Fb.group({
-      memberid: [null, [Validators.required]],
-      amount: [null, [Validators.required, Validators.min(0)]],
-      paymentType: [1, [Validators.required]],
-      anyDiscount: [0, [Validators.min(0)]],
-      remarks: [''],
-      recievedBy: [null, [Validators.required]],
-      quantity: [1, [Validators.required, Validators.min(1)]],
-    });
-  }
-
-  ngOnInit(): void {
-    this.GetAllPayments();
-    this.GetAllMembers();
-    this.GetAllPrograms();
-  }
-
-  viewMemberInfo(): void {
-    const member = this.UsersResponse.find(u => u.id === Number(this.memberId));
-    this.selectedMember = member;
-    this.EnrollmentForm.patchValue({
-      UserId: this.selectedMember.id
-    });
-  }
-
-  OpenPaymentForm() {
-    this.isPaymentFormVisible = !this.isPaymentFormVisible;
-  }
-  openModalWithComponent() {
-    const initialState: ModalOptions = {
-      initialState: {
-      }
-    };
-    this.bsModalRef = this.modalService.show(AddPaymentComponent);
-    this.bsModalRef.content.closeBtnName = 'Close';
-    
-  }
-
-  onPayment() {
-    this.PaymentForm.value.paymentType = parseInt(this.PaymentForm.value.paymentType);
-    this.service.AddPayment(this.PaymentForm.value).subscribe((data) => {
-      console.log(data);
-      this.toastr.success(data.description);
-    },
-      (err) => {
-        this.toastr.error('Payment Failed');
-        console.log(err.error);
-      }
-    );
-    console.log('Payment submitted:', this.PaymentForm.value);
-  }
-
-  Enrollmentreq: { userId: number; programIds: number[] } = {
-    userId: 0,
-    programIds: [],
-  };
 
   get Programs(): FormArray {
     return this.EnrollmentForm.get('Programs') as FormArray;
@@ -283,7 +159,6 @@ export class DashboardComponent implements OnInit {
   }
 
   EnrollMemberstoPrograms() {
-    
     this.isenroll = !this.isenroll;
   }
 
@@ -300,5 +175,139 @@ export class DashboardComponent implements OnInit {
       }
     );
     console.log('Enrollment Request:', this.Enrollmentreq);
+  }
+
+  Removeenrollment(guid: string) {
+    console.log(guid);
+    this.service.deleteEnrollment(guid).subscribe(
+      (data) => {
+        console.log(data);
+        this.toastr.success('Enrollment Deleted');
+      },
+      (err) => {
+        console.log(err.error);
+        this.toastr.error('Error while Deleting Enrollment');
+      }
+    );
+  }
+
+  // Payment-related functions
+  GetAllPayments() {
+    this.service.GetAllPayments().subscribe(
+      (data) => {
+        if (data) {
+          console.log(data);
+          this.paymentResponse = data;
+          this.calculateIncomes(this.paymentResponse);
+        } else {
+          console.log("No any Payments");
+        }
+      },
+      (Err) => {
+        console.log(Err.console.error());
+      }
+    );
+  }
+
+  calculateIncomes(payments: Payments[]): void {
+    this.totalGymRevenue = 0;
+    this.dailyIncome = 0;
+    this.monthlyIncome = 0;
+    this.annualIncome = 0;
+
+    const today = new Date();
+    const todayString = today.toISOString().split('T')[0];
+
+    payments.forEach((payment) => {
+      this.totalGymRevenue += payment.amount;
+
+      const paymentDate = new Date(payment.dateTime);
+      const paymentYear = paymentDate.getFullYear();
+      const paymentMonth = paymentDate.getMonth();
+      const paymentDayString = paymentDate.toISOString().split('T')[0];
+
+      if (paymentYear === today.getFullYear()) {
+        this.annualIncome += payment.amount;
+      }
+
+      if (paymentYear === today.getFullYear() && paymentMonth === today.getMonth()) {
+        this.monthlyIncome += payment.amount;
+      }
+
+      if (paymentDayString === todayString) {
+        this.dailyIncome += payment.amount;
+      }
+    });
+  }
+
+  processPaymentData(): void {
+    const monthlyIncome: Record<string, number> = {
+      January: 0,
+      February: 0,
+      March: 0,
+      April: 0,
+      May: 0,
+      June: 0,
+      July: 0,
+      August: 0,
+      September: 0,
+      October: 0,
+      November: 0,
+      December: 0,
+    };
+
+    this.paymentResponse.forEach(payment => {
+      const date = new Date(payment.dateTime);
+
+      if (!isNaN(date.getTime())) {
+        const month = date.toLocaleString('default', { month: 'long' });
+        if (monthlyIncome[month] !== undefined) {
+          monthlyIncome[month] += payment.amount;
+        }
+      }
+    });
+
+    this.single = Object.keys(monthlyIncome).map(month => (
+      {
+        name: month,
+        value: monthlyIncome[month]
+      }
+    ));
+  }
+
+  OpenPaymentForm() {
+    this.isPaymentFormVisible = !this.isPaymentFormVisible;
+  }
+
+  onPayment() {
+    this.PaymentForm.value.paymentType = parseInt(this.PaymentForm.value.paymentType);
+    this.service.AddPayment(this.PaymentForm.value).subscribe(
+      (data) => {
+        console.log(data);
+        this.toastr.success(data.description);
+        this.ngOnInit();
+      },
+      (err) => {
+        this.toastr.error('Payment Failed');
+        console.log(err.error);
+      }
+    );
+    console.log('Payment submitted:', this.PaymentForm.value);
+  }
+
+  openModalWithComponent() {
+    const initialState: ModalOptions = {
+      initialState: {}
+    };
+    this.bsModalRef = this.modalService.show(AddPaymentComponent);
+    this.bsModalRef.content.closeBtnName = 'Close';
+  }
+
+  //chart related functions
+  toggleGraph() {
+    this.showGraph = !this.showGraph;
+    if (this.showGraph) {
+      this.processPaymentData();
+    }
   }
 }
