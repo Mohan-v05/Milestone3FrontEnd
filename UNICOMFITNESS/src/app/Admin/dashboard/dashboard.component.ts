@@ -27,7 +27,7 @@ import { of as observableOf } from 'rxjs';
 })
 export class DashboardComponent implements OnInit {
  
-
+  isLoading:boolean = true;
   bsModalRef!: BsModalRef;
   adminId: number = 0;
   // MemberProfile related
@@ -85,7 +85,7 @@ export class DashboardComponent implements OnInit {
       Programs: this.Fb.array([])
     });
     this.PaymentForm = this.Fb.group({
-      memberid: [null, [Validators.required]],
+      memberid: [, [Validators.required]],
       amount: [null, [Validators.required, Validators.min(0)]],
       paymentType: [1, [Validators.required]],
       anyDiscount: [0, [Validators.min(0)]],
@@ -100,6 +100,7 @@ export class DashboardComponent implements OnInit {
     this.GetAllMembers();
     this.GetAllPrograms();
     this.getLoggediinAdmin()
+    this.isLoading = false;
 
   }
    getLoggediinAdmin(){
@@ -253,6 +254,8 @@ export class DashboardComponent implements OnInit {
         this.dailyIncome += payment.amount;
       }
     });
+   this.processPaymentData();
+
   }
 
   processPaymentData(): void {
@@ -288,6 +291,7 @@ export class DashboardComponent implements OnInit {
         value: monthlyIncome[month]
       }
     ));
+    this.showGraph=true;
   }
 
   OpenPaymentForm() {

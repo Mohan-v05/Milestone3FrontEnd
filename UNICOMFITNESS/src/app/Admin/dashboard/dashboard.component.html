@@ -1,3 +1,29 @@
+<div *ngIf="isLoading" class="text-center">
+  <svg
+    class="spinner-dumbbell"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 100 100"
+    width="100"
+    height="100"
+  >
+    <!-- Left Plate -->
+    <rect x="5" y="40" width="10" height="20" fill="#6c757d" />
+    <rect x="15" y="37.5" width="10" height="25" fill="#adb5bd" />
+    <rect x="25" y="35" width="10" height="30" fill="#6c757d" />
+
+    <!-- Right Plate -->
+    <rect x="85" y="40" width="10" height="20" fill="#6c757d" />
+    <rect x="75" y="37.5" width="10" height="25" fill="#adb5bd" />
+    <rect x="65" y="35" width="10" height="30" fill="#6c757d" />
+
+    <!-- Dumbbell Handle -->
+    <rect x="35" y="47.5" width="30" height="5" fill="#007bff" />
+  </svg>
+</div>
+
+<div *ngIf="!isLoading">
+  
+
 <div class="container mt-5">
   <div class="modal fade show" tabindex="-1" *ngIf="isPaymentFormVisible" style="display: block;" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -15,12 +41,16 @@
             </div>
             <div class="mb-3">
               <label for="memberid" class="form-label">Member ID</label>
-              <input type="number" class="form-control" id="memberid" formControlName="memberid" [ariaDisabled]="true">
+              <input type="number" class="form-control" id="memberid" formControlName="memberid" readonly>
             </div>
             <div class="mb-3">
               <label for="amount" class="form-label">Amount</label>
               <input type="number" class="form-control" id="amount" formControlName="amount">
             </div>
+            <div *ngIf="PaymentForm.controls['amount'].invalid && PaymentForm.controls['amount'].touched">
+              <small class="text-danger">Enter a valid amount greater than 0.</small>
+            </div>
+
             <div class="mb-3">
               <label for="paymentType" class="form-label">Payment Type</label>
               <select class="form-select" id="paymentType" formControlName="paymentType">
@@ -66,22 +96,7 @@
       </div>
     </div>
 
-    <!-- Monthly Income Block -->
-    <div class="col-md-2">
-      <div class="card bg-white text-dark shadow-sm mb-4">
-        <div class="card-body align-items-center">
-          <div class="input-group-prepend">
-            <h5>Monthly Income</h5>
-            <span class="input-group-text">{{ monthlyIncome | currency:'LKR ' }}</span>
-          </div>
-          <div class="mt-1">
-            <button class="btn btn-primary" (click)="toggleGraph()">
-              {{ showGraph ? 'Close Graph' : 'View Graph' }}
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+   
 
     <!-- Annual Income Block -->
     <div class="col-md-2">
@@ -108,6 +123,23 @@
           <div class="ml-3">
             <h5>Today Income</h5>
             <span class="input-group-text">{{ dailyIncome | currency:'LKR ' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+     <!-- Monthly Income Block -->
+     <div class="col-md-2">
+      <div class="card bg-white text-dark shadow-sm mb-4">
+        <div class="card-body align-items-center">
+          <div class="input-group-prepend">
+            <h5>Monthly Income</h5>
+          </div>
+          <div class="d-flex">
+            <span class="input-group-text mx-1">{{ monthlyIncome | currency:'LKR ' }}</span>
+            <button class="btn btn-primary" (click)="toggleGraph()">
+              {{ showGraph ? 'Close Graph' : 'View Graph' }}
+            </button>
           </div>
         </div>
       </div>
@@ -141,15 +173,7 @@
       </div>
     </div>
 
-    <!-- View Member Info by ID Block -->
-    <div class="col-md-3">
-      <div class="card bg-light shadow-sm mb-4">
-        <div class="card-body">
-          <h4>View Member Info</h4>
-          <input type="text" placeholder="Enter Member ID" class="form-control" [(ngModel)]="memberId" (keyup)="viewMemberInfo()">
-        </div>
-      </div>
-    </div>
+  
 
     <!-- Not Paid Members Block -->
     <div class="col-md-2">
@@ -163,6 +187,16 @@
         </div>
       </div>
     </div>
+
+      <!-- View Member Info by ID Block -->
+      <div class="col-md-3">
+        <div class="card bg-light shadow-sm mb-4">
+          <div class="card-body">
+            <h4>View Member Info</h4>
+            <input type="text" placeholder="Enter Member ID" class="form-control" [(ngModel)]="memberId" (keyup)="viewMemberInfo()">
+          </div>
+        </div>
+      </div>
   </div>
 
   <!-- Graph Block -->
@@ -171,78 +205,119 @@
       [view]="view"
       [scheme]="colorScheme"
       [results]="single"
-      [gradient]="gradient"
-      [xAxis]="showXAxis"
-      [yAxis]="showYAxis"
+      [gradient]="true"
+      [xAxis]="true"
+      [yAxis]="true"
       [legend]="showLegend"
-      [showXAxisLabel]="showXAxisLabel"
-      [showYAxisLabel]="showYAxisLabel"
-      [xAxisLabel]="xAxisLabel"
-      [yAxisLabel]="yAxisLabel">
+     [maxXAxisTickLength]="10"
+      [showXAxisLabel]="true"
+      [showYAxisLabel]="true"
+      [xAxisLabel]="'Months'"
+      [yAxisLabel]="'Revenue (LKR)'"
+      [barPadding]="15"
+      [tooltipDisabled]="false"
+      [animations]="true">
     </ngx-charts-bar-vertical>
   </div>
-
-  <!-- Member Info Container -->
+  
+  <div
+  [ngClass]="{'active-member': selectedMember?.isActivated, 'inactive-member': !selectedMember?.isActivated}"
+  class="member-info-wrapper">
+  <!-- Member Info Content -->
   <div class="Showoff">
-    <div *ngIf="selectedMember" class="container member-info-container shadow-lg rounded p-4" [@fadeInOut]>
+    <div
+      *ngIf="selectedMember"
+      class="container member-info-container shadow-lg rounded p-4 bg-dark text-light"
+      [@fadeInOut]>
       <div class="row">
+        <!-- Member Details -->
         <div class="col-md-4">
-          <h3 class="text-danger mb-4">Member Details</h3>
-          <p><strong class="text-light">Name : </strong><span class="text-danger">{{ selectedMember?.name }}</span></p>
-          <p><strong class="text-light">Email: </strong><span class="text-danger">{{ selectedMember?.email }}</span></p>
-          <p><strong class="text-light">Gender: </strong><span class="text-danger">{{ selectedMember?.gender }}</span></p>
-          <p><strong class="text-light">NIC Number: </strong><span class="text-danger">{{ selectedMember?.nicnumber }}</span></p>
-          <p><strong class="text-light">Fees: </strong><span class="text-danger">{{ selectedMember?.fees | currency }}</span></p>
-          <p><strong class="text-light">Membership End Date: </strong><span class="text-danger">{{ selectedMember?.expiryDate | date }}</span></p>
-          <hr class="border border-danger">
-          <h5 class="text-light">Address</h5>
-          <p><strong class="text-light">First Line: </strong><span class="text-danger">{{ selectedMember?.address?.firstLine }}</span></p>
-          <p><strong class="text-light">Second Line: </strong><span class="text-danger">{{ selectedMember?.address?.secondLine }}</span></p>
-          <p><strong class="text-light">City: </strong><span class="text-danger">{{ selectedMember?.address?.city }}</span></p>
+          <h3 class="text-warning mb-4">Member Details</h3>
+          <p><strong>Name:</strong> <span>{{ selectedMember?.name }}</span></p>
+          <p><strong>Email:</strong> <span>{{ selectedMember?.email }}</span></p>
+          <p><strong>Gender:</strong> <span>{{ selectedMember?.gender }}</span></p>
+          <p><strong>NIC Number:</strong> <span>{{ selectedMember?.nicnumber }}</span></p>
+          <p><strong>Fees:</strong> <span>{{ selectedMember?.fees | currency }}</span></p>
+          <p><strong>Membership End Date:</strong> <span>{{ selectedMember?.expiryDate | date }}</span></p>
+          <hr class="border border-warning">
+          <h5>Address</h5>
+          <p><strong>First Line:</strong> <span>{{ selectedMember?.address?.firstLine }}</span></p>
+          <p><strong>Second Line:</strong> <span>{{ selectedMember?.address?.secondLine }}</span></p>
+          <p><strong>City:</strong> <span>{{ selectedMember?.address?.city }}</span></p>
         </div>
 
+        <!-- Program Enrollment -->
         <div class="col-md-4">
-          <button class="btn btn-outline-danger" (click)="EnrollMemberstoPrograms()">
+          <button
+            class="btn btn-outline-warning w-100 mb-3"
+            (click)="EnrollMemberstoPrograms()">
             {{ isenroll ? 'Close ' : 'Click Here to Enroll' }}
           </button>
-          <div class="container shadow p-3 mb-5 bg-body-tertiary rounded border border-info text-black" *ngIf="isenroll">
+          <div
+            class="container shadow bg-body-dark rounded border border-info p-3"
+            *ngIf="isenroll">
             <h4>Select Programs</h4>
             <form [formGroup]="EnrollmentForm" (ngSubmit)="postdata()">
-              <div>
+              <div class="mb-3">
                 <label for="userId">User ID</label>
-                <input id="userId" formControlName="UserId" type="number" />
+                <input
+                  id="userId"
+                  formControlName="UserId"
+                  type="number"
+                  class="form-control">
               </div>
 
-              <div formArrayName="Programs">
+              <div formArrayName="Programs" class="mb-3">
                 <div *ngFor="let program of ProgramResponse; let i = index">
-                  <label>
-                    <input type="checkbox" [value]="program.id" (change)="onCheckboxChange($event, program.id)" />
+                  <label class="form-check">
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      [value]="program.id"
+                      (change)="onCheckboxChange($event, program.id)">
                     {{ program.name }}
                   </label>
                 </div>
               </div>
 
-              <button type="submit" [disabled]="EnrollmentForm.invalid">Submit</button>
+              <button
+                class="btn btn-outline-danger w-100"
+                type="submit"
+                [disabled]="EnrollmentForm.invalid || Programs.controls.length === 0">
+                Submit
+              </button>
             </form>
           </div>
+
           <div>
-            <div *ngIf=" selectedMember.enrollment?.length > 0"></div>
-            <h5>
-            Enrolled Program
-          </h5>
+            <h5>Enrolled Programs</h5>
             <div *ngFor="let item of selectedMember.enrollment; let i = index">
-             <h6>
-              {{ selectedMember.enrollment?.length > 0 ? selectedMember.enrollment[i].gymProgram.name : 'No Program Enrolled' }}
-              <button (click)="Removeenrollment(selectedMember.enrollment[i].id)">remove</button>
-             </h6> 
-            </div>        
+              <h6>
+                {{ item?.gymProgram?.name || 'No Program Enrolled' }}
+                <button
+                  class="btn btn-close bg-danger text-white ms-2"
+                  (click)="Removeenrollment(item.id)">
+                </button>
+              </h6>
+            </div>
           </div>
         </div>
 
-        <div class="col-md-4">
-          <button class="btn btn-outline-danger" (click)="OpenPaymentForm()">Make a payment</button>
+        <!-- Payment Section -->
+        <div class="col-md-4 text-center">
+          <button class="btn btn-outline-success w-100" (click)="OpenPaymentForm()">
+            Make a Payment
+          </button>
         </div>
       </div>
     </div>
   </div>
+</div>
+
+  
+
+ 
+</div>
+
+
 </div>

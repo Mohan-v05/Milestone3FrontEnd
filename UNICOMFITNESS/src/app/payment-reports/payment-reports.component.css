@@ -1,51 +1,43 @@
-.table-container {
-    margin: 20px auto;
-    max-width: 90%;
-    background: #f9f9f9;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+/* Style the header */
+.header-column {
+  background-color: #9dc4ee;
+  color: rgb(0, 0, 0);
+  text-align: left;
+  padding: 10px;
+  font-weight: bold;
+}
+
+/* Style the table cells */
+.cell {
+  padding: 10px;
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Hover effect on table rows */
+.row-hover:hover {
+  background-color: #f1f1f1;
+}
+
+/* Style the paginator */
+.custom-paginator .mat-paginator-range-actions {
+  padding: 10px;
+  font-size: 1rem;
+}
+
+/* Responsive Table: Stack columns on small screens */
+@media (max-width: 768px) {
+  .mat-header-cell, .mat-cell {
+    padding: 8px;
   }
   
-  mat-table {
-    width: 100%;
+  .mat-table {
+    font-size: 0.9rem;
   }
-  
-  th.mat-header-cell {
-    background-color: #f1f1f1;
-  }
-  
-  .mat-cell {
-    padding: 12px;
-  }
-  
-  .mat-column-id,
-  .mat-column-payee,
-  .mat-column-payer,
-  .mat-column-dateTime,
-  .mat-column-paymentType {
-    text-align: left;
-  }
-  
-  /* Style the paginator */
+
+  /* Stack the paginator for mobile */
   .custom-paginator {
-    margin-top: 15px;
-    background-color: #fff;
-    border-radius: 8px;
-    padding: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 0.8rem;
   }
-  
-  .custom-paginator .mat-paginator-navigation-button {
-    color: #4caf50;
-  }
-  
-  .custom-paginator .mat-select-value {
-    font-weight: bold;
-  }
-  
-  .custom-paginator .mat-paginator-range-label {
-    font-style: italic;
-    color: #555;
-  }
-  
+}

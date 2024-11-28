@@ -78,6 +78,10 @@ export class ProgramsListComponent implements OnInit {
       this.Toastr.error('Please fill in all fields and select an image');
     }
   }
+  Edit(id:number):void{
+    
+    console.log(id)
+  }
 
   Remove(id:number):void
   {
