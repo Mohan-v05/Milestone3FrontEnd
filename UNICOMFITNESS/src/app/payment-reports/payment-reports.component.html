@@ -9,7 +9,7 @@
       <!-- Payee Name Column -->
       <ng-container matColumnDef="payee">
         <th mat-header-cell *matHeaderCellDef> Payee </th>
-        <td mat-cell *matCellDef="let payment"> {{payment.payee? payment.payee.name : ''}} </td>
+        <td mat-cell *matCellDef="let payment"> {{payment?.payee?.name }} </td>
       </ng-container>
   
       <!-- Payer Name Column -->

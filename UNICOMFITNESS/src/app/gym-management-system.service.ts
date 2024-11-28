@@ -50,13 +50,14 @@ export class GymManagementSystemService {
     console.log("api connected")
     return this.http.get<User[]>(this.userUrl+"/Getall")
   }
-
+  
   Deleteuser(id: number, permanent: boolean) {
     return this.http.delete(
-      `http://localhost:5159/api/User/${id}?permanent=${permanent}`,
+      `http://localhost:5159/api/User/${id}/${permanent}`,
       { headers: { 'Content-Type': 'application/json' } }
     );
   }
+  
   
   
   getMemberById(id: number) {
