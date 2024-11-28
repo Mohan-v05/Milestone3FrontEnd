@@ -62,6 +62,7 @@ decline(){
 GetActiveMember() {
   this.users = this.users.filter(u => u.isActivated == true);
 }
+
 SoftDeleteUser(userId: number): void {
   if (confirm('Are you sure you want to Deactivate this account? ')){
     let permanent = false;

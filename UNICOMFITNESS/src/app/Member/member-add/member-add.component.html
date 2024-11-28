@@ -102,7 +102,7 @@
     </div>
   
     <!-- Row for Password -->
-    <div class="form-row">
+    <div class="form-row" *ngIf="!memberId">
       <div class="form-group col-md-6">
         <label for="password">
           <i class="fa fa-lock"></i> Password

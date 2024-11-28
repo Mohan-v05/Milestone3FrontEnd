@@ -12,7 +12,7 @@ export class PaymentReportsComponent implements AfterViewInit, OnInit {
   
   AllPayments: Payments[] = [];
 
-  displayedColumns: string[] = ['id', 'payee', 'payer', 'dateTime', 'amount', 'paymentType'];
+  displayedColumns: string[] = ['id',  'payer','payee', 'dateTime', 'amount', 'paymentType'];
 
   dataSource = new MatTableDataSource<Payments>(this.AllPayments);
 

@@ -80,12 +80,18 @@
           <button class="rounded btn btn-outline-primary mx-1" [routerLink]="['/admin/member/' + user.id]">
             <i class="bi bi-pencil"></i>Edit
           </button>
-          <button class="rounded btn btn-outline-danger mx-1" (click)="SoftDeleteUser(user.id)">
-            Deactive <i class="bi bi-trash"></i>
-          </button>
-          <button class="rounded btn btn-outline-danger mx-1" (click)="HardDeleteUser(user.id , i)">
+
+          <button 
+          class="rounded btn btn-outline-danger mx-1" 
+          (click)="SoftDeleteUser(user.id)" 
+          [ngStyle]="{'opacity': user.isActivated ? '1' : '0.5', 'cursor': user.isActivated ? 'pointer' : 'not-allowed'}"
+          [disabled]="!user.isActivated">
+         Deactive <i class="bi bi-x-circle"></i>
+        </button>
+        
+          <!-- <button class="rounded btn btn-outline-danger mx-1" (click)="HardDeleteUser(user.id , i)">
             Delete <i class="bi bi-trash"></i>
-          </button>
+          </button> -->
          
         </td>
       </tr>

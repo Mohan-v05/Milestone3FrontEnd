@@ -10,7 +10,7 @@ import { JwtPayload, jwtDecode } from 'jwt-decode';
 export class AdminLayoutComponent implements OnInit {
 
   loggedInUser: string = '';  // Default value
-
+  AdminId: number = 0;
   isSidebarOpen: boolean = true;
 
   constructor(private router: Router) {}
@@ -28,6 +28,7 @@ export class AdminLayoutComponent implements OnInit {
       try {
         const decodedToken = jwtDecode<DecodedToken>(token);  
         console.log(decodedToken);  
+        this.AdminId = decodedToken.id;
         this.loggedInUser = decodedToken.Name || 'Guest';  // Access 'Name' instead of 'name'
       } catch (error) {
         console.error('Error decoding token:', error);  // Handle errors in case of invalid token
@@ -48,4 +49,5 @@ export class AdminLayoutComponent implements OnInit {
 interface DecodedToken extends JwtPayload {
   Name?: string; 
   Role:string;
+  id:number;
 }

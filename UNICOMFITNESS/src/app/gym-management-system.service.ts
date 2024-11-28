@@ -25,7 +25,7 @@ export class GymManagementSystemService {
 //Programs api
   getPrograms(){
     console.log("apiConnected")
-    return this.http.get<gprograms[]>(this.Programurl);
+    return this.http.get<GymProgram[]>(this.Programurl);
   }
  
   createProgramWithImage(formData: FormData): Observable<any> {
@@ -122,16 +122,7 @@ export interface enrollmentreq{
 }
 
 // Export Interfaces
-export interface gprograms{
-  id:number, 
-  name:string,
-  description:string,
-  category:string,
-  fees:number,
-  imagePath:string,
-  enrollments:Enrollment[],
-  noofEnrollment:number
-}
+
 
 //export user Interface
 export interface User {
@@ -164,7 +155,7 @@ export interface Address {
   firstLine: string;
   secondLine: string;
   city: string;
-  user: null | any; // Adjust if `user` is expected to have a type.
+  user: null | any; 
   userId: number;
 }
 
@@ -175,7 +166,7 @@ export interface GymProgram {
   category: string;
   fees: number;
   imagePath: string;
-  enrollments: any[]; // Adjust if `enrollments` has a specific type.
+  enrollments: Enrollment[]; 
 }
 
 export interface Enrollment {
@@ -226,21 +217,6 @@ export interface UserResponse {
   fees: number;
   isActivated: boolean;
   expiryDate: string; 
-}
-
-
-
-///////////////
-
-
-
-
-
-
-
-export interface Enrollment {
-  GymProgram : gprograms;
-  EnrolledDate:Date;
 }
 
 export interface address{

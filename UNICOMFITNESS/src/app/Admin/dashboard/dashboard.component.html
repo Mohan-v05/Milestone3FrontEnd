@@ -10,9 +10,12 @@
         <!-- Modal Body -->
         <div class="modal-body">
           <form [formGroup]="PaymentForm" (ngSubmit)="onPayment()">
+            <div>
+              Total Amount: {{ amount | currency:'LKR ' }}
+            </div>
             <div class="mb-3">
               <label for="memberid" class="form-label">Member ID</label>
-              <input type="number" class="form-control" id="memberid" formControlName="memberid">
+              <input type="number" class="form-control" id="memberid" formControlName="memberid" [ariaDisabled]="true">
             </div>
             <div class="mb-3">
               <label for="amount" class="form-label">Amount</label>
@@ -36,7 +39,7 @@
             </div>
             <div class="mb-3">
               <label for="recievedBy" class="form-label">Received By (Staff ID)</label>
-              <input type="number" class="form-control" id="recievedBy" formControlName="recievedBy">
+              <input type="number" class="form-control" id="recievedBy" formControlName="recievedBy" readonly>
             </div>
             <div class="mb-3">
               <label for="quantity" class="form-label">Quantity</label>

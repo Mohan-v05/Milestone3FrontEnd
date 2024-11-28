@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { GymManagementSystemService, Payments, User, enrollmentreq, gprograms } from '../../gym-management-system.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { GymManagementSystemService, GymProgram, Payments, User, enrollmentreq, } from '../../gym-management-system.service';
 import { Toast, ToastrService } from 'ngx-toastr';
 import { trigger, style, animate, transition } from '@angular/animations';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { AddPaymentComponent } from '../../add-payment/add-payment.component';
+import { ActivatedRoute } from '@angular/router';
+import { delay } from 'rxjs/operators';
+import { of as observableOf } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,8 +26,10 @@ import { AddPaymentComponent } from '../../add-payment/add-payment.component';
   ]
 })
 export class DashboardComponent implements OnInit {
-  bsModalRef!: BsModalRef;
+ 
 
+  bsModalRef!: BsModalRef;
+  adminId: number = 0;
   // MemberProfile related
   selectedMember: any = null;
   totalMembersCount: number = 0;
@@ -35,7 +40,7 @@ export class DashboardComponent implements OnInit {
   memberId: string = '';
 
   // Program-related properties
-  ProgramResponse: gprograms[] = [];
+  ProgramResponse: GymProgram[] = [];
   EnrollmentForm: FormGroup;
   isenroll = false;
   Enrollmentreq: { userId: number; programIds: number[] } = {
@@ -45,6 +50,7 @@ export class DashboardComponent implements OnInit {
 
   // Payment-related properties
   PaymentForm: FormGroup;
+  amount: number = 0;
   paymentResponse: Payments[] = [];
   isPaymentFormVisible: boolean = false;
   totalGymRevenue: number = 0;
@@ -70,7 +76,8 @@ export class DashboardComponent implements OnInit {
     private service: GymManagementSystemService,
     private Fb: FormBuilder,
     private toastr: ToastrService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private route: ActivatedRoute
   )
    {
     this.EnrollmentForm = this.Fb.group({
@@ -92,8 +99,15 @@ export class DashboardComponent implements OnInit {
     this.GetAllPayments();
     this.GetAllMembers();
     this.GetAllPrograms();
-  }
+    this.getLoggediinAdmin()
 
+  }
+   getLoggediinAdmin(){
+    this.route.queryParams.subscribe(params => {
+      this.adminId = parseInt(params['adminId'] || '0');
+      console.log('Admin ID:', this.adminId); // Output: 3 (or 0 if not found)
+    });
+   }
   // Member-related functions
   GetAllMembers() {
     this.service.getUsers().subscribe(
@@ -131,6 +145,7 @@ export class DashboardComponent implements OnInit {
       UserId: this.selectedMember.id
     });
   }
+  
 
   // Program-related functions
   GetAllPrograms() {
@@ -277,15 +292,21 @@ export class DashboardComponent implements OnInit {
 
   OpenPaymentForm() {
     this.isPaymentFormVisible = !this.isPaymentFormVisible;
+    this.PaymentForm.get('memberid')?.patchValue(this.selectedMember.id);
+    this.PaymentForm.get('recievedBy')?.patchValue(this.adminId);
+  }
+  calculateAmount(){
+    this.amount = this.selectedMember.fees * this.PaymentForm.value.quantity;
   }
 
   onPayment() {
+   
     this.PaymentForm.value.paymentType = parseInt(this.PaymentForm.value.paymentType);
     this.service.AddPayment(this.PaymentForm.value).subscribe(
       (data) => {
         console.log(data);
-        this.toastr.success(data.description);
-        this.ngOnInit();
+        this.toastr.success("Payment Successful");
+        this.processPaymentData();
       },
       (err) => {
         this.toastr.error('Payment Failed');
@@ -311,3 +332,6 @@ export class DashboardComponent implements OnInit {
     }
   }
 }
+
+
+

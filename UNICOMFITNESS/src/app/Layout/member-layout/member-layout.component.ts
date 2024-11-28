@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { gprograms, GymManagementSystemService, UserResponse, notification } from '../../gym-management-system.service';
+import {  GymManagementSystemService, UserResponse, notification } from '../../gym-management-system.service';
 import { Router } from '@angular/router';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
 import { NgForm } from '@angular/forms';

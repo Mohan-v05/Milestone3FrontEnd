@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GymManagementSystemService, gprograms } from '../../gym-management-system.service';
+import { GymManagementSystemService, GymProgram, } from '../../gym-management-system.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 
@@ -10,9 +10,12 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ProgramsListComponent implements OnInit {
 //Array to List
-  Programs: gprograms[]=[];
+  Programs: GymProgram[]=[];
+
   NewProgramForm:FormGroup;
+
   selectedImage: File | null = null;
+
   constructor(private programservice:GymManagementSystemService, private Fb:FormBuilder,private Toastr:ToastrService){
     this.NewProgramForm=this.Fb.group({
        Name:['',Validators.required],
@@ -43,8 +46,7 @@ export class ProgramsListComponent implements OnInit {
     
     this.programservice.getPrograms().subscribe(data=>{
       this.Programs=data;
-      console.log(data);
-
+      console.log(this.Programs)
     })
   }
   onSubmit(): void {

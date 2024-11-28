@@ -98,7 +98,8 @@ export class LoginComponent implements OnInit {
         
         // Navigate based on the role
         if (decodedToken.Role === 'Admin') {
-          this.route.navigate(['/admin/Dashboard']);
+          this.route.navigate(['/admin/Dashboard'], { queryParams: { adminId: decodedToken.Id } });
+         // this.route.navigate(['/admin/Dashboard']);
         } else if (decodedToken.Role === 'Member') {
           this.route.navigate(['/member']);
         } else {
@@ -129,4 +130,5 @@ export class LoginComponent implements OnInit {
 interface DecodedToken extends JwtPayload {
   Name?: string; 
   Role:string;
+  Id:number;
 }
