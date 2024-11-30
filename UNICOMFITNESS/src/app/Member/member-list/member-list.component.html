@@ -36,7 +36,8 @@
       </button>
       <ul class="dropdown-menu">
         <li><button class="dropdown-item" (click)="GetActiveMember()">Active Members</button></li>
-        <li><button class="dropdown-item" (click)="Loaduser()">All Members</button></li>
+        <li><button class="dropdown-item" (click)="Loaduser()">All Users</button></li>
+        <li><button class="dropdown-item" (click)="GetMembersOnly()">MembersOnly</button></li>
       </ul>
     </div>
 
@@ -89,7 +90,7 @@
         <td>{{ getRoleName(user.role) }}</td>
         <td>{{ user.nicnumber }}</td>
         <td>{{ user.address.city }}</td>
-        <td>{{ user.fees | currency }}</td>
+        <td>{{ user.fees | currency:"LKR " }}</td>
         <td>
           <span class="badge" [ngClass]="{'bg-success': user.isActivated, 'bg-danger': !user.isActivated}">
             {{ user.isActivated ? 'Active' : 'Inactive' }}

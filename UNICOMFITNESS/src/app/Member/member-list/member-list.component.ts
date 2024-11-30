@@ -60,7 +60,11 @@ decline(){
   
 }
 GetActiveMember() {
+ this.GetMembersOnly()
   this.users = this.users.filter(u => u.isActivated == true);
+}
+GetMembersOnly(){
+  this.users =this.users.filter(u=>u.role==2)
 }
 
 SoftDeleteUser(userId: number): void {

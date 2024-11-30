@@ -15,7 +15,7 @@
         <p class="text-muted">{{ program.category }} | Fees : {{ program.fees | currency }}</p>
         <p class="text-success">{{  program.enrollments? program.enrollments.length :0 }} Enrolled</p>
         <button class="btn btn-danger btn-sm" (click)="Remove(program.id)">Remove</button>
-        <button class="btn btn-danger btn-sm" (click)="Edit(program.id)">Edit</button>
+        <button class="btn btn-danger btn-sm"  data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="Edit(program.id) ">Edit</button>
       </div>
     </div>
   </div>
@@ -73,7 +73,7 @@
           </div>
 
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"(click)="clearForm()" >Close</button>
             <button type="submit" class="btn btn-primary" (click)="onSubmit()" [disabled]="!NewProgramForm.valid || !selectedImage" >Add</button>
          
         </div>

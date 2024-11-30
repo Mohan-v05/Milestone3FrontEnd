@@ -92,8 +92,7 @@ export class MemberLayoutComponent implements OnInit {
 
   updateMyprofile(form: NgForm) {
     if (form.valid && this.LoggedInUser) {
-      const updatedData = {
-        id: this.LoggedInUser.id,
+      const updateData = {
         name: this.LoggedInUser.name,
         email: this.LoggedInUser.email,
         address: {
@@ -104,11 +103,11 @@ export class MemberLayoutComponent implements OnInit {
         nicnumber: this.LoggedInUser.nicnumber,
       };
 
-      this.service.updateMember(updatedData.id, updatedData).subscribe(
+      this.service.updateMember(this.LoggedInUser.id, updateData).subscribe(
         (response) => {
           console.log('Profile updated successfully:', response);
           alert('Your profile has been updated successfully!');
-          form.resetForm(this.LoggedInUser);
+          form.resetForm();
         },
         (error) => {
           console.error('Error updating profile:', error);

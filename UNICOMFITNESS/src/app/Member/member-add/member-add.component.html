@@ -1,7 +1,6 @@
 <div class="container register-container">
   <h2 class="text-center">{{title  | titlecase }}</h2>
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-  
     <!-- Row for Full Name and Email -->
     <div class="form-row">
       <div class="form-group col-md-6">
@@ -75,14 +74,6 @@
     <div formGroupName="address">
       <div class="row"> 
         <div class="form-group col-md-4">
-          <label for="city">
-            <i class="fa fa-city"></i> City
-          </label>
-          <div class="input-group">
-            <input id="city" type="text" formControlName="city" class="form-control" />
-          </div>
-        </div>
-        <div class="form-group col-md-4">
           <label for="firstLine">
             <i class="fa fa-map-marker-alt"></i> First Line
           </label>
@@ -98,9 +89,16 @@
             <input id="secondLine" type="text" formControlName="secondLine" class="form-control" />
           </div>
         </div>
+         <div class="form-group col-md-4">
+          <label for="city">
+            <i class="fa fa-city"></i> City
+          </label>
+          <div class="input-group">
+            <input id="city" type="text" formControlName="city" class="form-control" />
+          </div>
+        </div>
       </div>
     </div>
-  
     <!-- Row for Password -->
     <div class="form-row" *ngIf="!memberId">
       <div class="form-group col-md-6">
@@ -127,8 +125,8 @@
         </div>
       </div>
     </div>
-  
-    <p>Is initial fee paid? Handle a payment here while initial fee on registration.</p>
+
+    
   
     <!-- Submit Button -->
     <div class="form-row">

@@ -16,6 +16,10 @@ export class ProgramsListComponent implements OnInit {
 
   selectedImage: File | null = null;
 
+  isEdit:boolean=false;
+
+  editingId!:number
+
   constructor(private programservice:GymManagementSystemService, private Fb:FormBuilder,private Toastr:ToastrService){
     this.NewProgramForm=this.Fb.group({
        Name:['',Validators.required],
@@ -41,7 +45,6 @@ export class ProgramsListComponent implements OnInit {
    
   }
    
-
   GetAllPrograms(){
     
     this.programservice.getPrograms().subscribe(data=>{
@@ -58,30 +61,60 @@ export class ProgramsListComponent implements OnInit {
       formData.append('Fees', this.NewProgramForm.value.Fees);
       formData.append('image', this.selectedImage, this.selectedImage.name);
 
+      if (!this.isEdit) {
+        this.programservice.createProgramWithImage(formData).subscribe(
+          (response) => {
+            this.Toastr.success('Program added successfully');
+            console.log('Program created successfully!', response);
+            this.selectedImage = null;
+            this.NewProgramForm.reset();        
+            this.Programs.push(response)
+            
+          },
+          (error) => {
+            this.Toastr.error(error.error.message)
+            console.error('Error creating program:', error);
+          }
+        );
+      }else 
+      if(this.isEdit){
+         this.programservice.updateProgram(this.editingId,formData).subscribe((res:GymProgram)=>{
+          this.Toastr.success("Program editted")
+         },
+         (err)=>{
+           console.log(err.error)
+         }
+        )
+      };
      
-      this.programservice.createProgramWithImage(formData).subscribe(
-        (response) => {
-          this.Toastr.success('Program added successfully');
-          console.log('Program created successfully!', response);
-          this.selectedImage = null;
-          this.NewProgramForm.reset();        
-          this.Programs.push(response)
-          
-        },
-        (error) => {
-          this.Toastr.error(error.error.message)
-          console.error('Error creating program:', error);
-        }
-      );
     } else {
       console.log('Form is invalid or no image selected');
       this.Toastr.error('Please fill in all fields and select an image');
     }
   }
   Edit(id:number):void{
-    
-    console.log(id)
+    this.isEdit=true;
+    console.log(id);
+    this.editingId=id
+    this.programservice.getProgramById(id).subscribe(
+      (response: GymProgram)=>{
+          this.NewProgramForm.patchValue({
+            Name:response.name,
+            Description:response.description,
+            Category:response.category,
+            Fees:response.fees
+          }) 
+      },
+      (err: any)=>{
+        console.log(err)
+      }
+    )
   }
+  clearForm(){
+    this.NewProgramForm.reset()
+    this.isEdit=false;
+  }
+
 
   Remove(id:number):void
   {

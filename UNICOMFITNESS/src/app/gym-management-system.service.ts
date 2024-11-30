@@ -35,7 +35,13 @@ export class GymManagementSystemService {
   DeleteProgram(id:number){
   return this.http.delete(this.Programurl+"/"+id)
   }
-
+  getProgramById(id:number){
+    return this.http.get<GymProgram>(`${this.Programurl}/${id}`)
+  }
+  
+  updateProgram(id:number,data:any ){
+     return this.http.put<GymProgram>(`${this.Programurl}/${id}`,data)
+  }
 
   //user api
   getUserProfile(id:number): Observable<UserResponse> {
@@ -57,7 +63,9 @@ export class GymManagementSystemService {
       { headers: { 'Content-Type': 'application/json' } }
     );
   }
-  
+  // Updatepassword( id:number, data:any){
+  //  return this.http.patch()
+  // }
   
   
   getMemberById(id: number) {
@@ -65,15 +73,15 @@ export class GymManagementSystemService {
   }
   
   updateMember(id: number, data: any) {
-    return this.http.put(`http://localhost:5159/api/User/${id}`, data);
+    return this.http.put<User>(`http://localhost:5159/api/User/${id}`, data);
   }
   
   addMember(data: any) {
     return this.http.post<User>('http://localhost:5159/api/User/addNewUser', data);
   }
 
-  changePassword(data: { nic: string; id: string; oldPassword: string; newPassword: string }): Observable<any> {
-    return this.http.patch("http://localhost:5159/api/User/change-password", data);
+  changePassword(data:any): Observable<any> {
+    return this.http.patch("http://localhost:5159/api/User",data);
   }
 
   //Get all payments

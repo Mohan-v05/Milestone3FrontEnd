@@ -104,9 +104,17 @@ export class DashboardComponent implements OnInit {
 
   }
    getLoggediinAdmin(){
+   
+
     this.route.queryParams.subscribe(params => {
       this.adminId = parseInt(params['adminId'] || '0');
-      console.log('Admin ID:', this.adminId); // Output: 3 (or 0 if not found)
+      console.log('Admin ID:=', this.adminId); 
+      if(this.adminId==0){
+        const localData= localStorage.getItem("AdminId")||'';
+        const Id  = JSON.parse(localData);
+        this.adminId=parseInt(Id)
+        console.log('Admin ID:', this.adminId); 
+      }
     });
    }
   // Member-related functions
