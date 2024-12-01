@@ -13,12 +13,18 @@ import { AddPaymentComponent } from './add-payment/add-payment.component';
 import { PaymentReportsComponent } from './payment-reports/payment-reports.component';
 import { MemberLayoutComponent } from './Layout/member-layout/member-layout.component';
 import { MemberAuthGuard } from './memberauth.guard';
+import { LaunchPageComponent } from './launch-page/launch-page.component';
 
 
 const routes: Routes = [
   { path:'',
     component:BlankLayoutComponent,
-    children:[{
+    children:[
+      {
+        path:'',
+        component:LaunchPageComponent
+      },
+      {
       path:'login',
       component:LoginComponent
     },

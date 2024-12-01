@@ -28,6 +28,7 @@ import { AddPaymentComponent } from './add-payment/add-payment.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { PaymentReportsComponent } from './payment-reports/payment-reports.component';
 import { MatTableModule } from '@angular/material/table';
+import { LaunchPageComponent } from './launch-page/launch-page.component';
 
 
 
@@ -46,6 +47,7 @@ import { MatTableModule } from '@angular/material/table';
     MemberLayoutComponent,
     AddPaymentComponent,
     PaymentReportsComponent,
+    LaunchPageComponent,
   ],
   imports: [
     BrowserModule,

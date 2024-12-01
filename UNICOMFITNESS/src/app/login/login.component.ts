@@ -115,17 +115,19 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  openModalWithComponent() {
-    const initialState: ModalOptions = {
-      initialState: {
-        list: ['Open a modal with component', 'Pass your data', 'Do something else', '...'],
-        title: 'Modal with component'
-      }
-    };
-    this.bsModalRef = this.modalService.show(RegisterComponent, initialState);
-    this.bsModalRef.content.closeBtnName = 'Close';
-    this.isLogin=false;
-  }
+    openModalWithComponent() {
+      const initialState: ModalOptions = {
+        initialState: {
+          list: ['Open a modal with component', 'Pass your data', 'Do something else', '...'],
+          title: 'Modal with component'
+        },
+        class: 'modal-lg custom-modal' // Add built-in class or custom class
+      };
+      this.bsModalRef = this.modalService.show(RegisterComponent, initialState);
+      this.bsModalRef.content.closeBtnName = 'Close';
+    //  this.isLogin = false;
+    }
+    
 }
 
 interface DecodedToken extends JwtPayload {

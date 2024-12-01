@@ -1,14 +1,12 @@
 
-  <section class="vh-100" style="background-color: #161213;">
-    <div class="container py-5 h-100">
+  <section style="background-color: #161213;">
+    <div class="container h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col col-xl-10">
           <div class="card" style="border-radius: 1rem;">
             <div class="row g-0">
-              <div class="col-md-6 col-lg-5 d-none d-md-block">
-                <img src="GymLogovertica.jpg" alt="register form" class="img-fluid" style="border-radius: 1rem 0 0 1rem;" />
-              </div>
-              <div class="col-md-6 col-lg-7 d-flex align-items-center">
+             
+             
                 <div class="card-body p-4 p-lg-5 text-black">
   
                   <!-- Reactive Form with validation -->
@@ -39,7 +37,29 @@
                         <small *ngIf="registerForm.get('email')?.errors?.['email']">Please enter a valid email.</small>
                       </div>
                     </div>
-  
+
+                       <!-- Nic number Field With Validation -->
+                    <div class="form-outline mb-4">
+                      <input type="nicnumber" id="nicnumber" formControlName="nicnumber" class="form-control form-control-lg" />
+                      <label class="form-label" for="nicnumber">Nicnumber</label>
+                      <div *ngIf="registerForm.get('nicnumber')?.touched && registerForm.get('nicnumber')?.invalid" class="text-danger">
+                        <small *ngIf="registerForm.get('nicnumber')?.errors?.['required']">nicnumber is required.</small>
+                        <small *ngIf="registerForm.get('nicnumber')?.errors?.['minLength']">Ten characters must</small>
+                        <small *ngIf="registerForm.get('nicnumber')?.errors?.['invalidNic']">Please enter a valid nicnumber</small>
+                      </div>
+                    </div>
+
+                    <div class="form-outline mb-4">
+                      <select id="gender" formControlName="gender" class="form-control form-control-lg">
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                      </select>
+                      <label class="form-label" for="gender">Gender</label>
+                    </div>
+
+
                     <!-- Password Field with validation -->
                     <div class="form-outline mb-4">
                       <input type="password" id="password" formControlName="password" class="form-control form-control-lg" (input)="checkPasswordStrength()" />
@@ -71,7 +91,7 @@
   
                     <!-- Submit Button (disabled if form is invalid) -->
                     <div class="pt-1 mb-4">
-                      <button type="submit" class="btn btn-dark btn-lg btn-block" [disabled]="registerForm.invalid">Register</button>
+                      <button type="submit" class="btn btn-dark btn-lg btn-block">Register</button>
                     </div>
   
                     <!-- Additional links -->
@@ -80,7 +100,7 @@
   
                   </form>
                 </div>
-              </div>
+              
             </div>
           </div>
         </div>

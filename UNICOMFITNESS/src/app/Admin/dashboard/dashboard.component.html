@@ -36,8 +36,10 @@
         <!-- Modal Body -->
         <div class="modal-body">
           <form [formGroup]="PaymentForm" (ngSubmit)="onPayment()">
-            <div>
-              Total Amount: {{ amount | currency:'LKR ' }}
+            <div class="d-flex justify-content-around">
+             <h5 style="background-color: black;"> Total Amount: {{ feeforUser | currency:'LKR ' }} </h5> 
+             <h5 style="background-color: black;"> Balance : {{ balanceforUser | currency:'LKR ' }} </h5>
+               <button class="btn btn-info" (click)="calculateAmount()">calculate </button>
             </div>
             <div class="mb-3">
               <label for="memberid" class="form-label">Member ID</label>

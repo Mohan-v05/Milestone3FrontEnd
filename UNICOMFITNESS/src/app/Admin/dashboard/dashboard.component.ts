@@ -26,7 +26,9 @@ import { of as observableOf } from 'rxjs';
   ]
 })
 export class DashboardComponent implements OnInit {
- 
+   //gym info
+  AdvanceFee:number=1000;
+
   isLoading:boolean = true;
   bsModalRef!: BsModalRef;
   adminId: number = 0;
@@ -50,7 +52,8 @@ export class DashboardComponent implements OnInit {
 
   // Payment-related properties
   PaymentForm: FormGroup;
-  amount: number = 0;
+  feeforUser: number = 0;
+  balanceforUser:number=0;
   paymentResponse: Payments[] = [];
   isPaymentFormVisible: boolean = false;
   totalGymRevenue: number = 0;
@@ -303,12 +306,25 @@ export class DashboardComponent implements OnInit {
   }
 
   OpenPaymentForm() {
+
     this.isPaymentFormVisible = !this.isPaymentFormVisible;
     this.PaymentForm.get('memberid')?.patchValue(this.selectedMember.id);
     this.PaymentForm.get('recievedBy')?.patchValue(this.adminId);
   }
   calculateAmount(){
-    this.amount = this.selectedMember.fees * this.PaymentForm.value.quantity;
+
+    if( this.PaymentForm.value.paymentType===1)
+      {
+       this.feeforUser= this.AdvanceFee-this.PaymentForm.value.anyDiscount
+       this.balanceforUser= this.PaymentForm.value.amount-this.feeforUser
+      }
+      else if(this.PaymentForm.value.paymentType===2){
+       this.feeforUser =this.selectedMember.fees * this.PaymentForm.value.quantity*12-this.PaymentForm.value.anyDiscount
+       this.balanceforUser= this.PaymentForm.value.amount-this.feeforUser
+      }else if(this.PaymentForm.value.paymentType===3){
+        this.feeforUser = this.selectedMember.fees * this.PaymentForm.value.quantity-this.PaymentForm.value.anyDiscount
+        this.balanceforUser= this.PaymentForm.value.amount-this.feeforUser
+      }
   }
 
   onPayment() {

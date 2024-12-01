@@ -15,9 +15,10 @@ export class UserSearchPipe implements PipeTransform {
     searchTerm = searchTerm.toLowerCase(); // Convert search term to lowercase for case-insensitive matching
 
     return users.filter(user =>
-      user.name.toLowerCase().includes(searchTerm) || // Filter by name
-      user.email.toLowerCase().includes(searchTerm) || // Filter by email
-      user.nicnumber.toLowerCase().includes(searchTerm) // Filter by NIC number
+      user.name.toLowerCase().includes(searchTerm) || 
+      user.email.toLowerCase().includes(searchTerm) || 
+      user.nicnumber.toLowerCase().includes(searchTerm) ||
+      user.address.city.toLocaleLowerCase().includes(searchTerm)
     );
   }
 }
