@@ -1,5 +1,27 @@
 /* Card shadow effect */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Playfair+Display:wght@700&display=swap');
+
+.card {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  transition: transform 0.2s, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Fancy Hover Effects for List Items */
+.list-group-item {
+  padding: 15px;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.list-group-item:hover {
+  background-color: #f1f1f1;
+  transform: translateX(5px);
+/* }
 .card {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Initial shadow */
@@ -49,7 +71,7 @@
 .text-muted {
   font-size: 0.95rem;
   color: #7f8c8d; /* Muted color for category and fees */
-}
+} */
 
 /* Enrolled count styling */
 .text-success {

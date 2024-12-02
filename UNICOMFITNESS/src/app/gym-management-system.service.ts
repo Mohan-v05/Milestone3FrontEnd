@@ -188,17 +188,27 @@ export interface Enrollment {
 
 export interface Payment {
   id: string;
-  payer: null | any; // Adjust if `payer` is expected to have a type.
+  payer: null | any; 
   payerId: number;
-  payee: null | any; // Adjust if `payee` is expected to have a type.
+  payee: null | any; 
   payeeId: number;
-  dateTime: string; // ISO date string
+  dateTime: string; 
   quantity: number;
   amount: number;
   paymentType: number;
   description: string;
 }
 
+export interface Payments {
+  id: string;           
+  userId: number;       
+  user: any | null;     
+  dateTime: string;     
+  amount: number;       
+  paymentType: number; 
+  description: string | null; 
+  receiverId: number;   
+}
  
 // src/app/models/notification.model.ts
 export interface notification {
@@ -235,16 +245,7 @@ export interface address{
 }
 
 
-  export interface Payments {
-    id: string;           
-    userId: number;       
-    user: any | null;     
-    dateTime: string;     
-    amount: number;       
-    paymentType: number; 
-    description: string | null; 
-    receiverId: number;   
-  }
+
 
 
 

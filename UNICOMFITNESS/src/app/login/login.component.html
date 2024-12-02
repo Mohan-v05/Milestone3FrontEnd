@@ -2,7 +2,6 @@
 
 
 <div *ngIf="isLogin">
-
   <section class="vh-100" style="background-color: #131010;">
     <div class="container py-5 h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
@@ -32,6 +31,10 @@
                       <small *ngIf="loginForm.get('email')?.errors?.['required']">Email is required.</small>
                       <small *ngIf="loginForm.get('email')?.errors?.['email']">Please enter a valid email.</small>
                     </div>
+                  </div>
+
+                  <div *ngIf="isloading" class="spinner-border z-1 text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
                   </div>
 
                   <!-- Password Input with validation -->

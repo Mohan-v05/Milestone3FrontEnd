@@ -29,6 +29,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { PaymentReportsComponent } from './payment-reports/payment-reports.component';
 import { MatTableModule } from '@angular/material/table';
 import { LaunchPageComponent } from './launch-page/launch-page.component';
+import { PaymentSearchPipe } from './pipe/payment-search.pipe';
 
 
 
@@ -48,6 +49,7 @@ import { LaunchPageComponent } from './launch-page/launch-page.component';
     AddPaymentComponent,
     PaymentReportsComponent,
     LaunchPageComponent,
+    PaymentSearchPipe,
   ],
   imports: [
     BrowserModule,

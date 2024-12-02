@@ -48,7 +48,7 @@
                         <small *ngIf="registerForm.get('nicnumber')?.errors?.['invalidNic']">Please enter a valid nicnumber</small>
                       </div>
                     </div>
-
+                   
                     <div class="form-outline mb-4">
                       <select id="gender" formControlName="gender" class="form-control form-control-lg">
                         <option value="">Select Gender</option>
@@ -58,7 +58,34 @@
                       </select>
                       <label class="form-label" for="gender">Gender</label>
                     </div>
-
+                    <div formGroupName="address">
+                      <div class="row"> 
+                        <div class="form-group col-md-4">
+                          <label for="firstLine">
+                            <i class="fa fa-map-marker-alt"></i> First Line
+                          </label>
+                          <div class="input-group">
+                            <input id="firstLine" type="text" formControlName="firstLine" class="form-control" />
+                          </div>
+                        </div>
+                        <div class="form-group col-md-4">
+                          <label for="secondLine">
+                            <i class="fa fa-map-marker-alt"></i> Second Line
+                          </label>
+                          <div class="input-group">
+                            <input id="secondLine" type="text" formControlName="secondLine" class="form-control" />
+                          </div>
+                        </div>
+                         <div class="form-group col-md-4">
+                          <label for="city">
+                            <i class="fa fa-city"></i> City
+                          </label>
+                          <div class="input-group">
+                            <input id="city" type="text" formControlName="city" class="form-control" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
 
                     <!-- Password Field with validation -->
                     <div class="form-outline mb-4">

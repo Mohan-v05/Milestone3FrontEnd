@@ -28,6 +28,11 @@ import { ToastrService } from 'ngx-toastr';
         gender: [''],
         role: [2],
         nicnumber: ['', [Validators.required,this.nicValidator(), Validators.minLength(10)]],
+        address: this.fb.group({
+          firstLine: ['', Validators.required],
+          secondLine: ['', Validators.required],
+          city: ['', Validators.required]
+        }),
         isActivated: [false]
       }, { 
         
@@ -63,17 +68,17 @@ import { ToastrService } from 'ngx-toastr';
   }
     // Handle form submission
     onSubmit(): void {
-      if (this.registerForm.valid) {
-        const formData = {
-          name: this.registerForm.value.name,
-          email: this.registerForm.value.email,
-          gender: this.registerForm.value.gender,
-          role: this.registerForm.value.role,
-          nicnumber: this.registerForm.value.nicnumber,
-          password: this.registerForm.value.password,
-          isActivated: false  
-        };
-        this.service.addMember(formData).subscribe(
+      // if (this.registerForm.valid) {
+      //   // const formData = {
+      //   //   name: this.registerForm.value.name,
+      //   //   email: this.registerForm.value.email,
+      //   //   gender: this.registerForm.value.gender,
+      //   //   role: this.registerForm.value.role,
+      //   //   nicnumber: this.registerForm.value.nicnumber,
+      //   //   password: this.registerForm.value.password,
+      //   //   isActivated: false  
+      //   };
+        this.service.addMember(this.registerForm.value).subscribe(
           (response) => {
             console.log('Member added:', response);
             this.toastr.success(response.name+ "Your Registration Succesful")
@@ -84,9 +89,9 @@ import { ToastrService } from 'ngx-toastr';
             console.error('Error response:', error.error);
           });
     
-      } else {
-        console.log('Form is invalid');
-      }
+      // } else {
+      //   console.log('Form is invalid');
+      // }
     }
    
   // Function to check password strength

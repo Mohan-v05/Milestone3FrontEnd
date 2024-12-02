@@ -1,12 +1,13 @@
 <div class="container my-4">
-  <h2 class="text-center mb-4 program-gallery-title">Program Gallery</h2>
-
-
+ <!-- Add New Program Button -->
+ <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+  <i class="bi bi-plus-square-fill"></i> Add New Program
+</button>
 
 <div class="row">
   <div *ngIf="Programs.length > 0; else noPrograms"></div>
-  <!-- Loop through the programs array and display each program -->
-  <div class="col-md-4 mb-4" *ngFor="let program of Programs">
+ 
+  <!-- <div class="col-md-4 mb-4" *ngFor="let program of Programs">
     <div class="card border-secondary">
       <img [src]="program.imagePath" class="card-img-top" alt="{{program.name}}">
       <div class="card-body bg-light">
@@ -18,7 +19,30 @@
         <button class="btn btn-danger btn-sm"  data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="Edit(program.id) ">Edit</button>
       </div>
     </div>
+  </div> -->
+  
+<div class="col-md-12 mb-4">
+  <div class="card shadow-lg p-4">
+    <h4 class="text-secondary mb-3">Available Programs</h4>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      <div  *ngFor="let program of Programs" class="col">
+        <div class="card h-100 shadow-sm border-0">
+          <img src="{{ program.imagePath }}" class="card-img-top rounded-top" alt="{{ program.name }}">
+          <div class="card-body">
+            <h5 class="card-title text-dark">{{ program.name }}</h5>
+            <p class="card-text text-muted">{{ program.fees |currency:'LKR' }}</p>
+            <p class="card-text"><i class="fas fa-info-circle"></i> {{ program.description }}</p>
+            
+          </div>
+          <div class="card-footer text-muted d-flex justify-content-between align-items-center">
+            <p class="text-success">{{  program.enrollments? program.enrollments.length :0 }} Enrolled</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+</div>
+
 </div>
 
 
@@ -26,10 +50,7 @@
     <p><i class="fas fa-exclamation-triangle"></i> No programs available</p>
   </ng-template>
 
-  <!-- Add New Program Button -->
-  <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-    <i class="bi bi-plus-square-fill"></i> Add New Program
-  </button>
+ 
 
   <!-- Modal To Add New Program -->
   <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">

@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { GymManagementSystemService } from '../gym-management-system.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import {jwtDecode, JwtPayload} from 'jwt-decode'; // Import jwt-decode
+import { jwtDecode, JwtPayload } from 'jwt-decode'; // Import jwt-decode
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { RegisterComponent } from '../Register/register/register.component';
 
@@ -15,17 +15,18 @@ declare var bootstrap: any;
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  isloading: boolean = false;
   loginForm: FormGroup;
   email: string = '';
   emailError: boolean = false;
   bsModalRef?: BsModalRef;
-  isLogin:boolean=true;
+  isLogin: boolean = true;
   constructor(
     private route: Router,
     private fb: FormBuilder,
     private service: GymManagementSystemService,
     private toastr: ToastrService,
-    private modalService:BsModalService
+    private modalService: BsModalService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -53,34 +54,32 @@ export class LoginComponent implements OnInit {
     return regex.test(email);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   onSubmit(): void {
     if (this.loginForm.valid) {
       const formData = this.loginForm.value;
       console.log('Form Submitted', formData);
-      
+      this.isloading = true;
       this.service.login(formData).subscribe(
         async data => {
-         await localStorage.setItem("token", data.token);
+          await localStorage.setItem("token", data.token);
           this.routeBasedOnRole();
+          this.isloading = false;
         },
         err => {
-          // Handle errors based on backend response
-          if (err.error && err.error.message) {
-            const backendMessage = err.error.message.toLowerCase();
-            if (backendMessage.includes("user not found")) {
-              this.toastr.error("User not found. Please register or check your email.");
-            } else if (backendMessage.includes("incorrect password")) {
-              this.toastr.error("Incorrect password. Please try again.");
-            } else {
-              this.toastr.error("An unexpected error occurred. Please try again later.");
-            }
-          } else {
-            // Generic error handling
-            this.toastr.error("Unable to process your request. Check your network connection.");
+          console.log(err);
+          if (err == "Unknown Error") {
+            this.toastr.error("Server is not responding");
+            this.isloading = false;
           }
+          else {
+            this.toastr.error(err);
+            this.isloading = false;
+          }
+
         }
+
       );
     } else {
       console.log('Form is invalid');
@@ -92,15 +91,15 @@ export class LoginComponent implements OnInit {
     const token = localStorage.getItem('token');
     if (token) {
       try {
-        const decodedToken = jwtDecode<DecodedToken>(token);  
-        console.log(decodedToken);  
-    
-        
+        const decodedToken = jwtDecode<DecodedToken>(token);
+        console.log(decodedToken);
+
+
         // Navigate based on the role
         if (decodedToken.Role === 'Admin') {
-          localStorage.setItem("AdminId",JSON.stringify(decodedToken.Id))
-          this.route.navigate(['/admin/Dashboard'], {queryParams: { adminId: decodedToken.Id } });
-         // this.route.navigate(['/admin/Dashboard']);
+          localStorage.setItem("AdminId", JSON.stringify(decodedToken.Id))
+          this.route.navigate(['/admin/Dashboard'], { queryParams: { adminId: decodedToken.Id } });
+          // this.route.navigate(['/admin/Dashboard']);
         } else if (decodedToken.Role === 'Member') {
           this.route.navigate(['/member']);
         } else {
@@ -115,23 +114,23 @@ export class LoginComponent implements OnInit {
     }
   }
 
-    openModalWithComponent() {
-      const initialState: ModalOptions = {
-        initialState: {
-          list: ['Open a modal with component', 'Pass your data', 'Do something else', '...'],
-          title: 'Modal with component'
-        },
-        class: 'modal-lg custom-modal' // Add built-in class or custom class
-      };
-      this.bsModalRef = this.modalService.show(RegisterComponent, initialState);
-      this.bsModalRef.content.closeBtnName = 'Close';
+  openModalWithComponent() {
+    const initialState: ModalOptions = {
+      initialState: {
+        list: ['Open a modal with component', 'Pass your data', 'Do something else', '...'],
+        title: 'Modal with component'
+      },
+      class: 'modal-lg custom-modal' // Add built-in class or custom class
+    };
+    this.bsModalRef = this.modalService.show(RegisterComponent, initialState);
+    this.bsModalRef.content.closeBtnName = 'Close';
     //  this.isLogin = false;
-    }
-    
+  }
+
 }
 
 interface DecodedToken extends JwtPayload {
-  Name?: string; 
-  Role:string;
-  Id:number;
+  Name?: string;
+  Role: string;
+  Id: number;
 }
