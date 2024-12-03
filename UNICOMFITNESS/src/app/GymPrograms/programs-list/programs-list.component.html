@@ -15,8 +15,7 @@
         <p class="card-text"><i class="fas fa-info-circle"></i> {{ program.description }}</p>
         <p class="text-muted">{{ program.category }} | Fees : {{ program.fees | currency }}</p>
         <p class="text-success">{{  program.enrollments? program.enrollments.length :0 }} Enrolled</p>
-        <button class="btn btn-danger btn-sm" (click)="Remove(program.id)">Remove</button>
-        <button class="btn btn-danger btn-sm"  data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="Edit(program.id) ">Edit</button>
+     
       </div>
     </div>
   </div> -->
@@ -29,10 +28,11 @@
         <div class="card h-100 shadow-sm border-0">
           <img src="{{ program.imagePath }}" class="card-img-top rounded-top" alt="{{ program.name }}">
           <div class="card-body">
-            <h5 class="card-title text-dark">{{ program.name }}</h5>
-            <p class="card-text text-muted">{{ program.fees |currency:'LKR' }}</p>
+            <h5 class="card-title text-dark">{{ program.name|uppercase }}</h5>
+            <p class="card-text ">{{ program.fees |currency:'LKR' }}</p>
             <p class="card-text"><i class="fas fa-info-circle"></i> {{ program.description }}</p>
-            
+            <button class="btn btn-danger btn-sm" (click)="Remove(program.id)" [disabled]="program.enrollments">Remove</button>
+            <button class="btn btn-danger btn-sm"  data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="Edit(program.id) ">Edit</button>
           </div>
           <div class="card-footer text-muted d-flex justify-content-between align-items-center">
             <p class="text-success">{{  program.enrollments? program.enrollments.length :0 }} Enrolled</p>

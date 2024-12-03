@@ -12,6 +12,7 @@ export class ProgramsListComponent implements OnInit {
 //Array to List
   Programs: GymProgram[]=[];
 
+
   NewProgramForm:FormGroup;
 
   selectedImage: File | null = null;
