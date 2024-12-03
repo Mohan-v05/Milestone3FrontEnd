@@ -32,14 +32,15 @@
         <div class="modal-header">
           <h5 class="modal-title">Payment Form</h5>
           <button type="button" class="btn-close" (click)="OpenPaymentForm()"></button>
+        
         </div>
         <!-- Modal Body -->
         <div class="modal-body">
+          <button class="btn btn-info" (click)="calculateAmount()">calculate </button>
           <form [formGroup]="PaymentForm" (ngSubmit)="onPayment()">
             <div class="d-flex justify-content-around">
              <h5 style="background-color: black;"> Total Amount: {{ feeforUser | currency:'LKR ' }} </h5> 
              <h5 style="background-color: black;"> Balance : {{ balanceforUser | currency:'LKR ' }} </h5>
-               <button class="btn btn-info" (click)="calculateAmount()">calculate </button>
             </div>
             <div class="mb-3">
               <label for="memberid" class="form-label">Member ID</label>

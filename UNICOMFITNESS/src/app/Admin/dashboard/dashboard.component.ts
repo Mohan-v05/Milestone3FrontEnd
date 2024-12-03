@@ -312,7 +312,6 @@ export class DashboardComponent implements OnInit {
     this.PaymentForm.get('recievedBy')?.patchValue(this.adminId);
   }
   calculateAmount(){
-
     if( this.PaymentForm.value.paymentType===1)
       {
        this.feeforUser= this.AdvanceFee-this.PaymentForm.value.anyDiscount

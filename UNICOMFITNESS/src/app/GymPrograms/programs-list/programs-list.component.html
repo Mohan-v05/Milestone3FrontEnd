@@ -58,7 +58,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="staticBackdropLabel">Add New Program</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="clearForm()" ></button>
         </div>
 
         <div class="modal-body">
@@ -95,7 +95,7 @@
 
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"(click)="clearForm()" >Close</button>
-            <button type="submit" class="btn btn-primary" (click)="onSubmit()" [disabled]="!NewProgramForm.valid || !selectedImage" >Add</button>
+            <button type="submit" class="btn btn-primary" (click)="onSubmit()" [disabled]="!NewProgramForm.valid || !selectedImage && !isEdit " >Add</button>
          
         </div>
       </div>

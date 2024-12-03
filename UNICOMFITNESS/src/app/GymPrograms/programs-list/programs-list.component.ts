@@ -54,14 +54,17 @@ export class ProgramsListComponent implements OnInit {
     })
   }
   onSubmit(): void {
-    if (this.NewProgramForm.valid && this.selectedImage) {
+    if (this.NewProgramForm.valid) {
       const formData = new FormData();
       formData.append('Name', this.NewProgramForm.value.Name);
       formData.append('Description', this.NewProgramForm.value.Description);
       formData.append('Category', this.NewProgramForm.value.Category);
       formData.append('Fees', this.NewProgramForm.value.Fees);
-      formData.append('image', this.selectedImage, this.selectedImage.name);
-
+      
+      if(this.selectedImage){
+        formData.append('image', this.selectedImage, this.selectedImage.name);
+      }
+     
       if (!this.isEdit) {
         this.programservice.createProgramWithImage(formData).subscribe(
           (response) => {
