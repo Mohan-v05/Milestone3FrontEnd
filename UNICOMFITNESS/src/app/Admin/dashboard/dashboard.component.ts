@@ -187,6 +187,7 @@ export class DashboardComponent implements OnInit {
 
   EnrollMemberstoPrograms() {
     this.isenroll = !this.isenroll;
+
   }
 
   postdata() {
@@ -194,6 +195,7 @@ export class DashboardComponent implements OnInit {
     this.Enrollmentreq.programIds = this.Programs.value;
     this.service.AddEnrollments(this.Enrollmentreq).subscribe(
       (data) => {
+        this.EnrollmentForm.reset();
         this.toastr.success('Enrollment successful', 'Success');
         console.log(data);
       },
@@ -336,11 +338,12 @@ export class DashboardComponent implements OnInit {
         this.processPaymentData();
       },
       (err) => {
-        this.toastr.error('Payment Failed');
+        this.toastr.error('Payment Failed',"Check is Member is enrolled or not");
         console.log(err.error);
       }
     );
     console.log('Payment submitted:', this.PaymentForm.value);
+    
   }
 
   openModalWithComponent() {

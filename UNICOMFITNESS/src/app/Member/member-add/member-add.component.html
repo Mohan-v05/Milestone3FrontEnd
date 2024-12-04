@@ -66,6 +66,7 @@
         </div>
         <div class="alert alert-danger" *ngIf="isFieldInvalid('nicnumber')">
           <small *ngIf="registerForm.get('nicnumber')?.errors?.['required']">NIC number is required.</small>
+          <small *ngIf="registerForm.get('nicnumber')?.errors?.['invalidNic']">InvalidNic</small>
         </div>
       </div>
     </div>

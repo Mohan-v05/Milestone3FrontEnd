@@ -106,8 +106,9 @@ export class MemberLayoutComponent implements OnInit {
       this.service.updateMember(this.LoggedInUser.id, updateData).subscribe(
         (response) => {
           console.log('Profile updated successfully:', response);
-          alert('Your profile has been updated successfully!');
+          this.toastr.success('Your profile has been updated successfully!');
           form.resetForm();
+          this.getUserDetails()
         },
         (error) => {
           console.error('Error updating profile:', error);
@@ -125,11 +126,13 @@ export class MemberLayoutComponent implements OnInit {
   }
 
   deleteNotification(string: string) {
-    this.notification = this.notification.filter((n) => n.id != string);
+    
     this.service.deleteNotification(string).subscribe(
       (data) => {
         this.toastr.success('Notification deleted successfully');
+        this.notification = this.notification.filter((n) => n.id != string);
         console.log(data);
+
       },
       (error) => {
         console.log(error);
@@ -141,9 +144,11 @@ export class MemberLayoutComponent implements OnInit {
     this.service.MarkasRead(string).subscribe(
       (data) => {
         console.log(data);
+       this.getUserDetails()
       },
       (error) => {
         console.log(error);
+        
       }
     );
   }

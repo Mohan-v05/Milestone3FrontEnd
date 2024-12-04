@@ -28,7 +28,7 @@ export class MemberAddComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       gender: ['', Validators.required],
       role: ['', Validators.required],
-      nicnumber: ['', Validators.required],
+      nicnumber: ['', [Validators.required, this.nicValidator()]],
       address: this.fb.group({
         firstLine: ['', Validators.required],
         secondLine: ['', Validators.required],
@@ -39,6 +39,15 @@ export class MemberAddComponent implements OnInit {
     });
   } 
 
+  nicValidator() {
+    return (control: any) => {
+      const nicPattern = /^[0-9]{12}(V|v)?$/; 
+      if (control.value && !nicPattern.test(control.value)) {
+        return { invalidNic: true };
+      }
+      return null;
+    };
+  }
 
   ngOnInit(): void {
     // Check if we are editing or adding
@@ -54,6 +63,7 @@ export class MemberAddComponent implements OnInit {
       }
     });
   }
+
 
   // Fetch member data for editing
   loadMemberData(): void {

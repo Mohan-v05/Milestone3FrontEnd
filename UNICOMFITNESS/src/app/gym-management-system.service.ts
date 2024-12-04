@@ -106,7 +106,7 @@ export class GymManagementSystemService {
 
   //notificatrion
  MarkasRead(id:string){
-    return this.http.patch('http://localhost:5159/api/Notification',id)
+    return this.http.patch('http://localhost:5159/api/Notification/'+id,'')
  }
  
   deleteNotification(id:string){
