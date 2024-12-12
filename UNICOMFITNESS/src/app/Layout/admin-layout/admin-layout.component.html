@@ -1,94 +1,68 @@
 <div class="container-fluid">
-    <!-- Header Section -->
-    <div class="row">
-      <header class="col-12 bg-dark text-white py-3">
-        <div class="d-flex justify-content-between align-items-center">
-          <!-- SVG Logo on the Left -->
-          <div class="logo-container">
-            <img src="UnicoM.png" alt="Company Logo" class="logo" />
-          </div>
-    
-          <!-- Company Name in the Center -->
-          <div class="mx-auto text-center">
-            <h3 class="company-name">UnicomFitness</h3>
-          </div>
-          
-        
-          <div>
-            <span>Welcome, {{ loggedInUser }} <i class="fa-regular fa-user"></i></span>
-          </div>
+  <!-- Header Section -->
+  <div class="row">
+    <header class="col-12 bg-dark text-white py-3">
+      <div class="d-flex justify-content-between align-items-center">
+        <!-- SVG Logo on the Left -->
+        <div class="logo-container">
+          <img src="UnicoM.png" alt="Company Logo" class="logo" />
         </div>
-      </header>
-    </div>
-  
-    <!-- Main Content Section -->
-    <div class="row">
-      <!-- Toggle Sidebar Button (Hamburger or Close) -->
-      <div class="navbar-toggler d-md-none">
-          <button class="navbar-toggler d-md-none" type="button" (click)="toggleSidebar()">
-        <span class="navbar-toggler-icon">☰</span> <!-- Use a hamburger icon -->
-      </button>
-      <div *ngIf="isSidebarOpen">
-        <button class="navbar-toggler d-md-none" (click)="toggleSidebar() ">
-            <span class="navbar-toggler-icon">x</span>
-            </button>
-      </div>
-     
-      </div>
-    
-  
-      <!-- Sidebar -->
-      <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar border-end collapse" [ngClass]="{'show': isSidebarOpen}">
-        <div class="position-sticky">
-          <ul class="nav flex-column">
-            <li class="nav-item">
-              <a class="nav-link text-white" routerLink="/admin/Dashboard" routerLinkActive="active">
-                <i class="bi bi-house-door"></i> Home
-                
 
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link text-white" routerLink="/admin/WorkoutPrograms-list" routerLinkActive="active">
-                <i class="fa-solid fa-dumbbell"></i> Workout Programs
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link text-white" routerLink="/admin/Member-list" routerLinkActive="active">
-                <i class="bi bi-person"></i> User Management
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link text-white" routerLink="/admin/list-Payments" routerLinkActive="active">
-                <i class="fa-solid fa-money-bill-transfer"></i> Payment 
-              </a>
-            </li>
-
-          
-
-            <!-- <li class="nav-item">
-              <a class="nav-link text-white" routerLink="settings" routerLinkActive="active">
-                <i class="bi bi-gear"></i> Settings
-              </a>
-            </li> -->
-            <li class="nav-item">
-              <button class="btn text-white btn-logout " (click)="logOut()">
-             
-                  <i class="bi bi-box-arrow-left"></i> Logout
-              
-              </button>
-              
-            </li>
-          </ul>
+        <!-- Company Name in the Center -->
+        <div class="mx-auto text-center">
+          <h3 class="company-name">UnicomFitness</h3>
         </div>
-      </nav>
-  
-      <!-- Main Content Area -->
-      <main class="col-md-9 ms-sm-auto col-lg-10 px-4">
-      
-        <router-outlet></router-outlet>
-      </main>
-    </div>
+
+        <div>
+          <span>Welcome, {{ loggedInUser }} <i class="fa-regular fa-user"></i></span>
+        </div>
+         <!-- Toggle Sidebar Button (Hamburger or Close) -->
+    <button class="navbar-toggler d-md-none" type="button" (click)="toggleSidebar()">
+      <span class="navbar-toggler-icon" style="color: rgb(255, 255, 255);">☰</span>
+    </button>
+      </div>
+    </header>
   </div>
-  
+
+  <!-- Main Content Section -->
+  <div class="row">
+
+    <!-- Sidebar -->
+    <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar border-end collapse" [ngClass]="{'show': isSidebarOpen}">
+      <div class="position-sticky">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link text-white" routerLink="/admin/Dashboard" routerLinkActive="active">
+              <i class="bi bi-house-door"></i> Home
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" routerLink="/admin/WorkoutPrograms-list" routerLinkActive="active">
+              <i class="fa-solid fa-dumbbell"></i> Workout Programs
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" routerLink="/admin/Member-list" routerLinkActive="active">
+              <i class="bi bi-person"></i> User Management
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" routerLink="/admin/list-Payments" routerLinkActive="active">
+              <i class="fa-solid fa-money-bill-transfer"></i> Payment 
+            </a>
+          </li>
+          <li class="nav-item">
+            <button class="btn text-white btn-logout" (click)="logOut()">
+              <i class="bi bi-box-arrow-left"></i> Logout
+            </button>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-4" style="width:100%">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

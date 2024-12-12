@@ -30,7 +30,9 @@
 }
 
 /* Form Inputs */
-.card-body input {
+.card-body input,
+.card-body select,
+.card-body textarea {
   border-radius: 5px;
   border: 1px solid #ccc;
   padding: 10px;
@@ -38,7 +40,9 @@
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.card-body input:focus {
+.card-body input:focus,
+.card-body select:focus,
+.card-body textarea:focus {
   border-color: #007bff;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
@@ -172,6 +176,10 @@ h6 {
     font-size: 0.9rem;
     padding: 8px 12px;
   }
+
+  .member-info-container {
+    padding: 15px;
+  }
 }
 
 @media (max-width: 576px) {
@@ -183,4 +191,10 @@ h6 {
   .card-body {
     padding: 15px;
   }
+
+  .btn {
+    font-size: 0.85rem;
+    padding: 7px 10px;
+  }
 }
+

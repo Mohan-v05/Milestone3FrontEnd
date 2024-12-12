@@ -1,43 +1,71 @@
-/* Style the header */
+/* Ensure the container is centered */
+.table-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 10px auto;
+  width: 100%;
+  max-width: 1200px; /* Limit max width */
+}
+
+/* Make the table responsive */
+.responsive-table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow-x: auto; /* Allow horizontal scrolling on small screens */
+  margin: 0 auto; /* Center the table */
+}
+th{
+  background-color: aliceblue;
+}
+/* Add padding to table header and cells */
+th, td {
+  padding: 8px 16px;
+  text-align: left;
+}
+
+/* Style table headers */
 .header-column {
-  background-color: #9dc4ee;
-  color: rgb(0, 0, 0);
-  text-align: left;
-  padding: 10px;
   font-weight: bold;
+  background-color: #f4f4f4;
 }
 
-/* Style the table cells */
+/* Style table rows */
 .cell {
-  padding: 10px;
-  text-align: left;
-  vertical-align: middle;
-  border-bottom: 1px solid #ddd;
+  background-color: #fff;
 }
 
-/* Hover effect on table rows */
-.row-hover:hover {
-  background-color: #f1f1f1;
+/* Style for the paginator */
+.custom-paginator {
+  margin-top: 10px;
 }
 
-/* Style the paginator */
-.custom-paginator .mat-paginator-range-actions {
-  padding: 10px;
-  font-size: 1rem;
-}
-
-/* Responsive Table: Stack columns on small screens */
+/* Make sure the paginator adapts to smaller screens */
 @media (max-width: 768px) {
-  .mat-header-cell, .mat-cell {
-    padding: 8px;
-  }
-  
-  .mat-table {
-    font-size: 0.9rem;
+  .mat-paginator {
+    font-size: 12px;
   }
 
-  /* Stack the paginator for mobile */
-  .custom-paginator {
-    font-size: 0.8rem;
+  .responsive-table th, .responsive-table td {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 600px) {
+  /* Stack the table columns for mobile */
+  .responsive-table {
+    display: block;
+    overflow-x: scroll;
+  }
+
+  .header-column, .cell {
+    display: block;
+    width: 100%;
+  }
+
+  .responsive-table th {
+    background-color: #f4f4f4;
+    font-size: 14px;
   }
 }
