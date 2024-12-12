@@ -63,10 +63,7 @@ export class GymManagementSystemService {
       { headers: { 'Content-Type': 'application/json' } }
     );
   }
-  // Updatepassword( id:number, data:any){
-  //  return this.http.patch()
-  // }
-  
+ 
   
   getMemberById(id: number) {
     return this.http.get<User>(`http://localhost:5159/api/User/GetUserbyId/${id}`);
@@ -94,8 +91,7 @@ export class GymManagementSystemService {
     return data
   }
  
-
-  ///Enrollment
+  //Enrollment
   AddEnrollments(Enrollmentreq:enrollmentreq){
     var data= this.http.post(this.EnrollmentsUrl,Enrollmentreq)
     return data

@@ -64,7 +64,7 @@ import { PaymentSearchPipe } from './pipe/payment-search.pipe';
     NgxChartsModule,
     MatPaginatorModule,
     MatTableModule,
-    
+   
   ],
   providers: [ {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}, JwtHelperService,BsModalService],
 
