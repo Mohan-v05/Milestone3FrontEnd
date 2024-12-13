@@ -41,7 +41,7 @@ export class MemberAddComponent implements OnInit {
 
   nicValidator() {
     return (control: any) => {
-      const nicPattern = /^[0-9]{12}(V|v)?$/; 
+      const nicPattern = /^[0-9]{10}(V|v)?$|^[0-9]{12}(V|v)?$/;
       if (control.value && !nicPattern.test(control.value)) {
         return { invalidNic: true };
       }
