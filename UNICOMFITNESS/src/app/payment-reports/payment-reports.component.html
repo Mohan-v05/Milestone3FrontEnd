@@ -1,39 +1,68 @@
 <div class="table-container">
+
+   
+  
+  <div class="btn-group col-md-6 d-flex align-items-center">
+    <!-- Date Input -->
+    <input type="date" [(ngModel)]="selectedDate" class="form-control me-2" placeholder="Select date" />
+  
+    
+    <button 
+      type="button" 
+      class="btn btn-info dropdown-toggle" 
+      data-bs-toggle="dropdown" 
+      aria-expanded="false">
+      Calculate income
+    </button>
+    <ul class="dropdown-menu">
+      <li>
+        <button class="dropdown-item" (click)="calculateYearlyincome()">Yearly Income</button>
+      </li>
+      <li>
+        <button class="dropdown-item" (click)="calculateMonthincome()">Monthly Income</button>
+      </li>
+      <li>
+        <button class="dropdown-item" (click)="calculateDayincome()">Daily Income</button>
+      </li>
+    </ul>
+  </div>
+  <div class="col-md-6 mt-3">
+    <h5 class="text-dark">Income: {{DisplayIncome | currency: 'LKR '}}</h5>
+  </div>
+  
+
+
+
+  <!-- Table to Display Payment Data -->
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 table-striped responsive-table">
-    <!-- ID Column -->
     <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef class="header-column"> ID </th>
-      <td mat-cell *matCellDef="let payment" class="cell">{{ payment.id }} </td>
+      <th mat-header-cell *matHeaderCellDef class="header-column">ID</th>
+      <td mat-cell *matCellDef="let payment" class="cell">{{ payment.id }}</td>
     </ng-container>
 
-    <!-- Payer Name Column -->
     <ng-container matColumnDef="payer">
-      <th mat-header-cell *matHeaderCellDef class="header-column"> Payer </th>
-      <td mat-cell *matCellDef="let payment" class="cell">{{ payment?.payer?.name }} </td>
+      <th mat-header-cell *matHeaderCellDef class="header-column">Payer</th>
+      <td mat-cell *matCellDef="let payment" class="cell">{{ payment?.payer?.name }}</td>
     </ng-container>
 
-    <!-- Receiver Name Column -->
     <ng-container matColumnDef="payee">
-      <th mat-header-cell *matHeaderCellDef class="header-column"> Receiver </th>
-      <td mat-cell *matCellDef="let payment" class="cell">{{ payment?.payee?.name }} </td>
+      <th mat-header-cell *matHeaderCellDef class="header-column">Receiver</th>
+      <td mat-cell *matCellDef="let payment" class="cell">{{ payment?.payee?.name }}</td>
     </ng-container>
 
-    <!-- Date Column -->
     <ng-container matColumnDef="dateTime">
-      <th mat-header-cell *matHeaderCellDef class="header-column"> Date </th>
-      <td mat-cell *matCellDef="let payment" class="cell"> {{ payment.dateTime | date: 'short' }} </td>
+      <th mat-header-cell *matHeaderCellDef class="header-column">Date</th>
+      <td mat-cell *matCellDef="let payment" class="cell">{{ payment.dateTime | date: 'short' }}</td>
     </ng-container>
 
-    <!-- Payment Amount Column -->
     <ng-container matColumnDef="amount">
-      <th mat-header-cell *matHeaderCellDef class="header-column"> Amount </th>
-      <td mat-cell *matCellDef="let payment" class="cell"> {{ payment.amount | currency:"LKR " }} </td>
+      <th mat-header-cell *matHeaderCellDef class="header-column">Amount</th>
+      <td mat-cell *matCellDef="let payment" class="cell">{{ payment.amount | currency:'LKR ' }}</td>
     </ng-container>
 
-    <!-- Payment Type Column -->
     <ng-container matColumnDef="paymentType">
-      <th mat-header-cell *matHeaderCellDef class="header-column"> Payment Type </th>
-      <td mat-cell *matCellDef="let payment" class="cell"> {{ getPaymentType(payment.paymentType) }} </td>
+      <th mat-header-cell *matHeaderCellDef class="header-column">Payment Type</th>
+      <td mat-cell *matCellDef="let payment" class="cell">{{ getPaymentType(payment.paymentType) }}</td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -48,4 +77,5 @@
     aria-label="Select page"
     class="custom-paginator">
   </mat-paginator>
+
 </div>

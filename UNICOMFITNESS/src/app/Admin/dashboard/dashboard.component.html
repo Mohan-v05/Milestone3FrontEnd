@@ -96,42 +96,41 @@
     </div>
   </div>
 
-
 <!-- Statistics and Summary Section -->
 <div class="row mb-4">
-  <div class="col-md-3">
-    <div class="card shadow-sm">
+  <div class="col-md-3 mb-3">
+    <div class="card shadow-lg border-0">
       <div class="card-body text-center">
-        <h5>Gym Revenue</h5>
-        <span class="d-block mb-3">{{ totalGymRevenue | currency:'LKR ' }}</span>
+        <h5 class="text-primary">Gym Revenue</h5>
+        <span class="d-block mb-3 display-6 fw-bold text-success">{{ totalGymRevenue | currency:'LKR ' }}</span>
       </div>
     </div>
   </div>
 
-  <div class="col-md-3">
-    <div class="card shadow-sm">
+  <div class="col-md-3 mb-3">
+    <div class="card shadow-lg border-0">
       <div class="card-body text-center">
-        <h5>Annual Income</h5>
-        <span class="d-block mb-3">{{ annualIncome | currency:'LKR ' }}</span>
+        <h5 class="text-primary">Annual Income</h5>
+        <span class="d-block mb-3 display-6 fw-bold text-success">{{ annualIncome | currency:'LKR ' }}</span>
       </div>
     </div>
   </div>
 
-  <div class="col-md-3">
-    <div class="card shadow-sm">
+  <div class="col-md-3 mb-3">
+    <div class="card shadow-lg border-0">
       <div class="card-body text-center">
-        <h5>Today Income</h5>
-        <span class="d-block mb-3">{{ dailyIncome | currency:'LKR ' }}</span>
+        <h5 class="text-primary">Today Income</h5>
+        <span class="d-block mb-3 display-6 fw-bold text-success">{{ dailyIncome | currency:'LKR ' }}</span>
       </div>
     </div>
   </div>
 
-  <div class="col-md-3">
-    <div class="card shadow-sm">
+  <div class="col-md-3 mb-3">
+    <div class="card shadow-lg border-0">
       <div class="card-body text-center">
-        <h5>Monthly Income</h5>
-        <span class="d-block mb-3">{{ monthlyIncome | currency:'LKR ' }}</span>
-        <button class="btn btn-primary" (click)="toggleGraph()">
+        <h5 class="text-primary">Monthly Income</h5>
+        <span class="d-block mb-3 display-6 fw-bold text-success">{{ monthlyIncome | currency:'LKR ' }}</span>
+        <button class="btn btn-outline-primary mt-2" (click)="toggleGraph()">
           {{ showGraph ? 'Close Graph' : 'View Graph' }}
         </button>
       </div>
@@ -141,38 +140,44 @@
 
 <!-- Member Count Section -->
 <div class="row mb-4">
-  <div class="col-md-3">
-    <div class="card shadow-sm">
+  <div class="col-md-3 mb-3">
+    <div class="card shadow-lg border-0">
       <div class="card-body text-center">
-        <h4>Total Members</h4>
-        <p>{{ totalMembersCount }}</p>
+        <h4 class="text-primary">Total Members</h4>
+        <p class="display-6 fw-bold text-dark">{{ totalMembersCount }}</p>
       </div>
     </div>
   </div>
 
-  <div class="col-md-3">
-    <div class="card shadow-sm">
+  <div class="col-md-3 mb-3">
+    <div class="card shadow-lg border-0">
       <div class="card-body text-center">
-        <h4>Active Members</h4>
-        <p>{{ activeMembersCount }}</p>
+        <h4 class="text-primary">Active Members</h4>
+        <p class="display-6 fw-bold text-dark">{{ activeMembersCount }}</p>
       </div>
     </div>
   </div>
 
-  <div class="col-md-3">
-    <div class="card shadow-sm">
+  <div class="col-md-3 mb-3">
+    <div class="card shadow-lg border-0">
       <div class="card-body text-center">
-        <h4>Not Paid Members</h4>
-        <p>{{ membersWithDue }}</p>
+        <h4 class="text-primary">Not Paid Members</h4>
+        <p class="display-6 fw-bold text-dark">{{ membersWithDue }}</p>
       </div>
     </div>
   </div>
 
-  <div class="col-md-3">
-    <div class="card shadow-sm">
+  <div class="col-md-3 mb-3">
+    <div class="card shadow-lg border-0">
       <div class="card-body text-center">
-        <h4>View Member Info</h4>
-        <input type="text" class="form-control" placeholder="Enter Member ID" [(ngModel)]="memberId" (keyup)="viewMemberInfo()">
+        <h4 class="text-primary">View Member Info</h4>
+        <input
+          type="text"
+          class="form-control border-primary mt-3"
+          placeholder="Enter Member ID"
+          [(ngModel)]="memberId"
+          (keyup)="viewMemberInfo()"
+        />
       </div>
     </div>
   </div>

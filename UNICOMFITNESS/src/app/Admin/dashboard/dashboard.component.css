@@ -1,86 +1,102 @@
 /* Card Styling */
 .card {
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-  background-color: #fff; /* White background for cards */
+  border-radius: 15px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background-color: #e0eafc; /* Fallback for gradient */
+  background-image: linear-gradient(135deg, #e0eafc, #cfdef3);
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-  background-color: #f5f5f5; /* Light gray on hover */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
-/* Card Content */
-.card-body {
-  padding: 20px;
-}
-
-.card-body h5 {
-  font-size: 1.2rem;
-  font-weight: 700;
+/* Typography */
+h5, h4 {
+  font-weight: 600;
   color: #333;
 }
 
-.card-body p {
-  font-size: 1.1rem;
-  margin-top: 10px;
-  color: #555;
+h3, h6 {
+  font-weight: bold;
+  color: #333;
 }
 
-/* Form Inputs */
+h6 {
+  font-size: 1rem;
+}
+
+/* Input Fields */
+input.form-control,
 .card-body input,
 .card-body select,
 .card-body textarea {
-  border-radius: 5px;
-  border: 1px solid #ccc;
+  border-radius: 8px;
+  border: 2px solid #ccc;
   padding: 10px;
-  width: 100%; /* Ensure inputs fill the card body width */
+  width: 100%;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+input.form-control:focus,
 .card-body input:focus,
 .card-body select:focus,
 .card-body textarea:focus {
   border-color: #007bff;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  outline: none;
 }
 
-/* Container Adjustments */
-.container {
-  margin-top: 50px;
+/* Buttons */
+button.btn {
+  border-radius: 20px;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.col-md-2 {
-  width: fit-content;
+button.btn:hover {
+  background-color: #0056b3;
+  color: #fff;
 }
 
-/* Member Info Styling */
+.btn-outline-danger:hover,
+.btn-outline-warning:hover,
+.btn-outline-success:hover {
+  background-color: #f8f9fa;
+  color: #343a40;
+}
+
+.btn {
+  padding: 10px 15px;
+  font-weight: bold;
+}
+
+/* Member Info Container */
 .member-info-container {
   background: #222831;
   color: #ececec;
   border-radius: 10px;
+  padding: 20px;
 }
 
 .member-info-wrapper {
   margin-top: 20px;
-  padding: 10px;
 }
 
 .active-member {
-  border: 3px solid #28a745; /* Green for active */
+  border: 3px solid #28a745;
   padding: 10px;
   border-radius: 8px;
 }
 
 .inactive-member {
-  border: 3px solid #dc3545; /* Red for inactive */
+  border: 3px solid #dc3545;
   padding: 10px;
   border-radius: 8px;
 }
 
-/* Hover Effect for Member Info Container */
+/* Hover Effects */
 .Showoff > .container {
   background-color: #1c1c1c;
   color: #fff;
@@ -93,46 +109,6 @@
   box-shadow: 0 0 20px 6px rgba(226, 15, 36, 0.8);
 }
 
-/* Text Styling */
-.text-light {
-  color: #ffffff !important;
-}
-
-h3,
-h5,
-h6 {
-  font-weight: bold;
-  color: #fff;
-}
-
-h6 {
-  font-size: 1rem;
-}
-
-/* Form Check Styling */
-.form-check-input {
-  cursor: pointer;
-  accent-color: #28a745; /* Green checkbox */
-}
-
-.form-check-input:checked {
-  background-color: #28a745;
-  border-color: #28a745;
-}
-
-/* Buttons */
-.btn-outline-danger:hover,
-.btn-outline-warning:hover,
-.btn-outline-success:hover {
-  background-color: #f8f9fa;
-  color: #343a40;
-  transition: 0.3s ease;
-}
-
-.btn {
-  border-radius: 5px;
-}
-
 /* Icons */
 .card-body i {
   font-size: 1.5rem;
@@ -141,11 +117,7 @@ h6 {
 }
 
 .card-body i:hover {
-  color: #3f5a77; /* Navy blue on hover */
-}
-
-.card-body .ml-3 {
-  margin-left: 15px;
+  color: #0056b3;
 }
 
 /* Spinner Animation */
@@ -185,7 +157,7 @@ h6 {
 @media (max-width: 576px) {
   .Showoff > .container {
     padding: 15px;
-    box-shadow: none; /* Remove hover shadow on small screens */
+    box-shadow: none;
   }
 
   .card-body {
@@ -198,3 +170,15 @@ h6 {
   }
 }
 
+/* Accessibility Adjustments */
+.text-light {
+  color: #ffffff !important;
+}
+
+.card:hover {
+  outline: 2px solid rgba(0, 123, 255, 0.5); /* Focus-friendly for keyboard navigation */
+}
+
+.card-body input:focus-visible {
+  outline: 2px solid #007bff; /* Enhance input focus visibility */
+}
